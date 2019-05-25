@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 5/21/2019 12:32:31 AM
+Created On: 5/24/2019 11:58:26 AM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -8,618 +8,943 @@ Created On: 5/21/2019 12:32:31 AM
 00000000                             4  * Date       :
 00000000                             5  * Description:
 00000000                             6  *-----------------------------------------------------------
-00000000                             7      
-00001000                             8  START   ORG    $1000
-00001000                             9                        ; first instruction of program
-00001000                            10      
-00001000                            11      ;TODO: put in an actual line counter 
-00001000  247C 00006000             12      MOVE.L  #$6000,A2
-00001006  267C 00007000             13      MOVE.L  #$7000,A3
-0000100C  6000 0096                 14      BRA     COMPARE
-00001010                            15  
-00001010                            16  ;Parses Simple Commands, such as NOP     
-00001010                            17  PARSE_SIMPLE    
-00001010                            18      
-00001010  3852                      19      MOVE.W  (A2),A4
-00001012                            20      
-00001012  B8FC 4E71                 21      CMP.W   #NOP_CODE,A4
-00001016  6700 0032                 22      BEQ     IF_NOP 
-0000101A                            23      
-0000101A  B8FC 4E75                 24      CMP.W   #RTS_CODE,A4
-0000101E  6700 003A                 25      BEQ     IF_RTS
-00001022                            26      
-00001022  6000 0002                 27      BRA     PARSE_COMPLEX
-00001026                            28  
-00001026                            29  ; For parsing more complex commands
-00001026                            30  PARSE_COMPLEX
-00001026  3A4C                      31      MOVE.W  A4,A5
-00001028  360C                      32      MOVE.W  A4,D3
-0000102A                            33      
-0000102A  C67C F000                 34      AND.W   #$F000,D3
-0000102E                            35      
-0000102E  B67C 1000                 36      CMP.W   #MOVE_B_CODE,D3
-00001032  6700 0036                 37      BEQ     IF_MOVE_B
-00001036                            38  
-00001036  B67C 3000                 39      CMP.W   #MOVE_W_CODE,D3
-0000103A  6700 0036                 40      BEQ     IF_MOVE_W
-0000103E                            41      
-0000103E  B67C 2000                 42      CMP.W   #MOVE_L_CODE,D3
-00001042  6700 0036                 43      BEQ     IF_MOVE_L
-00001046                            44      
-00001046  6000 003A                 45      BRA     IF_INVALID_OP
-0000104A                            46      
-0000104A                            47      
-0000104A                            48      
-0000104A                            49  * Put program code here
-0000104A                            50  
-0000104A                            51  IF_NOP
-0000104A  43F9 000014DC             52      LEA     NOP_OUTPUT,A1
-00001050  103C 000E                 53      MOVE.B  #14,D0
-00001054  4E4F                      54      TRAP    #15
-00001056  6000 003A                 55      BRA     ITERATE
-0000105A                            56  
-0000105A                            57  IF_RTS
-0000105A  43F9 000014E2             58      LEA     RTS_OUTPUT,A1
-00001060  103C 000E                 59      MOVE.B  #14,D0
-00001064  4E4F                      60      TRAP    #15
-00001066  6000 002A                 61      BRA     ITERATE
-0000106A                            62  
-0000106A                            63  IF_MOVE_B
-0000106A  3A3C 1000                 64      MOVE.W  #MOVE_B_CODE,D5
-0000106E  6000 003E                 65      BRA     PARSE_MOVE
-00001072                            66  
-00001072                            67  IF_MOVE_W
-00001072  3A3C 3000                 68      MOVE.W  #MOVE_W_CODE,D5
-00001076  6000 0036                 69      BRA     PARSE_MOVE
-0000107A                            70  
-0000107A                            71  IF_MOVE_L
-0000107A  3A3C 2000                 72      MOVE.W  #MOVE_L_CODE,D5
-0000107E  6000 002E                 73      BRA     PARSE_MOVE
-00001082                            74  
-00001082                            75  IF_INVALID_OP
-00001082  43F9 000014FF             76      LEA     INVALID_OUTPUT,A1
-00001088  103C 000E                 77      MOVE.B  #14,D0
-0000108C  4E4F                      78      TRAP    #15
-0000108E  6000 0446                 79      BRA     DONE
-00001092                            80  
-00001092                            81  ITERATE
-00001092  548A                      82      ADDQ.L  #2,A2
-00001094                            83      
-00001094  43F9 00001514             84      LEA     NEWLINE,A1
-0000109A  103C 000E                 85      MOVE.B  #14,D0
-0000109E  4E4F                      86      TRAP    #15
-000010A0                            87      
-000010A0  6000 0002                 88      BRA     COMPARE
-000010A4                            89      
-000010A4                            90  COMPARE    
-000010A4  B4CB                      91      CMP     A3,A2     
-000010A6  6C00 042E                 92      BGE     DONE
-000010AA  6000 FF64                 93      BRA     PARSE_SIMPLE
-000010AE                            94  
-000010AE                            95  PARSE_MOVE
-000010AE  360C                      96      MOVE.W  A4,D3
-000010B0                            97      
-000010B0                            98      ;Get the destination register
-000010B0  C67C 0FFF                 99      AND.W   #$0FFF,D3
-000010B4  E743                     100      ASL.W   #3,D3
-000010B6  3803                     101      MOVE.W  D3,D4
-000010B8  C8BC 0000F000            102      AND.L   #$0000F000,D4
-000010BE  E95C                     103      ROL.W   #4,D4
-000010C0  2844                     104      MOVE.L  D4,A4 ;Destination register
-000010C2                           105  
-000010C2                           106      ;Get the destination mode
-000010C2  C67C 0FFF                107      AND.W   #$0FFF,D3
-000010C6  E743                     108      ASL.W   #3,D3
-000010C8  3803                     109      MOVE.W  D3,D4
-000010CA  C8BC 0000F000            110      AND.L   #$0000F000,D4
-000010D0  E95C                     111      ROL.W   #4,D4
-000010D2  2A44                     112      MOVE.L  D4,A5 ;Destination mode
-000010D4                           113  
-000010D4                           114      ;Get the source mode 
-000010D4  C67C 0FFF                115      AND.W   #$0FFF,D3
-000010D8  E743                     116      ASL.W   #3,D3
-000010DA  3803                     117      MOVE.W  D3,D4
-000010DC  C8BC 0000F000            118      AND.L   #$0000F000,D4
-000010E2  E95C                     119      ROL.W   #4,D4
-000010E4  2C44                     120      MOVE.L  D4,A6 ;Source mode
-000010E6                           121      
-000010E6                           122      ;Get the source register
-000010E6  C67C 0FFF                123      AND.W   #$0FFF,D3
-000010EA  E743                     124      ASL.W   #3,D3
-000010EC  3803                     125      MOVE.W  D3,D4
-000010EE  C8BC 0000F000            126      AND.L   #$0000F000,D4
-000010F4  E95C                     127      ROL.W   #4,D4 ;Source register
-000010F6                           128      
-000010F6  143C 0010                129      MOVE.B  #16,D2
-000010FA  103C 000F                130      MOVE.B  #15,D0
-000010FE                           131      
-000010FE  BAFC 0001                132      CMP.W   #%001,A5
-00001102  6700 0006                133      BEQ     DISPLAY_MOVEA
-00001106  6000 0012                134      BRA     DISPLAY_MOVE
-0000110A                           135      
-0000110A                           136  DISPLAY_MOVEA
-0000110A  43F9 000014E8            137      LEA     MOVEA_OUTPUT,A1
-00001110  103C 000E                138      MOVE.B  #14,D0
-00001114  4E4F                     139      TRAP    #15
-00001116  6000 0012                140      BRA     DISPLAY_TYPE
-0000111A                           141  
-0000111A                           142  DISPLAY_MOVE
-0000111A  43F9 000014EE            143      LEA     MOVE_OUTPUT,A1
-00001120  103C 000E                144      MOVE.B  #14,D0
-00001124  4E4F                     145      TRAP    #15
-00001126  6000 0002                146      BRA     DISPLAY_TYPE
-0000112A                           147      
-0000112A                           148  DISPLAY_TYPE
-0000112A  BA7C 1000                149      CMP.W   #MOVE_B_CODE,D5
-0000112E  6700 0016                150      BEQ     DISPLAY_BYTE
-00001132                           151      
-00001132  BA7C 3000                152      CMP.W   #MOVE_W_CODE,D5
-00001136  6700 001E                153      BEQ     DISPLAY_WORD
-0000113A                           154      
-0000113A  BA7C 2000                155      CMP.W   #MOVE_L_CODE,D5
-0000113E  6700 0026                156      BEQ     DISPLAY_LONG
-00001142                           157      
-00001142  6000 FF3E                158      BRA     IF_INVALID_OP     
-00001146                           159      
-00001146                           160  DISPLAY_BYTE
-00001146  43F9 000014F3            161      LEA     B_OUTPUT,A1
-0000114C  103C 000E                162      MOVE.B  #14,D0
-00001150  4E4F                     163      TRAP    #15
-00001152  6000 0022                164      BRA     DISPLAY_SRC_MODE
-00001156                           165  
-00001156                           166  DISPLAY_WORD
-00001156  43F9 000014F3            167      LEA     B_OUTPUT,A1
-0000115C  103C 000E                168      MOVE.B  #14,D0
-00001160  4E4F                     169      TRAP    #15
-00001162  6000 0012                170      BRA     DISPLAY_SRC_MODE
-00001166                           171  
-00001166                           172  DISPLAY_LONG
-00001166  43F9 000014FB            173      LEA     L_OUTPUT,A1
-0000116C  103C 000E                174      MOVE.B  #14,D0
-00001170  4E4F                     175      TRAP    #15
-00001172  6000 0002                176      BRA     DISPLAY_SRC_MODE
-00001176                           177  
-00001176                           178  DISPLAY_SRC_MODE
-00001176  BCFC 0000                179      CMP.W   #%000,A6
-0000117A  6700 002E                180      BEQ     DISPLAY_Dn_SRC
-0000117E                           181      
-0000117E  BCFC 0001                182      CMP.W   #%001,A6
-00001182  6700 0040                183      BEQ     DISPLAY_An_SRC
-00001186                           184      
-00001186  BCFC 0002                185      CMP.W   #%010,A6
-0000118A  6700 0052                186      BEQ     DISPLAY_AT_An_SRC
-0000118E                           187      
-0000118E  BCFC 0003                188      CMP.W   #%011,A6
-00001192  6700 0078                189      BEQ     DISPLAY_AT_An_INCREMENT_SRC
-00001196                           190      
-00001196  BCFC 0004                191      CMP.W   #%100,A6
-0000119A  6700 00A8                192      BEQ     DISPLAY_AT_An_DECREMENT_SRC
-0000119E                           193      
-0000119E  BCFC 0007                194      CMP.W   #%111,A6
-000011A2  6700 00D8                195      BEQ     DISPLAY_ADDRESS_OR_DATA_SRC
-000011A6                           196      
-000011A6  6000 FEDA                197      BRA     IF_INVALID_OP
-000011AA                           198      
-000011AA                           199  DISPLAY_Dn_SRC
-000011AA  123C 0044                200      MOVE.B  #D,D1
-000011AE  103C 0006                201      MOVE.B  #6,D0
-000011B2  4E4F                     202      TRAP    #15
-000011B4                           203      
-000011B4  143C 0010                204      MOVE.B  #16,D2
-000011B8  103C 000F                205      MOVE.B  #15,D0
-000011BC  2204                     206      MOVE.L  D4,D1
-000011BE  4E4F                     207      TRAP    #15
-000011C0                           208      
-000011C0  6000 01A2                209      BRA     DISPLAY_DEST
-000011C4                           210  
-000011C4                           211  DISPLAY_An_SRC
-000011C4  123C 0041                212      MOVE.B  #A,D1
-000011C8  103C 0006                213      MOVE.B  #6,D0
-000011CC  4E4F                     214      TRAP    #15
-000011CE                           215      
-000011CE  143C 0010                216      MOVE.B  #16,D2
-000011D2  103C 000F                217      MOVE.B  #15,D0
-000011D6  2204                     218      MOVE.L  D4,D1
-000011D8  4E4F                     219      TRAP    #15
-000011DA                           220  
-000011DA  6000 0188                221      BRA     DISPLAY_DEST
-000011DE                           222  
-000011DE                           223  DISPLAY_AT_An_SRC
-000011DE  123C 0028                224      MOVE.B  #LEFT_PAR,D1
-000011E2  103C 0006                225      MOVE.B  #6,D0
-000011E6  4E4F                     226      TRAP    #15
-000011E8                           227  
-000011E8  123C 0041                228      MOVE.B  #A,D1
-000011EC  103C 0006                229      MOVE.B  #6,D0
-000011F0  4E4F                     230      TRAP    #15
-000011F2                           231      
-000011F2  143C 0010                232      MOVE.B  #16,D2
-000011F6  103C 000F                233      MOVE.B  #15,D0
-000011FA  2204                     234      MOVE.L  D4,D1
-000011FC  4E4F                     235      TRAP    #15
-000011FE                           236      
-000011FE  123C 0029                237      MOVE.B  #RIGHT_PAR,D1
-00001202  103C 0006                238      MOVE.B  #6,D0
-00001206  4E4F                     239      TRAP    #15
-00001208                           240  
-00001208  6000 015A                241      BRA     DISPLAY_DEST
-0000120C                           242  
-0000120C                           243  DISPLAY_AT_An_INCREMENT_SRC
-0000120C  123C 0028                244      MOVE.B  #LEFT_PAR,D1
-00001210  103C 0006                245      MOVE.B  #6,D0
-00001214  4E4F                     246      TRAP    #15
-00001216                           247  
-00001216  123C 0041                248      MOVE.B  #A,D1
-0000121A  103C 0006                249      MOVE.B  #6,D0
-0000121E  4E4F                     250      TRAP    #15
-00001220                           251      
-00001220  143C 0010                252      MOVE.B  #16,D2
-00001224  103C 000F                253      MOVE.B  #15,D0
-00001228  2204                     254      MOVE.L  D4,D1
-0000122A  4E4F                     255      TRAP    #15
-0000122C                           256      
-0000122C  123C 0029                257      MOVE.B  #RIGHT_PAR,D1
-00001230  103C 0006                258      MOVE.B  #6,D0
-00001234  4E4F                     259      TRAP    #15
-00001236                           260      
-00001236  123C 002B                261      MOVE.B  #PLUS,D1
-0000123A  103C 0006                262      MOVE.B  #6,D0
-0000123E  4E4F                     263      TRAP    #15
-00001240                           264      
-00001240  6000 0122                265      BRA     DISPLAY_DEST
-00001244                           266  
-00001244                           267  DISPLAY_AT_An_DECREMENT_SRC
-00001244  123C 002D                268      MOVE.B  #MINUS,D1
-00001248  103C 0006                269      MOVE.B  #6,D0
-0000124C  4E4F                     270      TRAP    #15
-0000124E                           271  
-0000124E  123C 0028                272      MOVE.B  #LEFT_PAR,D1
-00001252  103C 0006                273      MOVE.B  #6,D0
-00001256  4E4F                     274      TRAP    #15
-00001258                           275  
-00001258  123C 0041                276      MOVE.B  #A,D1
-0000125C  103C 0006                277      MOVE.B  #6,D0
-00001260  4E4F                     278      TRAP    #15
-00001262                           279      
-00001262  143C 0010                280      MOVE.B  #16,D2
-00001266  103C 000F                281      MOVE.B  #15,D0
-0000126A  2204                     282      MOVE.L  D4,D1
-0000126C  4E4F                     283      TRAP    #15
-0000126E                           284      
-0000126E  123C 0029                285      MOVE.B  #RIGHT_PAR,D1
-00001272  103C 0006                286      MOVE.B  #6,D0
-00001276  4E4F                     287      TRAP    #15
-00001278                           288  
-00001278  6000 00EA                289      BRA     DISPLAY_DEST
-0000127C                           290  
-0000127C                           291  DISPLAY_ADDRESS_OR_DATA_SRC
-0000127C  B87C 0000                292      CMP.W   #%000,D4
-00001280  6700 0016                293      BEQ     DISPLAY_ADDRESS_WORD_SRC
-00001284                           294      
-00001284  B87C 0001                295      CMP.W   #%001,D4
-00001288  6700 002E                296      BEQ     DISPLAY_ADDRESS_LONG_SRC
-0000128C                           297  
-0000128C  B87C 0004                298      CMP.W   #%100,D4
-00001290  6700 0040                299      BEQ     DISPLAY_DATA_SRC
-00001294                           300  
-00001294  6000 FDEC                301      BRA     IF_INVALID_OP
-00001298                           302  
-00001298                           303  DISPLAY_ADDRESS_WORD_SRC
-00001298  544A                     304      ADDQ    #2,A2
-0000129A                           305      
-0000129A  123C 0024                306      MOVE.B  #HEX,D1
-0000129E  103C 0006                307      MOVE.B  #6,D0
-000012A2  4E4F                     308      TRAP    #15
-000012A4                           309      
-000012A4  3212                     310      MOVE.W  (A2),D1
-000012A6  C2BC 0000FFFF            311      AND.L   #$0000FFFF,D1
-000012AC  103C 000F                312      MOVE.B  #15,D0
-000012B0  4E4F                     313      TRAP    #15
-000012B2                           314      
-000012B2  524A                     315      ADDQ    #1,A2
-000012B4                           316      
-000012B4  6000 00AE                317      BRA     DISPLAY_DEST
-000012B8                           318  
-000012B8                           319  DISPLAY_ADDRESS_LONG_SRC
-000012B8  544A                     320      ADDQ    #2,A2
-000012BA                           321      
-000012BA  123C 0024                322      MOVE.B  #HEX,D1
-000012BE  103C 0006                323      MOVE.B  #6,D0
-000012C2  4E4F                     324      TRAP    #15
-000012C4                           325      
-000012C4  2212                     326      MOVE.L  (A2),D1
-000012C6  103C 000F                327      MOVE.B  #15,D0
-000012CA  4E4F                     328      TRAP    #15
-000012CC                           329      
-000012CC  564A                     330      ADDQ    #3,A2
-000012CE                           331  
-000012CE  6000 0094                332      BRA     DISPLAY_DEST
-000012D2                           333      
-000012D2                           334  DISPLAY_DATA_SRC
-000012D2  BA7C 1000                335      CMP.W   #MOVE_B_CODE,D5
-000012D6  6700 0016                336      BEQ     DISPLAY_DATA_SRC_BYTE
-000012DA                           337      
-000012DA  BA7C 3000                338      CMP.W   #MOVE_W_CODE,D5
-000012DE  6700 0036                339      BEQ     DISPLAY_DATA_SRC_WORD
-000012E2                           340      
-000012E2  BA7C 3000                341      CMP.W   #MOVE_W_CODE,D5
-000012E6  6700 0058                342      BEQ     DISPLAY_DATA_SRC_LONG
-000012EA                           343  
-000012EA  6000 FD96                344      BRA     IF_INVALID_OP
-000012EE                           345      
-000012EE                           346  DISPLAY_DATA_SRC_BYTE
-000012EE  564A                     347      ADDQ    #3,A2
-000012F0                           348      
-000012F0  123C 0023                349      MOVE.B  #NUM,D1
-000012F4  103C 0006                350      MOVE.B  #6,D0
-000012F8  4E4F                     351      TRAP    #15    
-000012FA                           352      
-000012FA  123C 0024                353      MOVE.B  #HEX,D1
-000012FE  103C 0006                354      MOVE.B  #6,D0
-00001302  4E4F                     355      TRAP    #15
-00001304                           356      
-00001304  1212                     357      MOVE.B  (A2),D1
-00001306  C2BC 000000FF            358      AND.L   #$000000FF,D1
-0000130C  103C 000F                359      MOVE.B  #15,D0
-00001310  4E4F                     360      TRAP    #15
-00001312                           361  
-00001312  6000 0050                362      BRA     DISPLAY_DEST
-00001316                           363  
-00001316                           364  DISPLAY_DATA_SRC_WORD
-00001316  544A                     365      ADDQ    #2,A2
-00001318                           366  
-00001318  123C 0023                367      MOVE.B  #NUM,D1
-0000131C  103C 0006                368      MOVE.B  #6,D0
-00001320  4E4F                     369      TRAP    #15
-00001322                           370      
-00001322  123C 0024                371      MOVE.B  #HEX,D1
-00001326  103C 0006                372      MOVE.B  #6,D0
-0000132A  4E4F                     373      TRAP    #15
-0000132C                           374      
-0000132C  3212                     375      MOVE.W  (A2),D1
-0000132E  C2BC 0000FFFF            376      AND.L   #$0000FFFF,D1
-00001334  103C 000F                377      MOVE.B  #15,D0
-00001338  4E4F                     378      TRAP    #15
-0000133A                           379  
-0000133A  524A                     380      ADDQ    #1,A2
-0000133C                           381  
-0000133C  6000 0026                382      BRA     DISPLAY_DEST
-00001340                           383      
-00001340                           384  DISPLAY_DATA_SRC_LONG
-00001340  544A                     385      ADDQ    #2,A2
-00001342                           386      
-00001342  123C 0023                387      MOVE.B  #NUM,D1
-00001346  103C 0006                388      MOVE.B  #6,D0
-0000134A  4E4F                     389      TRAP    #15
-0000134C                           390      
-0000134C  123C 0024                391      MOVE.B  #HEX,D1
-00001350  103C 0006                392      MOVE.B  #6,D0
-00001354  4E4F                     393      TRAP    #15
-00001356                           394      
-00001356  2212                     395      MOVE.L  (A2),D1
-00001358  103C 000F                396      MOVE.B  #15,D0
-0000135C  4E4F                     397      TRAP    #15
-0000135E                           398      
-0000135E  564A                     399      ADDQ    #3,A2
-00001360                           400      
-00001360  6000 0002                401      BRA     DISPLAY_DEST
-00001364                           402      
-00001364                           403  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-00001364                           404  
-00001364                           405  DISPLAY_DEST
-00001364  123C 002C                406      MOVE.B  #COMMA,D1
-00001368  103C 0006                407      MOVE.B  #6,D0
-0000136C  4E4F                     408      TRAP    #15
-0000136E                           409  
-0000136E  BAFC 0000                410      CMP.W   #%000,A5
-00001372  6700 002E                411      BEQ     DISPLAY_Dn_DEST
-00001376                           412      
-00001376  BAFC 0001                413      CMP.W   #%001,A5
-0000137A  6700 0040                414      BEQ     DISPLAY_An_DEST
-0000137E                           415      
-0000137E  BAFC 0002                416      CMP.W   #%010,A5
-00001382  6700 0052                417      BEQ     DISPLAY_AT_An_DEST
-00001386                           418      
-00001386  BAFC 0003                419      CMP.W   #%011,A5
-0000138A  6700 0078                420      BEQ     DISPLAY_AT_An_INCREMENT_DEST
-0000138E                           421      
-0000138E  BAFC 0004                422      CMP.W   #%100,A5
-00001392  6700 00A8                423      BEQ     DISPLAY_AT_An_DECREMENT_DEST
-00001396                           424      
-00001396  BAFC 0007                425      CMP.W   #%111,A5
-0000139A  6700 00D8                426      BEQ     DISPLAY_ADDRESS_OR_DATA_DEST
-0000139E                           427      
-0000139E  6000 FCE2                428      BRA     IF_INVALID_OP
-000013A2                           429  
-000013A2                           430  DISPLAY_Dn_DEST
-000013A2  123C 0044                431      MOVE.B  #D,D1
-000013A6  103C 0006                432      MOVE.B  #6,D0
-000013AA  4E4F                     433      TRAP    #15
-000013AC                           434      
-000013AC  143C 0010                435      MOVE.B  #16,D2
-000013B0  103C 000F                436      MOVE.B  #15,D0
-000013B4  220C                     437      MOVE.L  A4,D1
-000013B6  4E4F                     438      TRAP    #15
-000013B8                           439      
-000013B8  6000 FCD8                440      BRA     ITERATE
-000013BC                           441  
-000013BC                           442  DISPLAY_An_DEST
-000013BC  123C 0041                443      MOVE.B  #A,D1
-000013C0  103C 0006                444      MOVE.B  #6,D0
-000013C4  4E4F                     445      TRAP    #15
-000013C6                           446      
-000013C6  143C 0010                447      MOVE.B  #16,D2
-000013CA  103C 000F                448      MOVE.B  #15,D0
-000013CE  220C                     449      MOVE.L  A4,D1
-000013D0  4E4F                     450      TRAP    #15
-000013D2                           451  
-000013D2  6000 FCBE                452      BRA     ITERATE
-000013D6                           453  
-000013D6                           454  DISPLAY_AT_An_DEST
-000013D6  123C 0028                455      MOVE.B  #LEFT_PAR,D1
-000013DA  103C 0006                456      MOVE.B  #6,D0
-000013DE  4E4F                     457      TRAP    #15
-000013E0                           458  
-000013E0  123C 0041                459      MOVE.B  #A,D1
-000013E4  103C 0006                460      MOVE.B  #6,D0
-000013E8  4E4F                     461      TRAP    #15
-000013EA                           462      
-000013EA  143C 0010                463      MOVE.B  #16,D2
-000013EE  103C 000F                464      MOVE.B  #15,D0
-000013F2  220C                     465      MOVE.L  A4,D1
-000013F4  4E4F                     466      TRAP    #15
-000013F6                           467      
-000013F6  123C 0029                468      MOVE.B  #RIGHT_PAR,D1
-000013FA  103C 0006                469      MOVE.B  #6,D0
-000013FE  4E4F                     470      TRAP    #15
-00001400                           471  
-00001400  6000 FC90                472      BRA     ITERATE
-00001404                           473  
-00001404                           474  DISPLAY_AT_An_INCREMENT_DEST
-00001404  123C 0028                475      MOVE.B  #LEFT_PAR,D1
-00001408  103C 0006                476      MOVE.B  #6,D0
-0000140C  4E4F                     477      TRAP    #15
-0000140E                           478  
-0000140E  123C 0041                479      MOVE.B  #A,D1
-00001412  103C 0006                480      MOVE.B  #6,D0
-00001416  4E4F                     481      TRAP    #15
-00001418                           482      
-00001418  143C 0010                483      MOVE.B  #16,D2
-0000141C  103C 000F                484      MOVE.B  #15,D0
-00001420  220C                     485      MOVE.L  A4,D1
-00001422  4E4F                     486      TRAP    #15
-00001424                           487      
-00001424  123C 0029                488      MOVE.B  #RIGHT_PAR,D1
-00001428  103C 0006                489      MOVE.B  #6,D0
-0000142C  4E4F                     490      TRAP    #15
-0000142E                           491      
-0000142E  123C 002B                492      MOVE.B  #PLUS,D1
-00001432  103C 0006                493      MOVE.B  #6,D0
-00001436  4E4F                     494      TRAP    #15
-00001438                           495      
-00001438  6000 FC58                496      BRA     ITERATE
-0000143C                           497  
-0000143C                           498  DISPLAY_AT_An_DECREMENT_DEST
-0000143C  123C 002D                499      MOVE.B  #MINUS,D1
-00001440  103C 0006                500      MOVE.B  #6,D0
-00001444  4E4F                     501      TRAP    #15
-00001446                           502  
-00001446  123C 0028                503      MOVE.B  #LEFT_PAR,D1
-0000144A  103C 0006                504      MOVE.B  #6,D0
-0000144E  4E4F                     505      TRAP    #15
-00001450                           506  
-00001450  123C 0041                507      MOVE.B  #A,D1
-00001454  103C 0006                508      MOVE.B  #6,D0
-00001458  4E4F                     509      TRAP    #15
-0000145A                           510      
-0000145A  143C 0010                511      MOVE.B  #16,D2
-0000145E  103C 000F                512      MOVE.B  #15,D0
-00001462  220C                     513      MOVE.L  A4,D1
-00001464  4E4F                     514      TRAP    #15
-00001466                           515      
-00001466  123C 0029                516      MOVE.B  #RIGHT_PAR,D1
-0000146A  103C 0006                517      MOVE.B  #6,D0
-0000146E  4E4F                     518      TRAP    #15
-00001470                           519  
-00001470  6000 FC20                520      BRA     ITERATE
-00001474                           521  
-00001474                           522  DISPLAY_ADDRESS_OR_DATA_DEST
-00001474  B8FC 0000                523      CMP.W   #%000,A4
-00001478  6700 000E                524      BEQ     DISPLAY_ADDRESS_WORD_DEST
-0000147C                           525      
-0000147C  B8FC 0001                526      CMP.W   #%001,A4
-00001480  6700 0030                527      BEQ     DISPLAY_ADDRESS_LONG_DEST
-00001484                           528  
-00001484  6000 FBFC                529      BRA     IF_INVALID_OP
-00001488                           530  
-00001488                           531  DISPLAY_ADDRESS_WORD_DEST
-00001488  524A                     532      ADDQ    #1,A2
-0000148A                           533  
-0000148A  123C 0023                534      MOVE.B  #NUM,D1
-0000148E  103C 0006                535      MOVE.B  #6,D0
-00001492  4E4F                     536      TRAP    #15
-00001494                           537      
-00001494  123C 0024                538      MOVE.B  #HEX,D1
-00001498  103C 0006                539      MOVE.B  #6,D0
-0000149C  4E4F                     540      TRAP    #15
-0000149E                           541      
-0000149E  3212                     542      MOVE.W  (A2),D1
-000014A0  C2BC 0000FFFF            543      AND.L   #$0000FFFF,D1
-000014A6  103C 000F                544      MOVE.B  #15,D0
-000014AA  4E4F                     545      TRAP    #15
-000014AC                           546  
-000014AC  534A                     547      SUBQ    #1,A2
-000014AE                           548      
-000014AE  6000 FBE2                549      BRA     ITERATE
-000014B2                           550  
-000014B2                           551  DISPLAY_ADDRESS_LONG_DEST
-000014B2  524A                     552      ADDQ    #1,A2
-000014B4                           553      
-000014B4  123C 0023                554      MOVE.B  #NUM,D1
-000014B8  103C 0006                555      MOVE.B  #6,D0
-000014BC  4E4F                     556      TRAP    #15
-000014BE                           557      
-000014BE  123C 0024                558      MOVE.B  #HEX,D1
-000014C2  103C 0006                559      MOVE.B  #6,D0
-000014C6  4E4F                     560      TRAP    #15
-000014C8                           561      
-000014C8  2212                     562      MOVE.L  (A2),D1
-000014CA  103C 000F                563      MOVE.B  #15,D0
-000014CE  4E4F                     564      TRAP    #15
-000014D0                           565      
-000014D0  524A                     566      ADDQ    #1,A2
-000014D2                           567  
-000014D2  6000 FBBE                568      BRA     ITERATE
-000014D6                           569  
-000014D6                           570  DONE
-000014D6  103C 0009                571      MOVE.B  #9,D0
-000014DA  4E4F                     572      TRAP    #15
-000014DC                           573  
-000014DC                           574  * Put variables and constants here
-000014DC                           575  
-000014DC  =0000000D                576  CR              EQU     $0D
-000014DC  =0000000A                577  LF              EQU     $0A
-000014DC  =00000028                578  LEFT_PAR        EQU     $28
-000014DC  =00000029                579  RIGHT_PAR       EQU     $29
-000014DC  =00000041                580  A               EQU     $41
-000014DC  =00000044                581  D               EQU     $44
-000014DC  =0000002B                582  PLUS            EQU     $2B
-000014DC  =0000002D                583  MINUS           EQU     $2D
-000014DC  =00000023                584  NUM             EQU     $23
-000014DC  =00000024                585  HEX             EQU     $24
-000014DC  =0000002C                586  COMMA           EQU     $2C
-000014DC                           587  
-000014DC                           588  ;Codes to be parsed
-000014DC  =00004E71                589  NOP_CODE        EQU     $4E71
-000014DC  =00004E75                590  RTS_CODE        EQU     $4E75
-000014DC  =00001000                591  MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B
-000014DC  =00003000                592  MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W
-000014DC  =00002000                593  MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L
-000014DC  =00007000                594  MOVEQ_CODE      EQU     $7000 ; MOVEQ
-000014DC  =00008000                595  DIVU_OR_CODE    EQU     $8000 ; DIVU, OR
-000014DC  =00009000                596  SUB_CODE        EQU     $9000 ; SUB
-000014DC  =0000A000                597  MULS_AND_CODE   EQU     $A000 ; MULS, AND
-000014DC  =0000D000                598  ADD_CODE        EQU     $D000 ; ADD, ADDA
-000014DC  =0000E000                599  LS_CODE         EQU     $E000 ; LOGICAL SHIFTS
-000014DC  =00005000                600  ADDQ_CODE       EQU     $5000 ; ADDQ
-000014DC  =00006000                601  Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
-000014DC  =00004000                602  MISC_CODE       EQU     $4000 ; MULS, LEA, NOT, JSR, MOVEM
-000014DC                           603  
-000014DC                           604  ;Sample outputs
-000014DC= 4E 4F 50 0D 0A 00        605  NOP_OUTPUT      DC.B    'NOP',CR,LF,0
-000014E2= 52 54 53 0D 0A 00        606  RTS_OUTPUT      DC.B    'RTS',CR,LF,0
-000014E8                           607  
-000014E8= 4D 4F 56 45 41 00        608  MOVEA_OUTPUT    DC.B    'MOVEA',0
-000014EE= 4D 4F 56 45 00           609  MOVE_OUTPUT     DC.B    'MOVE',0
-000014F3                           610  
-000014F3= 2E 42 20 00              611  B_OUTPUT        DC.B    '.B ',0
-000014F7= 2E 57 20 00              612  W_OUTPUT        DC.B    '.W ',0
-000014FB= 2E 4C 20 00              613  L_OUTPUT        DC.B    '.L ',0
-000014FF                           614  
-000014FF= 49 6E 76 61 6C 69 ...    615  INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
-00001514= 0D 0A 00                 616  NEWLINE         DC.B    CR,LF,0
-00001517                           617  
-00001517                           618              END    START        ; last line of source
+00000000                             7          INCLUDE MOVE_MOVEA.X68
+00002000                             8      ORG    $2000
+00002000                             9      
+00002000                            10  PARSE_MOVE
+00002000  360C                      11      MOVE.W  A4,D3
+00002002                            12      
+00002002                            13      ;Get the destination register
+00002002  C67C 0FFF                 14      AND.W   #$0FFF,D3
+00002006  E743                      15      ASL.W   #3,D3
+00002008  3803                      16      MOVE.W  D3,D4
+0000200A  C8BC 0000F000             17      AND.L   #$0000F000,D4
+00002010  E95C                      18      ROL.W   #4,D4
+00002012  2844                      19      MOVE.L  D4,A4 ;Destination register
+00002014                            20  
+00002014                            21      ;Get the destination mode
+00002014  C67C 0FFF                 22      AND.W   #$0FFF,D3
+00002018  E743                      23      ASL.W   #3,D3
+0000201A  3803                      24      MOVE.W  D3,D4
+0000201C  C8BC 0000F000             25      AND.L   #$0000F000,D4
+00002022  E95C                      26      ROL.W   #4,D4
+00002024  2A44                      27      MOVE.L  D4,A5 ;Destination mode
+00002026                            28  
+00002026                            29      ;Get the source mode 
+00002026  C67C 0FFF                 30      AND.W   #$0FFF,D3
+0000202A  E743                      31      ASL.W   #3,D3
+0000202C  3803                      32      MOVE.W  D3,D4
+0000202E  C8BC 0000F000             33      AND.L   #$0000F000,D4
+00002034  E95C                      34      ROL.W   #4,D4
+00002036  2C44                      35      MOVE.L  D4,A6 ;Source mode
+00002038                            36      
+00002038                            37      ;Get the source register
+00002038  C67C 0FFF                 38      AND.W   #$0FFF,D3
+0000203C  E743                      39      ASL.W   #3,D3
+0000203E  3803                      40      MOVE.W  D3,D4
+00002040  C8BC 0000F000             41      AND.L   #$0000F000,D4
+00002046  E95C                      42      ROL.W   #4,D4 ;Source register
+00002048                            43      
+00002048  143C 0010                 44      MOVE.B  #16,D2
+0000204C  103C 000F                 45      MOVE.B  #15,D0
+00002050                            46      
+00002050  BAFC 0001                 47      CMP.W   #%001,A5
+00002054  6700 0006                 48      BEQ     DISPLAY_MOVEA
+00002058  6000 0012                 49      BRA     DISPLAY_MOVE
+0000205C                            50      
+0000205C                            51  DISPLAY_MOVEA
+0000205C  43F9 000010C8             52      LEA     MOVEA_OUTPUT,A1
+00002062  103C 000E                 53      MOVE.B  #14,D0
+00002066  4E4F                      54      TRAP    #15
+00002068  6000 0012                 55      BRA     DISPLAY_TYPE
+0000206C                            56  
+0000206C                            57  DISPLAY_MOVE
+0000206C  43F9 000010CE             58      LEA     MOVE_OUTPUT,A1
+00002072  103C 000E                 59      MOVE.B  #14,D0
+00002076  4E4F                      60      TRAP    #15
+00002078  6000 0002                 61      BRA     DISPLAY_TYPE
+0000207C                            62      
+0000207C                            63  DISPLAY_TYPE
+0000207C  BA7C 1000                 64      CMP.W   #MOVE_B_CODE,D5
+00002080  6700 0016                 65      BEQ     DISPLAY_BYTE
+00002084                            66      
+00002084  BA7C 3000                 67      CMP.W   #MOVE_W_CODE,D5
+00002088  6700 001E                 68      BEQ     DISPLAY_WORD
+0000208C                            69      
+0000208C  BA7C 2000                 70      CMP.W   #MOVE_L_CODE,D5
+00002090  6700 0026                 71      BEQ     DISPLAY_LONG
+00002094                            72      
+00002094  6000 EFF4                 73      BRA     IF_INVALID_OP     
+00002098                            74      
+00002098                            75  DISPLAY_BYTE
+00002098  43F9 000010DC             76      LEA     B_OUTPUT,A1
+0000209E  103C 000E                 77      MOVE.B  #14,D0
+000020A2  4E4F                      78      TRAP    #15
+000020A4  6000 0022                 79      BRA     DISPLAY_SRC_MODE
+000020A8                            80  
+000020A8                            81  DISPLAY_WORD
+000020A8  43F9 000010DC             82      LEA     B_OUTPUT,A1
+000020AE  103C 000E                 83      MOVE.B  #14,D0
+000020B2  4E4F                      84      TRAP    #15
+000020B4  6000 0012                 85      BRA     DISPLAY_SRC_MODE
+000020B8                            86  
+000020B8                            87  DISPLAY_LONG
+000020B8  43F9 000010E4             88      LEA     L_OUTPUT,A1
+000020BE  103C 000E                 89      MOVE.B  #14,D0
+000020C2  4E4F                      90      TRAP    #15
+000020C4  6000 0002                 91      BRA     DISPLAY_SRC_MODE
+000020C8                            92  
+000020C8                            93  DISPLAY_SRC_MODE
+000020C8  BCFC 0000                 94      CMP.W   #%000,A6
+000020CC  6700 002E                 95      BEQ     DISPLAY_Dn_SRC
+000020D0                            96      
+000020D0  BCFC 0001                 97      CMP.W   #%001,A6
+000020D4  6700 0040                 98      BEQ     DISPLAY_An_SRC
+000020D8                            99      
+000020D8  BCFC 0002                100      CMP.W   #%010,A6
+000020DC  6700 0052                101      BEQ     DISPLAY_AT_An_SRC
+000020E0                           102      
+000020E0  BCFC 0003                103      CMP.W   #%011,A6
+000020E4  6700 0078                104      BEQ     DISPLAY_AT_An_INCREMENT_SRC
+000020E8                           105      
+000020E8  BCFC 0004                106      CMP.W   #%100,A6
+000020EC  6700 00A8                107      BEQ     DISPLAY_AT_An_DECREMENT_SRC
+000020F0                           108      
+000020F0  BCFC 0007                109      CMP.W   #%111,A6
+000020F4  6700 00D8                110      BEQ     DISPLAY_ADDRESS_OR_DATA_SRC
+000020F8                           111      
+000020F8  6000 EF90                112      BRA     IF_INVALID_OP
+000020FC                           113      
+000020FC                           114  DISPLAY_Dn_SRC
+000020FC  123C 0044                115      MOVE.B  #D,D1
+00002100  103C 0006                116      MOVE.B  #6,D0
+00002104  4E4F                     117      TRAP    #15
+00002106                           118      
+00002106  143C 0010                119      MOVE.B  #16,D2
+0000210A  103C 000F                120      MOVE.B  #15,D0
+0000210E  2204                     121      MOVE.L  D4,D1
+00002110  4E4F                     122      TRAP    #15
+00002112                           123      
+00002112  6000 01A2                124      BRA     DISPLAY_DEST
+00002116                           125  
+00002116                           126  DISPLAY_An_SRC
+00002116  123C 0041                127      MOVE.B  #A,D1
+0000211A  103C 0006                128      MOVE.B  #6,D0
+0000211E  4E4F                     129      TRAP    #15
+00002120                           130      
+00002120  143C 0010                131      MOVE.B  #16,D2
+00002124  103C 000F                132      MOVE.B  #15,D0
+00002128  2204                     133      MOVE.L  D4,D1
+0000212A  4E4F                     134      TRAP    #15
+0000212C                           135  
+0000212C  6000 0188                136      BRA     DISPLAY_DEST
+00002130                           137  
+00002130                           138  DISPLAY_AT_An_SRC
+00002130  123C 0028                139      MOVE.B  #LEFT_PAR,D1
+00002134  103C 0006                140      MOVE.B  #6,D0
+00002138  4E4F                     141      TRAP    #15
+0000213A                           142  
+0000213A  123C 0041                143      MOVE.B  #A,D1
+0000213E  103C 0006                144      MOVE.B  #6,D0
+00002142  4E4F                     145      TRAP    #15
+00002144                           146      
+00002144  143C 0010                147      MOVE.B  #16,D2
+00002148  103C 000F                148      MOVE.B  #15,D0
+0000214C  2204                     149      MOVE.L  D4,D1
+0000214E  4E4F                     150      TRAP    #15
+00002150                           151      
+00002150  123C 0029                152      MOVE.B  #RIGHT_PAR,D1
+00002154  103C 0006                153      MOVE.B  #6,D0
+00002158  4E4F                     154      TRAP    #15
+0000215A                           155  
+0000215A  6000 015A                156      BRA     DISPLAY_DEST
+0000215E                           157  
+0000215E                           158  DISPLAY_AT_An_INCREMENT_SRC
+0000215E  123C 0028                159      MOVE.B  #LEFT_PAR,D1
+00002162  103C 0006                160      MOVE.B  #6,D0
+00002166  4E4F                     161      TRAP    #15
+00002168                           162  
+00002168  123C 0041                163      MOVE.B  #A,D1
+0000216C  103C 0006                164      MOVE.B  #6,D0
+00002170  4E4F                     165      TRAP    #15
+00002172                           166      
+00002172  143C 0010                167      MOVE.B  #16,D2
+00002176  103C 000F                168      MOVE.B  #15,D0
+0000217A  2204                     169      MOVE.L  D4,D1
+0000217C  4E4F                     170      TRAP    #15
+0000217E                           171      
+0000217E  123C 0029                172      MOVE.B  #RIGHT_PAR,D1
+00002182  103C 0006                173      MOVE.B  #6,D0
+00002186  4E4F                     174      TRAP    #15
+00002188                           175      
+00002188  123C 002B                176      MOVE.B  #PLUS,D1
+0000218C  103C 0006                177      MOVE.B  #6,D0
+00002190  4E4F                     178      TRAP    #15
+00002192                           179      
+00002192  6000 0122                180      BRA     DISPLAY_DEST
+00002196                           181  
+00002196                           182  DISPLAY_AT_An_DECREMENT_SRC
+00002196  123C 002D                183      MOVE.B  #MINUS,D1
+0000219A  103C 0006                184      MOVE.B  #6,D0
+0000219E  4E4F                     185      TRAP    #15
+000021A0                           186  
+000021A0  123C 0028                187      MOVE.B  #LEFT_PAR,D1
+000021A4  103C 0006                188      MOVE.B  #6,D0
+000021A8  4E4F                     189      TRAP    #15
+000021AA                           190  
+000021AA  123C 0041                191      MOVE.B  #A,D1
+000021AE  103C 0006                192      MOVE.B  #6,D0
+000021B2  4E4F                     193      TRAP    #15
+000021B4                           194      
+000021B4  143C 0010                195      MOVE.B  #16,D2
+000021B8  103C 000F                196      MOVE.B  #15,D0
+000021BC  2204                     197      MOVE.L  D4,D1
+000021BE  4E4F                     198      TRAP    #15
+000021C0                           199      
+000021C0  123C 0029                200      MOVE.B  #RIGHT_PAR,D1
+000021C4  103C 0006                201      MOVE.B  #6,D0
+000021C8  4E4F                     202      TRAP    #15
+000021CA                           203  
+000021CA  6000 00EA                204      BRA     DISPLAY_DEST
+000021CE                           205  
+000021CE                           206  DISPLAY_ADDRESS_OR_DATA_SRC
+000021CE  B87C 0000                207      CMP.W   #%000,D4
+000021D2  6700 0016                208      BEQ     DISPLAY_ADDRESS_WORD_SRC
+000021D6                           209      
+000021D6  B87C 0001                210      CMP.W   #%001,D4
+000021DA  6700 002E                211      BEQ     DISPLAY_ADDRESS_LONG_SRC
+000021DE                           212  
+000021DE  B87C 0004                213      CMP.W   #%100,D4
+000021E2  6700 0040                214      BEQ     DISPLAY_DATA_SRC
+000021E6                           215  
+000021E6  6000 EEA2                216      BRA     IF_INVALID_OP
+000021EA                           217  
+000021EA                           218  DISPLAY_ADDRESS_WORD_SRC
+000021EA  544A                     219      ADDQ    #2,A2
+000021EC                           220      
+000021EC  123C 0024                221      MOVE.B  #HEX,D1
+000021F0  103C 0006                222      MOVE.B  #6,D0
+000021F4  4E4F                     223      TRAP    #15
+000021F6                           224      
+000021F6  3212                     225      MOVE.W  (A2),D1
+000021F8  C2BC 0000FFFF            226      AND.L   #$0000FFFF,D1
+000021FE  103C 000F                227      MOVE.B  #15,D0
+00002202  4E4F                     228      TRAP    #15
+00002204                           229      
+00002204  524A                     230      ADDQ    #1,A2
+00002206                           231      
+00002206  6000 00AE                232      BRA     DISPLAY_DEST
+0000220A                           233  
+0000220A                           234  DISPLAY_ADDRESS_LONG_SRC
+0000220A  544A                     235      ADDQ    #2,A2
+0000220C                           236      
+0000220C  123C 0024                237      MOVE.B  #HEX,D1
+00002210  103C 0006                238      MOVE.B  #6,D0
+00002214  4E4F                     239      TRAP    #15
+00002216                           240      
+00002216  2212                     241      MOVE.L  (A2),D1
+00002218  103C 000F                242      MOVE.B  #15,D0
+0000221C  4E4F                     243      TRAP    #15
+0000221E                           244      
+0000221E  564A                     245      ADDQ    #3,A2
+00002220                           246  
+00002220  6000 0094                247      BRA     DISPLAY_DEST
+00002224                           248      
+00002224                           249  DISPLAY_DATA_SRC
+00002224  BA7C 1000                250      CMP.W   #MOVE_B_CODE,D5
+00002228  6700 0016                251      BEQ     DISPLAY_DATA_SRC_BYTE
+0000222C                           252      
+0000222C  BA7C 3000                253      CMP.W   #MOVE_W_CODE,D5
+00002230  6700 0036                254      BEQ     DISPLAY_DATA_SRC_WORD
+00002234                           255      
+00002234  BA7C 3000                256      CMP.W   #MOVE_W_CODE,D5
+00002238  6700 0058                257      BEQ     DISPLAY_DATA_SRC_LONG
+0000223C                           258  
+0000223C  6000 EE4C                259      BRA     IF_INVALID_OP
+00002240                           260      
+00002240                           261  DISPLAY_DATA_SRC_BYTE
+00002240  564A                     262      ADDQ    #3,A2
+00002242                           263      
+00002242  123C 0023                264      MOVE.B  #NUM,D1
+00002246  103C 0006                265      MOVE.B  #6,D0
+0000224A  4E4F                     266      TRAP    #15    
+0000224C                           267      
+0000224C  123C 0024                268      MOVE.B  #HEX,D1
+00002250  103C 0006                269      MOVE.B  #6,D0
+00002254  4E4F                     270      TRAP    #15
+00002256                           271      
+00002256  1212                     272      MOVE.B  (A2),D1
+00002258  C2BC 000000FF            273      AND.L   #$000000FF,D1
+0000225E  103C 000F                274      MOVE.B  #15,D0
+00002262  4E4F                     275      TRAP    #15
+00002264                           276  
+00002264  6000 0050                277      BRA     DISPLAY_DEST
+00002268                           278  
+00002268                           279  DISPLAY_DATA_SRC_WORD
+00002268  544A                     280      ADDQ    #2,A2
+0000226A                           281  
+0000226A  123C 0023                282      MOVE.B  #NUM,D1
+0000226E  103C 0006                283      MOVE.B  #6,D0
+00002272  4E4F                     284      TRAP    #15
+00002274                           285      
+00002274  123C 0024                286      MOVE.B  #HEX,D1
+00002278  103C 0006                287      MOVE.B  #6,D0
+0000227C  4E4F                     288      TRAP    #15
+0000227E                           289      
+0000227E  3212                     290      MOVE.W  (A2),D1
+00002280  C2BC 0000FFFF            291      AND.L   #$0000FFFF,D1
+00002286  103C 000F                292      MOVE.B  #15,D0
+0000228A  4E4F                     293      TRAP    #15
+0000228C                           294  
+0000228C  524A                     295      ADDQ    #1,A2
+0000228E                           296  
+0000228E  6000 0026                297      BRA     DISPLAY_DEST
+00002292                           298      
+00002292                           299  DISPLAY_DATA_SRC_LONG
+00002292  544A                     300      ADDQ    #2,A2
+00002294                           301      
+00002294  123C 0023                302      MOVE.B  #NUM,D1
+00002298  103C 0006                303      MOVE.B  #6,D0
+0000229C  4E4F                     304      TRAP    #15
+0000229E                           305      
+0000229E  123C 0024                306      MOVE.B  #HEX,D1
+000022A2  103C 0006                307      MOVE.B  #6,D0
+000022A6  4E4F                     308      TRAP    #15
+000022A8                           309      
+000022A8  2212                     310      MOVE.L  (A2),D1
+000022AA  103C 000F                311      MOVE.B  #15,D0
+000022AE  4E4F                     312      TRAP    #15
+000022B0                           313      
+000022B0  564A                     314      ADDQ    #3,A2
+000022B2                           315      
+000022B2  6000 0002                316      BRA     DISPLAY_DEST
+000022B6                           317      
+000022B6                           318  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000022B6                           319  
+000022B6                           320  DISPLAY_DEST
+000022B6  123C 002C                321      MOVE.B  #COMMA,D1
+000022BA  103C 0006                322      MOVE.B  #6,D0
+000022BE  4E4F                     323      TRAP    #15
+000022C0                           324  
+000022C0  BAFC 0000                325      CMP.W   #%000,A5
+000022C4  6700 002E                326      BEQ     DISPLAY_Dn_DEST
+000022C8                           327      
+000022C8  BAFC 0001                328      CMP.W   #%001,A5
+000022CC  6700 0040                329      BEQ     DISPLAY_An_DEST
+000022D0                           330      
+000022D0  BAFC 0002                331      CMP.W   #%010,A5
+000022D4  6700 0052                332      BEQ     DISPLAY_AT_An_DEST
+000022D8                           333      
+000022D8  BAFC 0003                334      CMP.W   #%011,A5
+000022DC  6700 0078                335      BEQ     DISPLAY_AT_An_INCREMENT_DEST
+000022E0                           336      
+000022E0  BAFC 0004                337      CMP.W   #%100,A5
+000022E4  6700 00A8                338      BEQ     DISPLAY_AT_An_DECREMENT_DEST
+000022E8                           339      
+000022E8  BAFC 0007                340      CMP.W   #%111,A5
+000022EC  6700 00D8                341      BEQ     DISPLAY_ADDRESS_OR_DATA_DEST
+000022F0                           342      
+000022F0  6000 ED98                343      BRA     IF_INVALID_OP
+000022F4                           344  
+000022F4                           345  DISPLAY_Dn_DEST
+000022F4  123C 0044                346      MOVE.B  #D,D1
+000022F8  103C 0006                347      MOVE.B  #6,D0
+000022FC  4E4F                     348      TRAP    #15
+000022FE                           349      
+000022FE  143C 0010                350      MOVE.B  #16,D2
+00002302  103C 000F                351      MOVE.B  #15,D0
+00002306  220C                     352      MOVE.L  A4,D1
+00002308  4E4F                     353      TRAP    #15
+0000230A                           354      
+0000230A  6000 ED8E                355      BRA     ITERATE
+0000230E                           356  
+0000230E                           357  DISPLAY_An_DEST
+0000230E  123C 0041                358      MOVE.B  #A,D1
+00002312  103C 0006                359      MOVE.B  #6,D0
+00002316  4E4F                     360      TRAP    #15
+00002318                           361      
+00002318  143C 0010                362      MOVE.B  #16,D2
+0000231C  103C 000F                363      MOVE.B  #15,D0
+00002320  220C                     364      MOVE.L  A4,D1
+00002322  4E4F                     365      TRAP    #15
+00002324                           366  
+00002324  6000 ED74                367      BRA     ITERATE
+00002328                           368  
+00002328                           369  DISPLAY_AT_An_DEST
+00002328  123C 0028                370      MOVE.B  #LEFT_PAR,D1
+0000232C  103C 0006                371      MOVE.B  #6,D0
+00002330  4E4F                     372      TRAP    #15
+00002332                           373  
+00002332  123C 0041                374      MOVE.B  #A,D1
+00002336  103C 0006                375      MOVE.B  #6,D0
+0000233A  4E4F                     376      TRAP    #15
+0000233C                           377      
+0000233C  143C 0010                378      MOVE.B  #16,D2
+00002340  103C 000F                379      MOVE.B  #15,D0
+00002344  220C                     380      MOVE.L  A4,D1
+00002346  4E4F                     381      TRAP    #15
+00002348                           382      
+00002348  123C 0029                383      MOVE.B  #RIGHT_PAR,D1
+0000234C  103C 0006                384      MOVE.B  #6,D0
+00002350  4E4F                     385      TRAP    #15
+00002352                           386  
+00002352  6000 ED46                387      BRA     ITERATE
+00002356                           388  
+00002356                           389  DISPLAY_AT_An_INCREMENT_DEST
+00002356  123C 0028                390      MOVE.B  #LEFT_PAR,D1
+0000235A  103C 0006                391      MOVE.B  #6,D0
+0000235E  4E4F                     392      TRAP    #15
+00002360                           393  
+00002360  123C 0041                394      MOVE.B  #A,D1
+00002364  103C 0006                395      MOVE.B  #6,D0
+00002368  4E4F                     396      TRAP    #15
+0000236A                           397      
+0000236A  143C 0010                398      MOVE.B  #16,D2
+0000236E  103C 000F                399      MOVE.B  #15,D0
+00002372  220C                     400      MOVE.L  A4,D1
+00002374  4E4F                     401      TRAP    #15
+00002376                           402      
+00002376  123C 0029                403      MOVE.B  #RIGHT_PAR,D1
+0000237A  103C 0006                404      MOVE.B  #6,D0
+0000237E  4E4F                     405      TRAP    #15
+00002380                           406      
+00002380  123C 002B                407      MOVE.B  #PLUS,D1
+00002384  103C 0006                408      MOVE.B  #6,D0
+00002388  4E4F                     409      TRAP    #15
+0000238A                           410      
+0000238A  6000 ED0E                411      BRA     ITERATE
+0000238E                           412  
+0000238E                           413  DISPLAY_AT_An_DECREMENT_DEST
+0000238E  123C 002D                414      MOVE.B  #MINUS,D1
+00002392  103C 0006                415      MOVE.B  #6,D0
+00002396  4E4F                     416      TRAP    #15
+00002398                           417  
+00002398  123C 0028                418      MOVE.B  #LEFT_PAR,D1
+0000239C  103C 0006                419      MOVE.B  #6,D0
+000023A0  4E4F                     420      TRAP    #15
+000023A2                           421  
+000023A2  123C 0041                422      MOVE.B  #A,D1
+000023A6  103C 0006                423      MOVE.B  #6,D0
+000023AA  4E4F                     424      TRAP    #15
+000023AC                           425      
+000023AC  143C 0010                426      MOVE.B  #16,D2
+000023B0  103C 000F                427      MOVE.B  #15,D0
+000023B4  220C                     428      MOVE.L  A4,D1
+000023B6  4E4F                     429      TRAP    #15
+000023B8                           430      
+000023B8  123C 0029                431      MOVE.B  #RIGHT_PAR,D1
+000023BC  103C 0006                432      MOVE.B  #6,D0
+000023C0  4E4F                     433      TRAP    #15
+000023C2                           434  
+000023C2  6000 ECD6                435      BRA     ITERATE
+000023C6                           436  
+000023C6                           437  DISPLAY_ADDRESS_OR_DATA_DEST
+000023C6  B8FC 0000                438      CMP.W   #%000,A4
+000023CA  6700 000E                439      BEQ     DISPLAY_ADDRESS_WORD_DEST
+000023CE                           440      
+000023CE  B8FC 0001                441      CMP.W   #%001,A4
+000023D2  6700 0030                442      BEQ     DISPLAY_ADDRESS_LONG_DEST
+000023D6                           443  
+000023D6  6000 ECB2                444      BRA     IF_INVALID_OP
+000023DA                           445  
+000023DA                           446  DISPLAY_ADDRESS_WORD_DEST
+000023DA  524A                     447      ADDQ    #1,A2
+000023DC                           448  
+000023DC  123C 0023                449      MOVE.B  #NUM,D1
+000023E0  103C 0006                450      MOVE.B  #6,D0
+000023E4  4E4F                     451      TRAP    #15
+000023E6                           452      
+000023E6  123C 0024                453      MOVE.B  #HEX,D1
+000023EA  103C 0006                454      MOVE.B  #6,D0
+000023EE  4E4F                     455      TRAP    #15
+000023F0                           456      
+000023F0  3212                     457      MOVE.W  (A2),D1
+000023F2  C2BC 0000FFFF            458      AND.L   #$0000FFFF,D1
+000023F8  103C 000F                459      MOVE.B  #15,D0
+000023FC  4E4F                     460      TRAP    #15
+000023FE                           461  
+000023FE  534A                     462      SUBQ    #1,A2
+00002400                           463      
+00002400  6000 EC98                464      BRA     ITERATE
+00002404                           465  
+00002404                           466  DISPLAY_ADDRESS_LONG_DEST
+00002404  524A                     467      ADDQ    #1,A2
+00002406                           468      
+00002406  123C 0023                469      MOVE.B  #NUM,D1
+0000240A  103C 0006                470      MOVE.B  #6,D0
+0000240E  4E4F                     471      TRAP    #15
+00002410                           472      
+00002410  123C 0024                473      MOVE.B  #HEX,D1
+00002414  103C 0006                474      MOVE.B  #6,D0
+00002418  4E4F                     475      TRAP    #15
+0000241A                           476      
+0000241A  2212                     477      MOVE.L  (A2),D1
+0000241C  103C 000F                478      MOVE.B  #15,D0
+00002420  4E4F                     479      TRAP    #15
+00002422                           480      
+00002422  524A                     481      ADDQ    #1,A2
+00002424                           482  
+00002424  6000 EC74                483      BRA     ITERATE
+00002428                           484  
+00002428                           485  
+00002428                           486  -------------------- end include --------------------
+00002428                           487          INCLUDE ADD_ADDA.X68
+00002428                           488  
+00003000                           489      ORG     $3000
+00003000                           490      
+00003000                           491  IF_ADD_ADDA
+00003000  360C                     492      MOVE.W  A4,D3
+00003002                           493      
+00003002                           494      ;Get the register
+00003002  C67C 0FFF                495      AND.W   #$0FFF,D3
+00003006  E743                     496      ASL.W   #3,D3
+00003008  3803                     497      MOVE.W  D3,D4
+0000300A  C8BC 0000F000            498      AND.L   #$0000F000,D4
+00003010  E95C                     499      ROL.W   #4,D4
+00003012  2844                     500      MOVE.L  D4,A4 ;register
+00003014                           501  
+00003014                           502      ;Get the opmode
+00003014  C67C 0FFF                503      AND.W   #$0FFF,D3
+00003018  E743                     504      ASL.W   #3,D3
+0000301A  3803                     505      MOVE.W  D3,D4
+0000301C  C8BC 0000F000            506      AND.L   #$0000F000,D4
+00003022  E95C                     507      ROL.W   #4,D4
+00003024  2A44                     508      MOVE.L  D4,A5 ;opmode
+00003026                           509  
+00003026                           510      ;Get the effective mode 
+00003026  C67C 0FFF                511      AND.W   #$0FFF,D3
+0000302A  E743                     512      ASL.W   #3,D3
+0000302C  3803                     513      MOVE.W  D3,D4
+0000302E  C8BC 0000F000            514      AND.L   #$0000F000,D4
+00003034  E95C                     515      ROL.W   #4,D4
+00003036  2C44                     516      MOVE.L  D4,A6 ;effective mode
+00003038                           517      
+00003038                           518      ;Get the effective register
+00003038  C67C 0FFF                519      AND.W   #$0FFF,D3
+0000303C  E743                     520      ASL.W   #3,D3
+0000303E  3803                     521      MOVE.W  D3,D4
+00003040  C8BC 0000F000            522      AND.L   #$0000F000,D4
+00003046  E95C                     523      ROL.W   #4,D4 ;effective register
+00003048                           524      
+00003048  143C 0010                525      MOVE.B  #16,D2
+0000304C  103C 000F                526      MOVE.B  #15,D0
+00003050                           527      
+00003050  6000 0002                528      BRA     DISPLAY_ADD_ADDA
+00003054                           529      
+00003054                           530  DISPLAY_ADD_ADDA
+00003054  BAFC 0003                531      CMP.W   #%011,A5
+00003058  6700 000E                532      BEQ     DISPLAY_ADDA_W
+0000305C                           533      
+0000305C  BAFC 0007                534      CMP.W   #%111,A5
+00003060  6700 0022                535      BEQ     DISPLAY_ADDA_L
+00003064                           536      
+00003064  6000 020A                537      BRA     DISPLAY_ADD
+00003068                           538  
+00003068                           539  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+00003068                           540  
+00003068                           541  DISPLAY_ADDA_W
+00003068  43F9 000010D3            542      LEA     ADDA_OUTPUT,A1
+0000306E  103C 000E                543      MOVE.B  #14,D0
+00003072  4E4F                     544      TRAP    #15
+00003074                           545  
+00003074  43F9 000010E0            546      LEA     W_OUTPUT,A1
+0000307A  103C 000E                547      MOVE.B  #14,D0
+0000307E  4E4F                     548      TRAP    #15
+00003080                           549  
+00003080  6000 01CA                550      BRA     DISPLAY_ADDA_REGISTER
+00003084                           551  
+00003084                           552  DISPLAY_ADDA_L
+00003084  43F9 000010D3            553      LEA     ADDA_OUTPUT,A1
+0000308A  103C 000E                554      MOVE.B  #14,D0
+0000308E  4E4F                     555      TRAP    #15
+00003090                           556      
+00003090  43F9 000010E4            557      LEA     L_OUTPUT,A1
+00003096  103C 000E                558      MOVE.B  #14,D0
+0000309A  4E4F                     559      TRAP    #15
+0000309C                           560      
+0000309C  6100 0006                561      BSR     GET_EFFECTIVE_ADDRESS_ea
+000030A0  6000 01AA                562      BRA     DISPLAY_ADDA_REGISTER
+000030A4                           563      
+000030A4                           564  ;subroutine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000030A4                           565  GET_EFFECTIVE_ADDRESS_ea
+000030A4  BCFC 0000                566      CMP.W   #%000,A6
+000030A8  6700 002E                567      BEQ     DISPLAY_Dn_ea
+000030AC                           568      
+000030AC  BCFC 0001                569      CMP.W   #%001,A6
+000030B0  6700 003E                570      BEQ     DISPLAY_An_ea
+000030B4                           571      
+000030B4  BCFC 0002                572      CMP.W   #%010,A6
+000030B8  6700 004E                573      BEQ     DISPLAY_An_ADDRESS_ea
+000030BC                           574      
+000030BC  BCFC 0003                575      CMP.W   #%011,A6
+000030C0  6700 0072                576      BEQ     DISPLAY_An_ADDRESS_INCREMENT_ea
+000030C4                           577      
+000030C4  BCFC 0004                578      CMP.W   #%100,A6
+000030C8  6700 00A0                579      BEQ     DISPLAY_An_ADDRESS_DECREMENT_ea
+000030CC                           580      
+000030CC  BCFC 0007                581      CMP.W   #%111,A6
+000030D0  6700 00CE                582      BEQ     DISPLAY_ADDRESS_OR_DATA_ea
+000030D4                           583      
+000030D4  6000 DFB4                584      BRA     IF_INVALID_OP
+000030D8                           585  
+000030D8                           586  DISPLAY_Dn_ea
+000030D8  123C 0044                587      MOVE.B  #D,D1
+000030DC  103C 0006                588      MOVE.B  #6,D0
+000030E0  4E4F                     589      TRAP    #15
+000030E2                           590      
+000030E2  143C 0010                591      MOVE.B  #16,D2
+000030E6  103C 000F                592      MOVE.B  #15,D0
+000030EA  2204                     593      MOVE.L  D4,D1
+000030EC  4E4F                     594      TRAP    #15
+000030EE                           595      
+000030EE  4E75                     596      RTS
+000030F0                           597  
+000030F0                           598  DISPLAY_An_ea
+000030F0  123C 0041                599      MOVE.B  #A,D1
+000030F4  103C 0006                600      MOVE.B  #6,D0
+000030F8  4E4F                     601      TRAP    #15
+000030FA                           602      
+000030FA  143C 0010                603      MOVE.B  #16,D2
+000030FE  103C 000F                604      MOVE.B  #15,D0
+00003102  2204                     605      MOVE.L  D4,D1
+00003104                           606      
+00003104  4E4F                     607      TRAP    #15
+00003106                           608      
+00003106  4E75                     609      RTS
+00003108                           610  
+00003108                           611  DISPLAY_An_ADDRESS_ea
+00003108  123C 0028                612      MOVE.B  #LEFT_PAR,D1
+0000310C  103C 0006                613      MOVE.B  #6,D0
+00003110  4E4F                     614      TRAP    #15
+00003112                           615  
+00003112  123C 0041                616      MOVE.B  #A,D1
+00003116  103C 0006                617      MOVE.B  #6,D0
+0000311A  4E4F                     618      TRAP    #15
+0000311C                           619      
+0000311C  143C 0010                620      MOVE.B  #16,D2
+00003120  103C 000F                621      MOVE.B  #15,D0
+00003124  2204                     622      MOVE.L  D4,D1
+00003126                           623      
+00003126  4E4F                     624      TRAP    #15
+00003128                           625      
+00003128  123C 0029                626      MOVE.B  #RIGHT_PAR,D1
+0000312C  103C 0006                627      MOVE.B  #6,D0
+00003130  4E4F                     628      TRAP    #15
+00003132                           629      
+00003132  4E75                     630      RTS
+00003134                           631  
+00003134                           632  DISPLAY_An_ADDRESS_INCREMENT_ea
+00003134  123C 0028                633      MOVE.B  #LEFT_PAR,D1
+00003138  103C 0006                634      MOVE.B  #6,D0
+0000313C  4E4F                     635      TRAP    #15
+0000313E                           636  
+0000313E  123C 0041                637      MOVE.B  #A,D1
+00003142  103C 0006                638      MOVE.B  #6,D0
+00003146  4E4F                     639      TRAP    #15
+00003148                           640      
+00003148  143C 0010                641      MOVE.B  #16,D2
+0000314C  103C 000F                642      MOVE.B  #15,D0
+00003150  2204                     643      MOVE.L  D4,D1
+00003152                           644      
+00003152  4E4F                     645      TRAP    #15
+00003154                           646      
+00003154  123C 0029                647      MOVE.B  #RIGHT_PAR,D1
+00003158  103C 0006                648      MOVE.B  #6,D0
+0000315C  4E4F                     649      TRAP    #15
+0000315E                           650      
+0000315E  123C 002B                651      MOVE.B  #PLUS,D1
+00003162  103C 0006                652      MOVE.B  #6,D0
+00003166  4E4F                     653      TRAP    #15
+00003168                           654      
+00003168  4E75                     655      RTS
+0000316A                           656  
+0000316A                           657  DISPLAY_An_ADDRESS_DECREMENT_ea
+0000316A  123C 002D                658      MOVE.B  #MINUS,D1
+0000316E  103C 0006                659      MOVE.B  #6,D0
+00003172  4E4F                     660      TRAP    #15
+00003174                           661  
+00003174  123C 0028                662      MOVE.B  #LEFT_PAR,D1
+00003178  103C 0006                663      MOVE.B  #6,D0
+0000317C  4E4F                     664      TRAP    #15
+0000317E                           665  
+0000317E  123C 0041                666      MOVE.B  #A,D1
+00003182  103C 0006                667      MOVE.B  #6,D0
+00003186  4E4F                     668      TRAP    #15
+00003188                           669      
+00003188  143C 0010                670      MOVE.B  #16,D2
+0000318C  103C 000F                671      MOVE.B  #15,D0
+00003190  2204                     672      MOVE.L  D4,D1
+00003192                           673      
+00003192  4E4F                     674      TRAP    #15
+00003194                           675      
+00003194  123C 0029                676      MOVE.B  #RIGHT_PAR,D1
+00003198  103C 0006                677      MOVE.B  #6,D0
+0000319C  4E4F                     678      TRAP    #15
+0000319E                           679      
+0000319E  4E75                     680      RTS
+000031A0                           681  
+000031A0                           682  DISPLAY_ADDRESS_OR_DATA_ea
+000031A0  BCFC 0000                683      CMP.W   #%000,A6
+000031A4  6700 0016                684      BEQ     DISPLAY_ADDRESS_WORD_ea
+000031A8                           685      
+000031A8  BCFC 0001                686      CMP.W   #%001,A6
+000031AC  6700 002A                687      BEQ     DISPLAY_ADDRESS_LONG_ea
+000031B0                           688      
+000031B0  BCFC 0004                689      CMP.W   #%100,A6
+000031B4  6700 003A                690      BEQ     DISPLAY_DATA_ea
+000031B8                           691      
+000031B8  6000 DED0                692      BRA     IF_INVALID_OP
+000031BC                           693      
+000031BC                           694  DISPLAY_ADDRESS_WORD_ea
+000031BC  544A                     695      ADDQ    #2,A2
+000031BE                           696      
+000031BE  123C 0024                697      MOVE.B  #HEX,D1
+000031C2  103C 0006                698      MOVE.B  #6,D0
+000031C6  4E4F                     699      TRAP    #15
+000031C8                           700      
+000031C8  3212                     701      MOVE.W  (A2),D1
+000031CA  C2BC 0000FFFF            702      AND.L   #$0000FFFF,D1
+000031D0  103C 000F                703      MOVE.B  #15,D0
+000031D4  4E4F                     704      TRAP    #15
+000031D6                           705      
+000031D6  4E75                     706      RTS
+000031D8                           707  
+000031D8                           708  DISPLAY_ADDRESS_LONG_ea
+000031D8  544A                     709      ADDQ    #2,A2
+000031DA                           710      
+000031DA  123C 0024                711      MOVE.B  #HEX,D1
+000031DE  103C 0006                712      MOVE.B  #6,D0
+000031E2  4E4F                     713      TRAP    #15
+000031E4                           714      
+000031E4  2212                     715      MOVE.L  (A2),D1
+000031E6  103C 000F                716      MOVE.B  #15,D0
+000031EA  4E4F                     717      TRAP    #15
+000031EC                           718      
+000031EC  544A                     719      ADDQ    #2,A2
+000031EE                           720      
+000031EE  4E75                     721      RTS
+000031F0                           722      
+000031F0                           723  DISPLAY_DATA_ea
+000031F0  BAFC 0003                724      CMP.W   #%011,A5
+000031F4  6700 000E                725      BEQ     DISPLAY_DATA_WORD_ea
+000031F8                           726      
+000031F8  BAFC 0007                727      CMP.W   #%111,A5
+000031FC  6700 002C                728      BEQ     DISPLAY_DATA_LONG_ea
+00003200                           729  
+00003200  6000 DE88                730      BRA     IF_INVALID_OP
+00003204                           731  
+00003204                           732  DISPLAY_DATA_WORD_ea
+00003204  544A                     733      ADDQ    #2,A2
+00003206                           734      
+00003206  123C 0023                735      MOVE.B  #NUM,D1
+0000320A  103C 0006                736      MOVE.B  #6,D0
+0000320E  4E4F                     737      TRAP    #15
+00003210                           738      
+00003210  123C 0024                739      MOVE.B  #HEX,D1
+00003214  103C 0006                740      MOVE.B  #6,D0
+00003218  4E4F                     741      TRAP    #15
+0000321A                           742      
+0000321A  3212                     743      MOVE.W  (A2),D1
+0000321C  C2BC 0000FFFF            744      AND.L   #$0000FFFF,D1
+00003222  103C 000F                745      MOVE.B  #15,D0
+00003226  4E4F                     746      TRAP    #15
+00003228                           747      
+00003228  4E75                     748      RTS
+0000322A                           749      
+0000322A                           750  DISPLAY_DATA_LONG_ea
+0000322A  544A                     751      ADDQ    #2,A2
+0000322C                           752      
+0000322C  123C 0023                753      MOVE.B  #NUM,D1
+00003230  103C 0006                754      MOVE.B  #6,D0
+00003234  4E4F                     755      TRAP    #15
+00003236                           756      
+00003236  123C 0024                757      MOVE.B  #HEX,D1
+0000323A  103C 0006                758      MOVE.B  #6,D0
+0000323E  4E4F                     759      TRAP    #15
+00003240                           760      
+00003240  3212                     761      MOVE.W  (A2),D1
+00003242  103C 000F                762      MOVE.B  #15,D0
+00003246  4E4F                     763      TRAP    #15
+00003248                           764      
+00003248  544A                     765      ADDQ    #2,A2
+0000324A                           766      
+0000324A  4E75                     767      RTS
+0000324C                           768  
+0000324C                           769  
+0000324C                           770  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0000324C                           771   
+0000324C                           772  DISPLAY_ADDA_REGISTER
+0000324C  123C 002C                773      MOVE.B  #COMMA,D1
+00003250  103C 0006                774      MOVE.B  #6,D0
+00003254  4E4F                     775      TRAP    #15
+00003256                           776  
+00003256  123C 0041                777      MOVE.B  #A,D1
+0000325A  103C 0006                778      MOVE.B  #6,D0
+0000325E  4E4F                     779      TRAP    #15
+00003260                           780      
+00003260  143C 0010                781      MOVE.B  #16,D2
+00003264  103C 000F                782      MOVE.B  #15,D0
+00003268  220C                     783      MOVE.L  A4,D1
+0000326A  4E4F                     784      TRAP    #15
+0000326C                           785      
+0000326C  6000 DE2C                786      BRA     ITERATE
+00003270                           787      
+00003270                           788  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+00003270                           789      
+00003270                           790  
+00003270                           791  DISPLAY_ADD
+00003270  43F9 000010D8            792      LEA     ADD_OUTPUT,A1
+00003276  103C 000E                793      MOVE.B  #14,D0
+0000327A  4E4F                     794      TRAP    #15
+0000327C                           795      
+0000327C                           796      
+0000327C                           797      
+0000327C  6000 DE0C                798      BRA     IF_INVALID_OP   
+00003280                           799      
+00003280                           800  
+00003280                           801  
+00003280                           802  -------------------- end include --------------------
+00001000                           803  START   ORG    $1000
+00001000                           804  
+00001000                           805                        ; first instruction of program
+00001000                           806      
+00001000                           807      ;TODO: put in an actual line counter 
+00001000  247C 00006000            808      MOVE.L  #$6000,A2
+00001006  267C 00007000            809      MOVE.L  #$7000,A3
+0000100C  6000 009E                810      BRA     COMPARE
+00001010                           811  
+00001010                           812  ;Parses Simple Commands, such as NOP     
+00001010                           813  PARSE_SIMPLE    
+00001010                           814      
+00001010  3852                     815      MOVE.W  (A2),A4
+00001012                           816      
+00001012  B8FC 4E71                817      CMP.W   #NOP_CODE,A4
+00001016  6700 003A                818      BEQ     IF_NOP 
+0000101A                           819      
+0000101A  B8FC 4E75                820      CMP.W   #RTS_CODE,A4
+0000101E  6700 0042                821      BEQ     IF_RTS
+00001022                           822      
+00001022  6000 0002                823      BRA     PARSE_COMPLEX
+00001026                           824  
+00001026                           825  ; For parsing more complex commands
+00001026                           826  PARSE_COMPLEX
+00001026  3A4C                     827      MOVE.W  A4,A5
+00001028  360C                     828      MOVE.W  A4,D3
+0000102A                           829      
+0000102A  C67C F000                830      AND.W   #$F000,D3
+0000102E                           831      
+0000102E  B67C 1000                832      CMP.W   #MOVE_B_CODE,D3
+00001032  6700 003E                833      BEQ     IF_MOVE_B
+00001036                           834  
+00001036  B67C 3000                835      CMP.W   #MOVE_W_CODE,D3
+0000103A  6700 003E                836      BEQ     IF_MOVE_W
+0000103E                           837      
+0000103E  B67C 2000                838      CMP.W   #MOVE_L_CODE,D3
+00001042  6700 003E                839      BEQ     IF_MOVE_L
+00001046                           840      
+00001046  B67C D000                841      CMP.W   #ADD_CODE,D3
+0000104A  6700 1FB4                842      BEQ     IF_ADD_ADDA
+0000104E                           843      
+0000104E  6000 003A                844      BRA     IF_INVALID_OP
+00001052                           845      
+00001052                           846      
+00001052                           847  * Put program code here
+00001052                           848  
+00001052                           849  IF_NOP
+00001052  43F9 000010BC            850      LEA     NOP_OUTPUT,A1
+00001058  103C 000E                851      MOVE.B  #14,D0
+0000105C  4E4F                     852      TRAP    #15
+0000105E  6000 003A                853      BRA     ITERATE
+00001062                           854  
+00001062                           855  IF_RTS
+00001062  43F9 000010C2            856      LEA     RTS_OUTPUT,A1
+00001068  103C 000E                857      MOVE.B  #14,D0
+0000106C  4E4F                     858      TRAP    #15
+0000106E  6000 002A                859      BRA     ITERATE
+00001072                           860  
+00001072                           861  IF_MOVE_B
+00001072  3A3C 1000                862      MOVE.W  #MOVE_B_CODE,D5
+00001076  6000 0F88                863      BRA     PARSE_MOVE
+0000107A                           864  
+0000107A                           865  IF_MOVE_W
+0000107A  3A3C 3000                866      MOVE.W  #MOVE_W_CODE,D5
+0000107E  6000 0F80                867      BRA     PARSE_MOVE
+00001082                           868  
+00001082                           869  IF_MOVE_L
+00001082  3A3C 2000                870      MOVE.W  #MOVE_L_CODE,D5
+00001086  6000 0F78                871      BRA     PARSE_MOVE
+0000108A                           872  
+0000108A                           873  IF_INVALID_OP
+0000108A  43F9 000010E8            874      LEA     INVALID_OUTPUT,A1
+00001090  103C 000E                875      MOVE.B  #14,D0
+00001094  4E4F                     876      TRAP    #15
+00001096  6000 001E                877      BRA     DONE
+0000109A                           878  
+0000109A                           879  ITERATE
+0000109A  548A                     880      ADDQ.L  #2,A2
+0000109C                           881      
+0000109C  43F9 000010FD            882      LEA     NEWLINE,A1
+000010A2  103C 000E                883      MOVE.B  #14,D0
+000010A6  4E4F                     884      TRAP    #15
+000010A8                           885      
+000010A8  6000 0002                886      BRA     COMPARE
+000010AC                           887      
+000010AC                           888  COMPARE    
+000010AC  B4CB                     889      CMP     A3,A2     
+000010AE  6C00 0006                890      BGE     DONE
+000010B2  6000 FF5C                891      BRA     PARSE_SIMPLE
+000010B6                           892  
+000010B6                           893  DONE
+000010B6  103C 0009                894      MOVE.B  #9,D0
+000010BA  4E4F                     895      TRAP    #15
+000010BC                           896  
+000010BC                           897  * Put variables and constants here
+000010BC                           898  
+000010BC  =0000000D                899  CR              EQU     $0D
+000010BC  =0000000A                900  LF              EQU     $0A
+000010BC  =00000028                901  LEFT_PAR        EQU     $28
+000010BC  =00000029                902  RIGHT_PAR       EQU     $29
+000010BC  =00000041                903  A               EQU     $41
+000010BC  =00000044                904  D               EQU     $44
+000010BC  =0000002B                905  PLUS            EQU     $2B
+000010BC  =0000002D                906  MINUS           EQU     $2D
+000010BC  =00000023                907  NUM             EQU     $23
+000010BC  =00000024                908  HEX             EQU     $24
+000010BC  =0000002C                909  COMMA           EQU     $2C
+000010BC                           910  
+000010BC                           911  ;Codes to be parsed
+000010BC  =00004E71                912  NOP_CODE        EQU     $4E71
+000010BC  =00004E75                913  RTS_CODE        EQU     $4E75
+000010BC  =00001000                914  MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B
+000010BC  =00003000                915  MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W
+000010BC  =00002000                916  MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L
+000010BC  =00007000                917  MOVEQ_CODE      EQU     $7000 ; MOVEQ
+000010BC  =00008000                918  DIVU_OR_CODE    EQU     $8000 ; DIVU, OR
+000010BC  =00009000                919  SUB_CODE        EQU     $9000 ; SUB
+000010BC  =0000A000                920  MULS_AND_CODE   EQU     $A000 ; MULS, AND
+000010BC  =0000D000                921  ADD_CODE        EQU     $D000 ; ADD, ADDA
+000010BC  =0000E000                922  LS_CODE         EQU     $E000 ; LOGICAL SHIFTS
+000010BC  =00005000                923  ADDQ_CODE       EQU     $5000 ; ADDQ
+000010BC  =00006000                924  Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
+000010BC  =00004000                925  MISC_CODE       EQU     $4000 ; MULS, LEA, NOT, JSR, MOVEM
+000010BC                           926  
+000010BC                           927  ;Sample outputs
+000010BC= 4E 4F 50 0D 0A 00        928  NOP_OUTPUT      DC.B    'NOP',CR,LF,0
+000010C2= 52 54 53 0D 0A 00        929  RTS_OUTPUT      DC.B    'RTS',CR,LF,0
+000010C8                           930  
+000010C8= 4D 4F 56 45 41 00        931  MOVEA_OUTPUT    DC.B    'MOVEA',0
+000010CE= 4D 4F 56 45 00           932  MOVE_OUTPUT     DC.B    'MOVE',0
+000010D3= 41 44 44 41 00           933  ADDA_OUTPUT     DC.B    'ADDA',0
+000010D8= 41 44 44 00              934  ADD_OUTPUT      DC.B    'ADD',0
+000010DC                           935  
+000010DC= 2E 42 20 00              936  B_OUTPUT        DC.B    '.B ',0
+000010E0= 2E 57 20 00              937  W_OUTPUT        DC.B    '.W ',0
+000010E4= 2E 4C 20 00              938  L_OUTPUT        DC.B    '.L ',0
+000010E8                           939  
+000010E8= 49 6E 76 61 6C 69 ...    940  INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
+000010FD= 0D 0A 00                 941  NEWLINE         DC.B    CR,LF,0
+00001100                           942  
+00001100                           943              END    START        ; last line of source
 
 No errors detected
 No warnings generated
@@ -629,77 +954,97 @@ SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
 A                   41
+ADDA_OUTPUT         10D3
 ADDQ_CODE           5000
 ADD_CODE            D000
+ADD_OUTPUT          10D8
 BCC_BRA_CODE        6000
-B_OUTPUT            14F3
+B_OUTPUT            10DC
 COMMA               2C
-COMPARE             10A4
+COMPARE             10AC
 CR                  D
 D                   44
-DISPLAY_ADDRESS_LONG_DEST  14B2
-DISPLAY_ADDRESS_LONG_SRC  12B8
-DISPLAY_ADDRESS_OR_DATA_DEST  1474
-DISPLAY_ADDRESS_OR_DATA_SRC  127C
-DISPLAY_ADDRESS_WORD_DEST  1488
-DISPLAY_ADDRESS_WORD_SRC  1298
-DISPLAY_AN_DEST     13BC
-DISPLAY_AN_SRC      11C4
-DISPLAY_AT_AN_DECREMENT_DEST  143C
-DISPLAY_AT_AN_DECREMENT_SRC  1244
-DISPLAY_AT_AN_DEST  13D6
-DISPLAY_AT_AN_INCREMENT_DEST  1404
-DISPLAY_AT_AN_INCREMENT_SRC  120C
-DISPLAY_AT_AN_SRC   11DE
-DISPLAY_BYTE        1146
-DISPLAY_DATA_SRC    12D2
-DISPLAY_DATA_SRC_BYTE  12EE
-DISPLAY_DATA_SRC_LONG  1340
-DISPLAY_DATA_SRC_WORD  1316
-DISPLAY_DEST        1364
-DISPLAY_DN_DEST     13A2
-DISPLAY_DN_SRC      11AA
-DISPLAY_LONG        1166
-DISPLAY_MOVE        111A
-DISPLAY_MOVEA       110A
-DISPLAY_SRC_MODE    1176
-DISPLAY_TYPE        112A
-DISPLAY_WORD        1156
+DISPLAY_ADD         3270
+DISPLAY_ADDA_L      3084
+DISPLAY_ADDA_REGISTER  324C
+DISPLAY_ADDA_W      3068
+DISPLAY_ADDRESS_LONG_DEST  2404
+DISPLAY_ADDRESS_LONG_EA  31D8
+DISPLAY_ADDRESS_LONG_SRC  220A
+DISPLAY_ADDRESS_OR_DATA_DEST  23C6
+DISPLAY_ADDRESS_OR_DATA_EA  31A0
+DISPLAY_ADDRESS_OR_DATA_SRC  21CE
+DISPLAY_ADDRESS_WORD_DEST  23DA
+DISPLAY_ADDRESS_WORD_EA  31BC
+DISPLAY_ADDRESS_WORD_SRC  21EA
+DISPLAY_ADD_ADDA    3054
+DISPLAY_AN_ADDRESS_DECREMENT_EA  316A
+DISPLAY_AN_ADDRESS_EA  3108
+DISPLAY_AN_ADDRESS_INCREMENT_EA  3134
+DISPLAY_AN_DEST     230E
+DISPLAY_AN_EA       30F0
+DISPLAY_AN_SRC      2116
+DISPLAY_AT_AN_DECREMENT_DEST  238E
+DISPLAY_AT_AN_DECREMENT_SRC  2196
+DISPLAY_AT_AN_DEST  2328
+DISPLAY_AT_AN_INCREMENT_DEST  2356
+DISPLAY_AT_AN_INCREMENT_SRC  215E
+DISPLAY_AT_AN_SRC   2130
+DISPLAY_BYTE        2098
+DISPLAY_DATA_EA     31F0
+DISPLAY_DATA_LONG_EA  322A
+DISPLAY_DATA_SRC    2224
+DISPLAY_DATA_SRC_BYTE  2240
+DISPLAY_DATA_SRC_LONG  2292
+DISPLAY_DATA_SRC_WORD  2268
+DISPLAY_DATA_WORD_EA  3204
+DISPLAY_DEST        22B6
+DISPLAY_DN_DEST     22F4
+DISPLAY_DN_EA       30D8
+DISPLAY_DN_SRC      20FC
+DISPLAY_LONG        20B8
+DISPLAY_MOVE        206C
+DISPLAY_MOVEA       205C
+DISPLAY_SRC_MODE    20C8
+DISPLAY_TYPE        207C
+DISPLAY_WORD        20A8
 DIVU_OR_CODE        8000
-DONE                14D6
+DONE                10B6
+GET_EFFECTIVE_ADDRESS_EA  30A4
 HEX                 24
-IF_INVALID_OP       1082
-IF_MOVE_B           106A
-IF_MOVE_L           107A
-IF_MOVE_W           1072
-IF_NOP              104A
-IF_RTS              105A
-INVALID_OUTPUT      14FF
-ITERATE             1092
+IF_ADD_ADDA         3000
+IF_INVALID_OP       108A
+IF_MOVE_B           1072
+IF_MOVE_L           1082
+IF_MOVE_W           107A
+IF_NOP              1052
+IF_RTS              1062
+INVALID_OUTPUT      10E8
+ITERATE             109A
 LEFT_PAR            28
 LF                  A
 LS_CODE             E000
-L_OUTPUT            14FB
+L_OUTPUT            10E4
 MINUS               2D
 MISC_CODE           4000
-MOVEA_OUTPUT        14E8
+MOVEA_OUTPUT        10C8
 MOVEQ_CODE          7000
 MOVE_B_CODE         1000
 MOVE_L_CODE         2000
-MOVE_OUTPUT         14EE
+MOVE_OUTPUT         10CE
 MOVE_W_CODE         3000
 MULS_AND_CODE       A000
-NEWLINE             1514
+NEWLINE             10FD
 NOP_CODE            4E71
-NOP_OUTPUT          14DC
+NOP_OUTPUT          10BC
 NUM                 23
 PARSE_COMPLEX       1026
-PARSE_MOVE          10AE
+PARSE_MOVE          2000
 PARSE_SIMPLE        1010
 PLUS                2B
 RIGHT_PAR           29
 RTS_CODE            4E75
-RTS_OUTPUT          14E2
+RTS_OUTPUT          10C2
 START               1000
 SUB_CODE            9000
-W_OUTPUT            14F7
+W_OUTPUT            10E0
