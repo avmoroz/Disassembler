@@ -312,12 +312,152 @@ DISPLAY_ADD
     MOVE.B  #14,D0
     TRAP    #15
     
+    BRA     DISPLAY_ARGS
     
+DISPLAY_ARGS    
+    
+    CMP.W   #%000,A5
+    BEQ     DISPLAY_BYTE_SRC
+    
+    CMP.W   #%001,A5
+    BEQ     DISPLAY_WORD_SRC
+    
+    CMP.W   #%010,A5
+    BEQ     DISPLAY_LONG_SRC
+    
+    CMP.W   #%100,A5
+    BEQ     DISPLAY_BYTE_DEST
+    
+    CMP.W   #%101,A5
+    BEQ     DISPLAY_WORD_DEST
+    
+    CMP.W   #%110,A5
+    BEQ     DISPLAY_LONG_DEST
     
     BRA     IF_INVALID_OP   
     
+DISPLAY_BYTE_SRC
+    LEA     B_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
 
+    BSR     GET_EFFECTIVE_ADDRESS_ea
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    BSR     DISPLAY_Dn_ADD
+    
+    BRA     ITERATE
 
+DISPLAY_WORD_SRC
+    LEA     W_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
+    BSR     GET_EFFECTIVE_ADDRESS_ea
+
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+
+    BSR     DISPLAY_Dn_ADD
+    
+    BRA     ITERATE
+
+DISPLAY_LONG_SRC
+    LEA     L_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
+    BSR     GET_EFFECTIVE_ADDRESS_ea
+
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+
+    BSR     DISPLAY_Dn_ADD
+    
+    BRA     ITERATE
+
+DISPLAY_BYTE_DEST
+    LEA     B_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
+    BSR     DISPLAY_Dn_ADD
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+
+    BSR     GET_EFFECTIVE_ADDRESS_ea_DEST 
+    
+    BRA     ITERATE
+
+DISPLAY_WORD_DEST
+    LEA     W_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
+    BSR     DISPLAY_Dn_ADD
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+
+    BSR     GET_EFFECTIVE_ADDRESS_ea_DEST 
+    
+    BRA     ITERATE
+
+DISPLAY_LONG_DEST
+    LEA     L_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
+    BSR     DISPLAY_Dn_ADD
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+
+    BSR     GET_EFFECTIVE_ADDRESS_ea_DEST 
+    
+    BRA     ITERATE
+    
+DISPLAY_Dn_ADD
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  A4,D1
+    TRAP    #15
+    
+    RTS
+
+;subroutine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+GET_EFFECTIVE_ADDRESS_ea_DEST   
+    CMP.W   #%010,A6
+    BEQ     DISPLAY_An_ADDRESS_ea
+    
+    CMP.W   #%011,A6
+    BEQ     DISPLAY_An_ADDRESS_INCREMENT_ea
+    
+    CMP.W   #%100,A6
+    BEQ     DISPLAY_An_ADDRESS_DECREMENT_ea
+    
+    CMP.W   #%111,A6
+    BEQ     DISPLAY_ADDRESS_OR_DATA_ea
+    
+    BRA     IF_INVALID_OP
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    
+    
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

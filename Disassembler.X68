@@ -6,6 +6,8 @@
 *-----------------------------------------------------------
         INCLUDE MOVE_MOVEA.X68
         INCLUDE ADD_ADDA.X68
+        INCLUDE SUB.X68
+        INCLUDE ADDQ.X68
 START   ORG    $1000
 
                       ; first instruction of program
@@ -46,6 +48,12 @@ PARSE_COMPLEX
     
     CMP.W   #ADD_CODE,D3
     BEQ     IF_ADD_ADDA
+    
+    CMP.W   #SUB_CODE,D3
+    BEQ     IF_SUB
+    
+    CMP.W   #ADDQ_CODE,D3
+    BEQ     IF_SUB
     
     BRA     IF_INVALID_OP
     
@@ -117,16 +125,16 @@ COMMA           EQU     $2C
 ;Codes to be parsed
 NOP_CODE        EQU     $4E71
 RTS_CODE        EQU     $4E75
-MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B
-MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W
-MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L
-MOVEQ_CODE      EQU     $7000 ; MOVEQ
+MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B (done)
+MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W (done)
+MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L (done)
+MOVEQ_CODE      EQU     $7000 ; MOVEQ (Andrey)
 DIVU_OR_CODE    EQU     $8000 ; DIVU, OR
-SUB_CODE        EQU     $9000 ; SUB
+SUB_CODE        EQU     $9000 ; SUB (done)
 MULS_AND_CODE   EQU     $A000 ; MULS, AND
-ADD_CODE        EQU     $D000 ; ADD, ADDA
+ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
 LS_CODE         EQU     $E000 ; LOGICAL SHIFTS
-ADDQ_CODE       EQU     $5000 ; ADDQ
+ADDQ_CODE       EQU     $5000 ; ADDQ (done)
 Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
 MISC_CODE       EQU     $4000 ; MULS, LEA, NOT, JSR, MOVEM
 
@@ -138,6 +146,8 @@ MOVEA_OUTPUT    DC.B    'MOVEA',0
 MOVE_OUTPUT     DC.B    'MOVE',0
 ADDA_OUTPUT     DC.B    'ADDA',0
 ADD_OUTPUT      DC.B    'ADD',0
+SUB_OUTPUT      DC.B    'SUB',0
+ADDQ_OUTPUT     DC.B    'ADDQ',0
 
 B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
@@ -147,6 +157,7 @@ INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
 
 
 
