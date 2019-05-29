@@ -1,0 +1,71 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 5/29/2019 11:16:33 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00003000                             7      ORG    $3000
+00003000                             8  
+00003000                             9  IF_SUB 
+00003000  360C                      10      MOVE.W  A4,D3
+00003002                            11      
+00003002                            12      ;Get the register
+00003002  C67C 0FFF                 13      AND.W   #$0FFF,D3
+00003006  E743                      14      ASL.W   #3,D3
+00003008  3803                      15      MOVE.W  D3,D4
+0000300A  C8BC 0000F000             16      AND.L   #$0000F000,D4
+00003010  E95C                      17      ROL.W   #4,D4
+00003012  2844                      18      MOVE.L  D4,A4 ;register
+00003014                            19  
+00003014                            20      ;Get the opmode
+00003014  C67C 0FFF                 21      AND.W   #$0FFF,D3
+00003018  E743                      22      ASL.W   #3,D3
+0000301A  3803                      23      MOVE.W  D3,D4
+0000301C  C8BC 0000F000             24      AND.L   #$0000F000,D4
+00003022  E95C                      25      ROL.W   #4,D4
+00003024  2A44                      26      MOVE.L  D4,A5 ;opmode
+00003026                            27  
+00003026                            28      ;Get the effective mode 
+00003026  C67C 0FFF                 29      AND.W   #$0FFF,D3
+0000302A  E743                      30      ASL.W   #3,D3
+0000302C  3803                      31      MOVE.W  D3,D4
+0000302E  C8BC 0000F000             32      AND.L   #$0000F000,D4
+00003034  E95C                      33      ROL.W   #4,D4
+00003036  2C44                      34      MOVE.L  D4,A6 ;effective mode
+00003038                            35      
+00003038                            36      ;Get the effective register
+00003038  C67C 0FFF                 37      AND.W   #$0FFF,D3
+0000303C  E743                      38      ASL.W   #3,D3
+0000303E  3803                      39      MOVE.W  D3,D4
+00003040  C8BC 0000F000             40      AND.L   #$0000F000,D4
+00003046  E95C                      41      ROL.W   #4,D4 ;effective register
+00003048                            42      
+00003048  143C 0010                 43      MOVE.B  #16,D2
+0000304C  103C 000F                 44      MOVE.B  #15,D0
+00003050                            45      
+00003050  6000 0002                 46      BRA     DISPLAY_SUB
+00003054                            47      
+00003054                            48  DISPLAY_SUB
+Line 49 ERROR: Undefined symbol
+00003054  43F9 004DBD16             49      LEA     SUB_OUTPUT,A1
+0000305A  103C 000E                 50      MOVE.B  #14,D0
+0000305E  4E4F                      51      TRAP    #15
+00003060                            52      
+Line 53 ERROR: Undefined symbol
+00003060  6000 8CB4                 53      BRA     DISPLAY_ARGS
+00003064                            54  
+Line 55 WARNING: END directive missing, starting address not set
+
+2 errors detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DISPLAY_SUB         3054
+IF_SUB              3000

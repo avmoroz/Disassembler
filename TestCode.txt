@@ -498,9 +498,9 @@
     SUB.B   -(A1),D0
     SUB.B   $1000,D0
     SUB.B   $8000,D0
-    SUB.B   #127,D0
-    SUB.B   #-128,D0
-    SUB.B   #0,D0
+    ;SUB.B   #127,D0
+    ;SUB.B   #-128,D0
+    ;SUB.B   #0,D0
     
 * SUB.W <ea>,Dn
     SUB.W   D1,D0
@@ -510,9 +510,9 @@
     SUB.W   -(A1),D0
     SUB.W   $1000,D0
     SUB.W   $8000,D0
-    SUB.W   #$FFFF,D0
-    SUB.W   #$0,D0
-    SUB.W   #$80,D0
+    ;SUB.W   #$FFFF,D0
+    ;SUB.W   #$0,D0
+    ;SUB.W   #$80,D0
 
 * SUB.L <ea>,Dn
     SUB.L   D1,D0
@@ -522,9 +522,9 @@
     SUB.L   -(A1),D0
     SUB.L   $1000,D0
     SUB.L   $8000,D0
-    SUB.L   #$FFFFFFFF,D0
-    SUB.L   #$0,D0
-    SUB.L   #$80,D0
+    ;SUB.L   #$FFFFFFFF,D0
+    ;SUB.L   #$0,D0
+    ;SUB.L   #$80,D0
 
 **** SUB.B Dn,<ea>
 

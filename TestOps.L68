@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 5/28/2019 11:33:25 PM
+Created On: 5/29/2019 11:18:26 AM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -9,21 +9,18 @@ Created On: 5/28/2019 11:33:25 PM
 00000000                             5  * Description:
 00000000                             6  *-----------------------------------------------------------
 00006000                             7      ORG    $6000
-00006000                             8  * MOVE.B <ea>,<ea>
-00006000                             9  *--------------------MOVEA--------------------------
-Line 10 ERROR: Invalid syntax
-00006000                            10  SUB.B   D1,D0
-00006000  9011                      11      SUB.B   (A1),D0
-00006002  9019                      12      SUB.B   (A1)+,D0
-00006004  9021                      13      SUB.B   -(A1),D0
-00006006  9038 1000                 14      SUB.B   $1000,D0
-0000600A  9039 00008000             15      SUB.B   $8000,D0
-00006010  0400 007F                 16      SUB.B   #127,D0
-00006014  0400 0080                 17      SUB.B   #-128,D0
-00006018  0400 0000                 18      SUB.B   #0,D0
-Line 19 WARNING: END directive missing, starting address not set
+00006000                             8  
+00006000  C200                       9      AND.B   D0,D1
+00006002  C211                      10      AND.B   (A1),D1
+00006004  C219                      11      AND.B   (A1)+,D1
+00006006  C221                      12      AND.B   -(A1),D1
+00006008  C238 1000                 13      AND.B   $1000,D1
+0000600C  C239 00008000             14      AND.B   $8000,D1
+00006012  C23C 00FF                 15      AND.B   #$FF,D1
+00006016  C23C 0000                 16      AND.B   #$0,D1
+Line 17 WARNING: END directive missing, starting address not set
 
-1 error detected
+No errors detected
 1 warning generated
 
 
