@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $2000
+    ORG    $1500
     
 PARSE_MOVE
     MOVE.W  A4,D3
@@ -78,7 +78,7 @@ DISPLAY_BYTE
     BRA     DISPLAY_SRC_MODE
 
 DISPLAY_WORD
-    LEA     B_OUTPUT,A1
+    LEA     W_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     BRA     DISPLAY_SRC_MODE
@@ -226,8 +226,6 @@ DISPLAY_ADDRESS_WORD_SRC
     MOVE.B  #15,D0
     TRAP    #15
     
-    ADDQ    #1,A2
-    
     BRA     DISPLAY_DEST
 
 DISPLAY_ADDRESS_LONG_SRC
@@ -241,7 +239,7 @@ DISPLAY_ADDRESS_LONG_SRC
     MOVE.B  #15,D0
     TRAP    #15
     
-    ADDQ    #3,A2
+    ADDQ    #2,A2
 
     BRA     DISPLAY_DEST
     
@@ -252,7 +250,7 @@ DISPLAY_DATA_SRC
     CMP.W   #MOVE_W_CODE,D5
     BEQ     DISPLAY_DATA_SRC_WORD
     
-    CMP.W   #MOVE_W_CODE,D5
+    CMP.W   #MOVE_L_CODE,D5
     BEQ     DISPLAY_DATA_SRC_LONG
 
     BRA     IF_INVALID_OP
@@ -272,6 +270,8 @@ DISPLAY_DATA_SRC_BYTE
     AND.L   #$000000FF,D1
     MOVE.B  #15,D0
     TRAP    #15
+    
+    SUBQ    #1,A2
 
     BRA     DISPLAY_DEST
 
@@ -291,8 +291,6 @@ DISPLAY_DATA_SRC_WORD
     MOVE.B  #15,D0
     TRAP    #15
 
-    ADDQ    #1,A2
-
     BRA     DISPLAY_DEST
     
 DISPLAY_DATA_SRC_LONG
@@ -310,7 +308,7 @@ DISPLAY_DATA_SRC_LONG
     MOVE.B  #15,D0
     TRAP    #15
     
-    ADDQ    #3,A2
+    ADDQ    #2,A2
     
     BRA     DISPLAY_DEST
     
@@ -443,11 +441,7 @@ DISPLAY_ADDRESS_OR_DATA_DEST
     BRA     IF_INVALID_OP
 
 DISPLAY_ADDRESS_WORD_DEST
-    ADDQ    #1,A2
-
-    MOVE.B  #NUM,D1
-    MOVE.B  #6,D0
-    TRAP    #15
+    ADDQ    #2,A2
     
     MOVE.B  #HEX,D1
     MOVE.B  #6,D0
@@ -457,17 +451,11 @@ DISPLAY_ADDRESS_WORD_DEST
     AND.L   #$0000FFFF,D1
     MOVE.B  #15,D0
     TRAP    #15
-
-    SUBQ    #1,A2
     
     BRA     ITERATE
 
 DISPLAY_ADDRESS_LONG_DEST
-    ADDQ    #1,A2
-    
-    MOVE.B  #NUM,D1
-    MOVE.B  #6,D0
-    TRAP    #15
+    ADDQ    #2,A2
     
     MOVE.B  #HEX,D1
     MOVE.B  #6,D0
@@ -477,9 +465,13 @@ DISPLAY_ADDRESS_LONG_DEST
     MOVE.B  #15,D0
     TRAP    #15
     
-    ADDQ    #1,A2
+    ADDQ    #2,A2
 
     BRA     ITERATE
+
+
+
+
 
 
 *~Font name~Courier New~

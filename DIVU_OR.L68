@@ -1,0 +1,260 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 5/28/2019 10:32:14 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00004000                             7      ORG    $4000
+00004000                             8  IF_DIVU_OR
+00004000  360C                       9      MOVE.W  A4,D3
+00004002                            10      
+00004002                            11      ;Get the register
+00004002  C67C 0FFF                 12      AND.W   #$0FFF,D3
+00004006  E743                      13      ASL.W   #3,D3
+00004008  3803                      14      MOVE.W  D3,D4
+0000400A  C8BC 0000F000             15      AND.L   #$0000F000,D4
+00004010  E95C                      16      ROL.W   #4,D4
+00004012  2844                      17      MOVE.L  D4,A4 ;register
+00004014                            18  
+00004014                            19      ;Get the opmode
+00004014  C67C 0FFF                 20      AND.W   #$0FFF,D3
+00004018  E743                      21      ASL.W   #3,D3
+0000401A  3803                      22      MOVE.W  D3,D4
+0000401C  C8BC 0000F000             23      AND.L   #$0000F000,D4
+00004022  E95C                      24      ROL.W   #4,D4
+00004024  2A44                      25      MOVE.L  D4,A5 ;opmode
+00004026                            26  
+00004026                            27      ;Get the effective mode 
+00004026  C67C 0FFF                 28      AND.W   #$0FFF,D3
+0000402A  E743                      29      ASL.W   #3,D3
+0000402C  3803                      30      MOVE.W  D3,D4
+0000402E  C8BC 0000F000             31      AND.L   #$0000F000,D4
+00004034  E95C                      32      ROL.W   #4,D4
+00004036  2C44                      33      MOVE.L  D4,A6 ;effective mode
+00004038                            34      
+00004038                            35      ;Get the effective register
+00004038  C67C 0FFF                 36      AND.W   #$0FFF,D3
+0000403C  E743                      37      ASL.W   #3,D3
+0000403E  3803                      38      MOVE.W  D3,D4
+00004040  C8BC 0000F000             39      AND.L   #$0000F000,D4
+00004046  E95C                      40      ROL.W   #4,D4 ;effective register
+00004048                            41      
+00004048  143C 0010                 42      MOVE.B  #16,D2
+0000404C  103C 000F                 43      MOVE.B  #15,D0
+00004050                            44      
+00004050  6000 0002                 45      BRA     DETERMINE_DIVU_OR
+00004054                            46  
+00004054                            47  DETERMINE_DIVU_OR
+00004054  BAFC 0003                 48      CMP.W   #%011,A5
+00004058  6700 0146                 49      BEQ     DISPLAY_DIVU
+0000405C                            50      
+0000405C  BAFC 0007                 51      CMP.W   #%111,A5
+Line 52 ERROR: Undefined symbol
+00004060  6700 7CB4                 52      BEQ     IF_INVALID_OP
+00004064                            53      
+00004064  6000 0002                 54      BRA     DISPLAY_OR
+00004068                            55  
+00004068                            56  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+00004068                            57  ;OR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+00004068                            58  DISPLAY_OR
+Line 59 ERROR: Undefined symbol
+00004068  43F9 004DBD16             59      LEA     OR_OUTPUT,A1
+0000406E  103C 000E                 60      MOVE.B  #14,D0
+00004072  4E4F                      61      TRAP    #15
+00004074                            62  
+00004074  BAFC 0000                 63      CMP.W   #%000,A5
+00004078  6700 002E                 64      BEQ     DISPLAY_BYTE_SRC_OR
+0000407C                            65      
+0000407C  BAFC 0001                 66      CMP.W   #%001,A5
+00004080  6700 0048                 67      BEQ     DISPLAY_WORD_SRC_OR
+00004084                            68      
+00004084  BAFC 0002                 69      CMP.W   #%010,A5
+00004088  6700 0062                 70      BEQ     DISPLAY_LONG_SRC_OR
+0000408C                            71      
+0000408C  BAFC 0004                 72      CMP.W   #%100,A5
+00004090  6700 007C                 73      BEQ     DISPLAY_BYTE_DEST_OR
+00004094                            74      
+00004094  BAFC 0005                 75      CMP.W   #%101,A5
+00004098  6700 0096                 76      BEQ     DISPLAY_WORD_DEST_OR
+0000409C                            77      
+0000409C  BAFC 0006                 78      CMP.W   #%110,A5
+000040A0  6700 00B0                 79      BEQ     DISPLAY_LONG_DEST_OR
+000040A4                            80      
+Line 81 ERROR: Undefined symbol
+000040A4  6000 7C70                 81      BRA     IF_INVALID_OP 
+000040A8                            82  
+000040A8                            83  DISPLAY_BYTE_SRC_OR
+Line 84 ERROR: Undefined symbol
+000040A8  43F9 004DBD16             84      LEA     B_OUTPUT,A1
+000040AE  103C 000E                 85      MOVE.B  #14,D0
+000040B2  4E4F                      86      TRAP    #15
+000040B4                            87  
+000040B4  6100 00BE                 88      BSR     GET_EFFECTIVE_ADDRESS_OR_SRC  
+000040B8                            89      
+Line 90 ERROR: Undefined symbol
+000040B8  123C 0016                 90      MOVE.B  #COMMA,D1
+000040BC  103C 0006                 91      MOVE.B  #6,D0
+000040C0  4E4F                      92      TRAP    #15
+000040C2                            93      
+Line 94 ERROR: Undefined symbol
+000040C2  6100 7C52                 94      BSR     DISPLAY_Dn_ADD
+000040C6                            95      
+Line 96 ERROR: Undefined symbol
+000040C6  6000 7C4E                 96      BRA     ITERATE
+000040CA                            97  
+000040CA                            98  DISPLAY_WORD_SRC_OR
+Line 99 ERROR: Undefined symbol
+000040CA  43F9 004DBD16             99      LEA     W_OUTPUT,A1
+000040D0  103C 000E                100      MOVE.B  #14,D0
+000040D4  4E4F                     101      TRAP    #15
+000040D6                           102  
+000040D6  6100 009C                103      BSR     GET_EFFECTIVE_ADDRESS_OR_SRC  
+000040DA                           104  
+Line 105 ERROR: Undefined symbol
+000040DA  123C 0016                105      MOVE.B  #COMMA,D1
+000040DE  103C 0006                106      MOVE.B  #6,D0
+000040E2  4E4F                     107      TRAP    #15    
+000040E4                           108  
+Line 109 ERROR: Undefined symbol
+000040E4  6100 7C30                109      BSR     DISPLAY_Dn_ADD
+000040E8                           110      
+Line 111 ERROR: Undefined symbol
+000040E8  6000 7C2C                111      BRA     ITERATE
+000040EC                           112  
+000040EC                           113  DISPLAY_LONG_SRC_OR
+Line 114 ERROR: Undefined symbol
+000040EC  43F9 004DBD16            114      LEA     L_OUTPUT,A1
+000040F2  103C 000E                115      MOVE.B  #14,D0
+000040F6  4E4F                     116      TRAP    #15
+000040F8                           117  
+000040F8  6100 007A                118      BSR     GET_EFFECTIVE_ADDRESS_OR_SRC  
+000040FC                           119  
+Line 120 ERROR: Undefined symbol
+000040FC  123C 0016                120      MOVE.B  #COMMA,D1
+00004100  103C 0006                121      MOVE.B  #6,D0
+00004104  4E4F                     122      TRAP    #15    
+00004106                           123  
+Line 124 ERROR: Undefined symbol
+00004106  6100 7C0E                124      BSR     DISPLAY_Dn_ADD
+0000410A                           125      
+Line 126 ERROR: Undefined symbol
+0000410A  6000 7C0A                126      BRA     ITERATE
+0000410E                           127  
+0000410E                           128  DISPLAY_BYTE_DEST_OR
+Line 129 ERROR: Undefined symbol
+0000410E  43F9 004DBD16            129      LEA     B_OUTPUT,A1
+00004114  103C 000E                130      MOVE.B  #14,D0
+00004118  4E4F                     131      TRAP    #15
+0000411A                           132  
+Line 133 ERROR: Undefined symbol
+0000411A  6100 7BFA                133      BSR     DISPLAY_Dn_ADD
+0000411E                           134      
+Line 135 ERROR: Undefined symbol
+0000411E  123C 0016                135      MOVE.B  #COMMA,D1
+00004122  103C 0006                136      MOVE.B  #6,D0
+00004126  4E4F                     137      TRAP    #15    
+00004128                           138  
+Line 139 ERROR: Undefined symbol
+00004128  6100 7BEC                139      BSR     GET_EFFECTIVE_ADDRESS_ea_DEST 
+0000412C                           140      
+Line 141 ERROR: Undefined symbol
+0000412C  6000 7BE8                141      BRA     ITERATE
+00004130                           142  
+00004130                           143  DISPLAY_WORD_DEST_OR
+Line 144 ERROR: Undefined symbol
+00004130  43F9 004DBD16            144      LEA     W_OUTPUT,A1
+00004136  103C 000E                145      MOVE.B  #14,D0
+0000413A  4E4F                     146      TRAP    #15
+0000413C                           147  
+Line 148 ERROR: Undefined symbol
+0000413C  6100 7BD8                148      BSR     DISPLAY_Dn_ADD
+00004140                           149      
+Line 150 ERROR: Undefined symbol
+00004140  123C 0016                150      MOVE.B  #COMMA,D1
+00004144  103C 0006                151      MOVE.B  #6,D0
+00004148  4E4F                     152      TRAP    #15    
+0000414A                           153  
+Line 154 ERROR: Undefined symbol
+0000414A  6100 7BCA                154      BSR     GET_EFFECTIVE_ADDRESS_ea_DEST 
+0000414E                           155      
+Line 156 ERROR: Undefined symbol
+0000414E  6000 7BC6                156      BRA     ITERATE
+00004152                           157  
+00004152                           158  DISPLAY_LONG_DEST_OR
+Line 159 ERROR: Undefined symbol
+00004152  43F9 004DBD16            159      LEA     L_OUTPUT,A1
+00004158  103C 000E                160      MOVE.B  #14,D0
+0000415C  4E4F                     161      TRAP    #15
+0000415E                           162  
+Line 163 ERROR: Undefined symbol
+0000415E  6100 7BB6                163      BSR     DISPLAY_Dn_ADD
+00004162                           164      
+Line 165 ERROR: Undefined symbol
+00004162  123C 0016                165      MOVE.B  #COMMA,D1
+00004166  103C 0006                166      MOVE.B  #6,D0
+0000416A  4E4F                     167      TRAP    #15    
+0000416C                           168  
+Line 169 ERROR: Undefined symbol
+0000416C  6100 7BA8                169      BSR     GET_EFFECTIVE_ADDRESS_ea_DEST 
+00004170                           170      
+Line 171 ERROR: Undefined symbol
+00004170  6000 7BA4                171      BRA     ITERATE
+00004174                           172  
+00004174                           173  GET_EFFECTIVE_ADDRESS_OR_SRC   
+00004174  BCFC 0000                174      CMP.W   #%000,A6
+Line 175 ERROR: Undefined symbol
+00004178  6700 7B9C                175      BEQ     DISPLAY_Dn_ea
+0000417C                           176  
+0000417C  BCFC 0002                177      CMP.W   #%010,A6
+Line 178 ERROR: Undefined symbol
+00004180  6700 7B94                178      BEQ     DISPLAY_An_ADDRESS_ea
+00004184                           179      
+00004184  BCFC 0003                180      CMP.W   #%011,A6
+Line 181 ERROR: Undefined symbol
+00004188  6700 7B8C                181      BEQ     DISPLAY_An_ADDRESS_INCREMENT_ea
+0000418C                           182      
+0000418C  BCFC 0004                183      CMP.W   #%100,A6
+Line 184 ERROR: Undefined symbol
+00004190  6700 7B84                184      BEQ     DISPLAY_An_ADDRESS_DECREMENT_ea
+00004194                           185      
+00004194  BCFC 0007                186      CMP.W   #%111,A6
+Line 187 ERROR: Undefined symbol
+00004198  6700 7B7C                187      BEQ     DISPLAY_ADDRESS_OR_DATA_ea
+0000419C                           188      
+Line 189 ERROR: Undefined symbol
+0000419C  6000 7B78                189      BRA     IF_INVALID_OP
+000041A0                           190  
+000041A0                           191  
+000041A0                           192  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000041A0                           193  ;DIVU;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000041A0                           194  
+000041A0                           195  ;NOT IMPLEMENTED YET!
+000041A0                           196  
+000041A0                           197  DISPLAY_DIVU
+Line 198 ERROR: Undefined symbol
+000041A0  6000 7B74                198      BRA     IF_INVALID_OP
+000041A4                           199  
+Line 200 WARNING: END directive missing, starting address not set
+
+37 errors detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DETERMINE_DIVU_OR   4054
+DISPLAY_BYTE_DEST_OR  410E
+DISPLAY_BYTE_SRC_OR  40A8
+DISPLAY_DIVU        41A0
+DISPLAY_LONG_DEST_OR  4152
+DISPLAY_LONG_SRC_OR  40EC
+DISPLAY_OR          4068
+DISPLAY_WORD_DEST_OR  4130
+DISPLAY_WORD_SRC_OR  40CA
+GET_EFFECTIVE_ADDRESS_OR_SRC  4174
+IF_DIVU_OR          4000

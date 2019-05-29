@@ -5,7 +5,7 @@
 * Description:
 *-----------------------------------------------------------
 
-    ORG     $3000
+    ORG     $2000
     
 IF_ADD_ADDA
     MOVE.W  A4,D3
@@ -65,7 +65,8 @@ DISPLAY_ADDA_W
     LEA     W_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
-
+    
+    BSR     GET_EFFECTIVE_ADDRESS_ea
     BRA     DISPLAY_ADDA_REGISTER
 
 DISPLAY_ADDA_L
@@ -199,13 +200,13 @@ DISPLAY_An_ADDRESS_DECREMENT_ea
     RTS
 
 DISPLAY_ADDRESS_OR_DATA_ea
-    CMP.W   #%000,A6
+    CMP.W   #%000,D4
     BEQ     DISPLAY_ADDRESS_WORD_ea
     
-    CMP.W   #%001,A6
+    CMP.W   #%001,D4
     BEQ     DISPLAY_ADDRESS_LONG_ea
     
-    CMP.W   #%100,A6
+    CMP.W   #%100,D4
     BEQ     DISPLAY_DATA_ea
     
     BRA     IF_INVALID_OP
@@ -263,7 +264,6 @@ DISPLAY_DATA_WORD_ea
     AND.L   #$0000FFFF,D1
     MOVE.B  #15,D0
     TRAP    #15
-    
     RTS
     
 DISPLAY_DATA_LONG_ea
@@ -277,7 +277,7 @@ DISPLAY_DATA_LONG_ea
     MOVE.B  #6,D0
     TRAP    #15
     
-    MOVE.W  (A2),D1
+    MOVE.L  (A2),D1
     MOVE.B  #15,D0
     TRAP    #15
     
@@ -458,6 +458,8 @@ GET_EFFECTIVE_ADDRESS_ea_DEST
 
     
     
+
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

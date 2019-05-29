@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $5000
+    ORG    $2500
 
 IF_ADDQ 
     MOVE.W  A4,D3
@@ -83,12 +83,12 @@ DISPLAY_ADDQ_LONG
     BRA     DISPLAY_ADDQ_COMMA    
     
 DISPLAY_ADDQ_COMMA
-    LEA     NUM,A1
-    MOVE.B  #14,D0
+    MOVE.B  #NUM,D1
+    MOVE.B  #6,D0
     TRAP    #15
     
-    LEA     HEX,A1
-    MOVE.B  #14,D0
+    MOVE.B  #HEX,D1
+    MOVE.B  #6,D0
     TRAP    #15
 
     MOVE.B  #16,D2
@@ -96,8 +96,8 @@ DISPLAY_ADDQ_COMMA
     MOVE.L  A4,D1
     TRAP    #15
 
-    LEA     COMMA,A1
-    MOVE.B  #14,D0
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
     TRAP    #15
     
     BSR     GET_EFFECTIVE_ADDRESS_ea
@@ -139,6 +139,8 @@ DISPLAY_ADDRESS_ea
     
     
     
+
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

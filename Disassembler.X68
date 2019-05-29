@@ -4,13 +4,18 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
+        INCLUDE TestOps.X68
+        INCLUDE MISC_CODE.X68
+        INCLUDE DIVU_OR.X68
         INCLUDE MOVE_MOVEA.X68
         INCLUDE ADD_ADDA.X68
         INCLUDE SUB.X68
         INCLUDE ADDQ.X68
+        INCLUDE MULS_AND.X68
+        
 START   ORG    $1000
 
-                      ; first instruction of program
+    ; first instruction of program
     
     ;TODO: put in an actual line counter 
     MOVE.L  #$6000,A2
@@ -53,13 +58,19 @@ PARSE_COMPLEX
     BEQ     IF_SUB
     
     CMP.W   #ADDQ_CODE,D3
-    BEQ     IF_SUB
+    BEQ     IF_ADDQ
+    
+    CMP.W   #MULS_AND_CODE,D3
+    BEQ     IF_MULS_AND
+    
+    CMP.W   #DIVU_OR_CODE,D3
+    BEQ     IF_DIVU_OR
+    
+    CMP.W   #MISC_CODE,D3
+    BEQ     IF_MISC
     
     BRA     IF_INVALID_OP
     
-    
-* Put program code here
-
 IF_NOP
     LEA     NOP_OUTPUT,A1
     MOVE.B  #14,D0
@@ -128,15 +139,15 @@ RTS_CODE        EQU     $4E75
 MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B (done)
 MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W (done)
 MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L (done)
-MOVEQ_CODE      EQU     $7000 ; MOVEQ (Andrey)
-DIVU_OR_CODE    EQU     $8000 ; DIVU, OR
+MOVEQ_CODE      EQU     $7000 ; MOVEQ 
+DIVU_OR_CODE    EQU     $8000 ; DIVU, OR (OR done)
 SUB_CODE        EQU     $9000 ; SUB (done)
-MULS_AND_CODE   EQU     $A000 ; MULS, AND
+MULS_AND_CODE   EQU     $C000 ; MULS, AND (done)
 ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
 LS_CODE         EQU     $E000 ; LOGICAL SHIFTS
 ADDQ_CODE       EQU     $5000 ; ADDQ (done)
 Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
-MISC_CODE       EQU     $4000 ; MULS, LEA, NOT, JSR, MOVEM
+MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (LEA, NOT, JSR done)
 
 ;Sample outputs
 NOP_OUTPUT      DC.B    'NOP',CR,LF,0
@@ -148,6 +159,13 @@ ADDA_OUTPUT     DC.B    'ADDA',0
 ADD_OUTPUT      DC.B    'ADD',0
 SUB_OUTPUT      DC.B    'SUB',0
 ADDQ_OUTPUT     DC.B    'ADDQ',0
+AND_OUTPUT      DC.B    'AND',0
+MULS_OUTPUT     DC.B    'MULS',0
+OR_OUTPUT       DC.B    'OR',0
+DIVU_OUTPUT     DC.B    'DIVU',0
+NOT_OUTPUT      DC.B    'NOT',0
+JSR_OUTPUT      DC.B    'JSR ',0
+LEA_OUTPUT      DC.B    'LEA',0
 
 B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
@@ -157,6 +175,10 @@ INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
+
+
+
 
 
 

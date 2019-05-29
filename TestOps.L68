@@ -1,0 +1,32 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 5/28/2019 11:33:25 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00006000                             7      ORG    $6000
+00006000                             8  * MOVE.B <ea>,<ea>
+00006000                             9  *--------------------MOVEA--------------------------
+Line 10 ERROR: Invalid syntax
+00006000                            10  SUB.B   D1,D0
+00006000  9011                      11      SUB.B   (A1),D0
+00006002  9019                      12      SUB.B   (A1)+,D0
+00006004  9021                      13      SUB.B   -(A1),D0
+00006006  9038 1000                 14      SUB.B   $1000,D0
+0000600A  9039 00008000             15      SUB.B   $8000,D0
+00006010  0400 007F                 16      SUB.B   #127,D0
+00006014  0400 0080                 17      SUB.B   #-128,D0
+00006018  0400 0000                 18      SUB.B   #0,D0
+Line 19 WARNING: END directive missing, starting address not set
+
+1 error detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------

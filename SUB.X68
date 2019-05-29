@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $4000
+    ORG    $3000
 
 IF_SUB 
     MOVE.W  A4,D3
@@ -51,6 +51,7 @@ DISPLAY_SUB
     TRAP    #15
     
     BRA     DISPLAY_ARGS
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
