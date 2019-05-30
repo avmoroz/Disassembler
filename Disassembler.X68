@@ -5,6 +5,7 @@
 * Description:
 *-----------------------------------------------------------
         INCLUDE TestOps.X68
+        INCLUDE Bcc_BRA.X68
         INCLUDE MOVEQ.X68
         INCLUDE MISC_CODE.X68
         INCLUDE DIVU_OR.X68
@@ -72,6 +73,9 @@ PARSE_COMPLEX
     
     CMP.W   #MOVEQ_CODE,D3
     BEQ     IF_MOVEQ
+    
+    CMP.W   #Bcc_BRA_CODE,D3
+    BEQ     IF_Bcc_BRA
     
     BRA     IF_INVALID_OP
     
@@ -171,6 +175,12 @@ NOT_OUTPUT      DC.B    'NOT',0
 JSR_OUTPUT      DC.B    'JSR ',0
 LEA_OUTPUT      DC.B    'LEA',0
 MOVEQ_OUTPUT    DC.B    'MOVEQ ',0
+
+BRA_OUTPUT      DC.B    'BRA ',0
+BGT_OUTPUT      DC.B    'BGE ',0
+BLE_OUTPUT      DC.B    'BLE ',0
+BEQ_OUTPUT      DC.B    'BEQ ',0
+
 
 B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
