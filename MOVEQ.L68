@@ -1,0 +1,69 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 5/29/2019 9:43:04 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00005000                             7      ORG     $5000
+00005000                             8  
+00005000                             9  IF_MOVEQ
+00005000  360C                      10      MOVE.W  A4,D3
+00005002                            11      
+00005002  C67C F100                 12      AND.W   #$F100,D3
+00005006  B67C 7000                 13      CMP.W   #$7000,D3
+0000500A  6700 0006                 14      BEQ     DISPLAY_MOVEQ
+0000500E                            15      
+Line 16 ERROR: Undefined symbol
+0000500E  6000 6D06                 16      BRA     IF_INVALID_OP
+00005012                            17      
+00005012                            18  DISPLAY_MOVEQ
+Line 19 ERROR: Undefined symbol
+00005012  43F9 004DBD16             19      LEA     MOVEQ_OUTPUT,A1
+00005018  103C 000E                 20      MOVE.B  #14,D0
+0000501C  4E4F                      21      TRAP    #15
+0000501E                            22      
+0000501E                            23      ;Display the value
+0000501E  143C 0010                 24      MOVE.B  #16,D2
+00005022  360C                      25      MOVE.W  A4,D3
+00005024  C67C 00FF                 26      AND.W   #$00FF,D3
+00005028                            27      
+00005028  103C 000F                 28      MOVE.B  #15,D0
+0000502C  2203                      29      MOVE.L  D3,D1
+0000502E  C6BC 000000FF             30      AND.L   #$000000FF,D3
+00005034  4E4F                      31      TRAP    #15
+00005036                            32      
+Line 33 ERROR: Undefined symbol
+00005036  123C 0016                 33      MOVE.B  #COMMA,D1
+0000503A  103C 0006                 34      MOVE.B  #6,D0
+0000503E  4E4F                      35      TRAP    #15
+00005040                            36      
+00005040                            37      ;Display the resgister
+00005040  360C                      38      MOVE.W  A4,D3
+00005042  C67C 0E00                 39      AND.W   #$0E00,D3
+00005046  EF5B                      40      ROL.W   #7,D3
+00005048                            41      
+00005048  103C 000F                 42      MOVE.B  #15,D0
+0000504C  2203                      43      MOVE.L  D3,D1
+0000504E  C6BC 00000007             44      AND.L   #$00000007,D3
+00005054  4E4F                      45      TRAP    #15
+00005056                            46      
+Line 47 ERROR: Undefined symbol
+00005056  6000 6CBE                 47      BRA     ITERATE
+0000505A                            48  
+0000505A                            49  
+0000505A                            50      
+Line 51 WARNING: END directive missing, starting address not set
+
+4 errors detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DISPLAY_MOVEQ       5012
+IF_MOVEQ            5000

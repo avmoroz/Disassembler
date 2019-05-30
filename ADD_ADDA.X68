@@ -249,6 +249,23 @@ DISPLAY_DATA_ea
 
     BRA     IF_INVALID_OP
 
+DISPLAY_DATA_BYTE_ea
+    ADDQ    #2,A2
+    
+    MOVE.B  #NUM,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #HEX,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.W  (A2),D1
+    AND.L   #$000000FF,D1
+    MOVE.B  #15,D0
+    TRAP    #15
+    RTS
+
 DISPLAY_DATA_WORD_ea
     ADDQ    #2,A2
     
@@ -458,6 +475,7 @@ GET_EFFECTIVE_ADDRESS_ea_DEST
 
     
     
+
 
 
 *~Font name~Courier New~

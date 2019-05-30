@@ -16,6 +16,8 @@ IF_ADDQ
     AND.L   #$0000F000,D4
     ROL.W   #4,D4
     MOVE.L  D4,A4 ;data
+    
+    BSR     CHECK_FOR_EIGHT
 
     ;Get the opmode
     AND.W   #$0FFF,D3
@@ -135,10 +137,18 @@ DISPLAY_ADDRESS_ea
     BRA     IF_INVALID_OP
     
 
+;subroutine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+CHECK_FOR_EIGHT
+    CMP.W   #$0,A4
+    BEQ     SET_TO_EIGHT 
+    RTS
 
+SET_TO_EIGHT
+    MOVE.L  #$8,A4
+    RTS
     
     
-    
+
 
 
 *~Font name~Courier New~

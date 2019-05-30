@@ -5,6 +5,7 @@
 * Description:
 *-----------------------------------------------------------
         INCLUDE TestOps.X68
+        INCLUDE MOVEQ.X68
         INCLUDE MISC_CODE.X68
         INCLUDE DIVU_OR.X68
         INCLUDE MOVE_MOVEA.X68
@@ -68,6 +69,9 @@ PARSE_COMPLEX
     
     CMP.W   #MISC_CODE,D3
     BEQ     IF_MISC
+    
+    CMP.W   #MOVEQ_CODE,D3
+    BEQ     IF_MOVEQ
     
     BRA     IF_INVALID_OP
     
@@ -166,6 +170,7 @@ DIVU_OUTPUT     DC.B    'DIVU',0
 NOT_OUTPUT      DC.B    'NOT',0
 JSR_OUTPUT      DC.B    'JSR ',0
 LEA_OUTPUT      DC.B    'LEA',0
+MOVEQ_OUTPUT    DC.B    'MOVEQ ',0
 
 B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
@@ -175,6 +180,7 @@ INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
 
 
 

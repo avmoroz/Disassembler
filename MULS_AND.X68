@@ -181,11 +181,35 @@ GET_EFFECTIVE_ADDRESS_AND_SRC
     BEQ     DISPLAY_An_ADDRESS_DECREMENT_ea
     
     CMP.W   #%111,A6
-    BEQ     DISPLAY_ADDRESS_OR_DATA_ea
+    BEQ     DISPLAY_ADDRESS_OR_DATA_AND_SRC
     
     BRA     IF_INVALID_OP
 
+DISPLAY_ADDRESS_OR_DATA_AND_SRC
+    CMP.W   #%000,D4
+    BEQ     DISPLAY_ADDRESS_WORD_ea
+    
+    CMP.W   #%001,D4
+    BEQ     DISPLAY_ADDRESS_LONG_ea
+    
+    CMP.W   #%100,D4
+    BEQ     DISPLAY_DATA_ea_AND_SRC
+    
+    BRA     IF_INVALID_OP
+
+DISPLAY_DATA_ea_AND_SRC
+    CMP.W   #%000,A5
+    BEQ     DISPLAY_DATA_BYTE_ea
+
+    CMP.W   #%001,A5
+    BEQ     DISPLAY_DATA_WORD_ea
+    
+    CMP.W   #%010,A5
+    BEQ     DISPLAY_DATA_LONG_ea
+
+    BRA     IF_INVALID_OP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;MULS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISPLAY_MULS
@@ -212,6 +236,7 @@ DISPLAY_MULS
     
     
     
+
 
 
 
