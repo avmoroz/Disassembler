@@ -256,6 +256,8 @@ DISPLAY_NUM
     MOVE.B  #6,D0
     TRAP    #15
     
+    BSR     CHECK_IF_0
+    
     MOVE.B  #16,D2
     MOVE.B  #15,D0
     MOVE.B  D4,D1
@@ -282,9 +284,19 @@ DISPLAY_REGISTER_2
     
     BRA     ITERATE
 
-
-
+;Subroutine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+CHECK_IF_0
+    CMP.B   #0,D4
+    BEQ     SET_TO_ZERO
+    
+    RTS
+    
+SET_TO_ZERO
+    MOVE.L  #8,D4
+    RTS
    
+
+
 
 
 
