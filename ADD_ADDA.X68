@@ -5,7 +5,7 @@
 * Description:
 *-----------------------------------------------------------
 
-    ORG     $2000
+    ORG     $1840
     
 IF_ADD_ADDA
     MOVE.W  A4,D3
@@ -475,6 +475,8 @@ GET_EFFECTIVE_ADDRESS_ea_DEST
 
     
     
+
+
 
 
 

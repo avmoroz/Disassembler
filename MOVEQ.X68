@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG     $5000
+    ORG     $3100
 
 IF_MOVEQ
     MOVE.W  A4,D3
@@ -57,6 +57,7 @@ DISPLAY_MOVEQ
 
 
     
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

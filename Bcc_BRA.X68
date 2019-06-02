@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $5500
+    ORG    $2080
 
 IF_Bcc_BRA
     MOVE.W  A4,D3   
@@ -73,12 +73,12 @@ DISPLAY_BEQ
     AND.W   #$00FF,D3
     
     CMP.B   #$00,D3
-    BRA     PARSE_DISPLACEMENT_BYTE
+    BRA     PARSE_DISPLACEMENT_WORD
     
     CMP.B   #$FF,D3
     BRA     IF_INVALID_OP ;We don't handle 32 bit
     
-    BRA     PARSE_DISPLACEMENT_WORD
+    BRA     PARSE_DISPLACEMENT_BYTE
     
 PARSE_DISPLACEMENT_BYTE
     MOVE.L  #$00000000,D1
@@ -92,6 +92,9 @@ PARSE_DISPLACEMENT_BYTE
 PARSE_DISPLACEMENT_WORD
     MOVE.L  #$00000000,D1
 
+    ADDQ    #2,A2
+    MOVE.W  (A2),D3
+    
     AND.L   #$FFFF0000,D3
     CMP.W   #$A000,D3    
     BGE     IF_NEGATIVE_WORD
@@ -112,6 +115,8 @@ DISPLAY_DISPLACEMENT_AS_ADDRESS
     MOVE.B  #3,D0
     TRAP    #15
     BRA     ITERATE
+
+
 
 
 *~Font name~Courier New~

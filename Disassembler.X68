@@ -5,6 +5,7 @@
 * Description:
 *-----------------------------------------------------------
         INCLUDE TestOps.X68
+        INCLUDE LogicalShift.X68
         INCLUDE Bcc_BRA.X68
         INCLUDE MOVEQ.X68
         INCLUDE MISC_CODE.X68
@@ -77,6 +78,9 @@ PARSE_COMPLEX
     CMP.W   #Bcc_BRA_CODE,D3
     BEQ     IF_Bcc_BRA
     
+    CMP.W   #LS_CODE,D3
+    BEQ     IF_LS_CODE
+    
     BRA     IF_INVALID_OP
     
 IF_NOP
@@ -140,6 +144,7 @@ MINUS           EQU     $2D
 NUM             EQU     $23
 HEX             EQU     $24
 COMMA           EQU     $2C
+SPACE           EQU     $20
 
 ;Codes to be parsed
 NOP_CODE        EQU     $4E71
@@ -147,15 +152,30 @@ RTS_CODE        EQU     $4E75
 MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B (done)
 MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W (done)
 MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L (done)
-MOVEQ_CODE      EQU     $7000 ; MOVEQ 
-DIVU_OR_CODE    EQU     $8000 ; DIVU, OR (OR done)
+MOVEQ_CODE      EQU     $7000 ; MOVEQ (done)
+DIVU_OR_CODE    EQU     $8000 ; [DIVU], OR (done)
 SUB_CODE        EQU     $9000 ; SUB (done)
 MULS_AND_CODE   EQU     $C000 ; MULS, AND (done)
 ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
-LS_CODE         EQU     $E000 ; LOGICAL SHIFTS
+LS_CODE         EQU     $E000 ; LOGICAL SHIFTS (in progress)
 ADDQ_CODE       EQU     $5000 ; ADDQ (done)
 Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
 MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (LEA, NOT, JSR done)
+
+
+LSR_ADDRESS     EQU     $E4C0
+LSL_ADDRESS     EQU     $E5C0
+ASR_ADDRESS     EQU     $E0C0
+ASL_ADDRESS     EQU     $E1C0
+ROR_ADDRESS     EQU     $E6C0
+ROL_ADDRESS     EQU     $E7C0
+
+LSR_REGISTER    EQU     $E01A
+LSL_REGISTER    EQU     $E11A
+ASR_REGISTER    EQU     $E00A
+ASL_REGISTER    EQU     $E10A
+ROR_REGISTER    EQU     $E6C0
+ROL_REGISTER    EQU     $E7C0
 
 ;Sample outputs
 NOP_OUTPUT      DC.B    'NOP',CR,LF,0
@@ -181,6 +201,12 @@ BGT_OUTPUT      DC.B    'BGE ',0
 BLE_OUTPUT      DC.B    'BLE ',0
 BEQ_OUTPUT      DC.B    'BEQ ',0
 
+LSR_OUTPUT      DC.B    'LSR',0
+LSL_OUTPUT      DC.B    'LSL',0
+ASR_OUTPUT      DC.B    'ASR',0
+ASL_OUTPUT      DC.B    'ASL',0
+ROR_OUTPUT      DC.B    'ROR',0
+ROL_OUTPUT      DC.B    'ROL',0
 
 B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
@@ -190,6 +216,8 @@ INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
+
 
 
 

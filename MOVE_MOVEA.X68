@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $1500
+    ORG    $1420
     
 PARSE_MOVE
     MOVE.W  A4,D3
@@ -468,6 +468,7 @@ DISPLAY_ADDRESS_LONG_DEST
     ADDQ    #2,A2
 
     BRA     ITERATE
+
 
 
 
