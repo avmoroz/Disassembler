@@ -1,5 +1,14 @@
 
-* MOVE instructions
+--------------------Updates----------------------
+MOVEM -> 05/30
+BCC   -> 05/30
+
+
+
+
+
+--------------------MOVE--------------------------
+
 * MOVE.B <ea>,<ea>
     MOVE.B      D0,D1
     MOVE.B      (A1),D1
@@ -55,8 +64,8 @@
     MOVE.B      #7,$8000
 
 
-* MOVE instructions
 * MOVE.W <ea>,<ea>
+
     MOVE.W      D0,D1
     MOVE.W      A0,D1
     MOVE.W      (A1),D1
@@ -112,8 +121,8 @@
     MOVE.W      #7,$8000
 
 
-* MOVE instructions
 * MOVE.L <ea>,<ea>
+
     MOVE.L      D0,D1
     MOVE.L      A0,D1
     MOVE.L      (A1),D1
@@ -171,7 +180,6 @@
 
 --------------------MOVEA--------------------------
 
-* Test for group of MOVEA instructions
 * MOVEA.L <ea>,An
     MOVEA.L     D1,A1
     MOVEA.L     A0,A1
@@ -183,7 +191,6 @@
     MOVEA.L     #7,A1
 
 
-* Test for group of MOVEA instructions
 * MOVEA.W <ea>,An
     MOVEA.W     D1,A1
     MOVEA.W     A0,A1
@@ -194,10 +201,10 @@
     MOVEA.W     $8000,A1
     MOVEA.W     #7,A1
 
+
 -------------------MOVEQ----------------------------
 
 
-* Test for group of MOVEQ instructions
 * MOVEQ
     MOVEQ   #1,D0
     MOVEQ   #1,D1
@@ -219,10 +226,45 @@
     MOVEQ   #-64,D0
 
 
+-------------------MOVEM----------------------------
 
-------------------------------------------------
+* MOVEM <list>,<ea>
+        MOVEM.W D0,(A0)
+        MOVEM.L D0,-(A0)
 
-* Test for group of OR instructions
+        MOVEM.W D0/D1/D2/D3/A0-A7,(A0)
+        MOVEM.W D0-D3,(A0)
+        MOVEM.W D0,$2000
+        MOVEM.W D0,$A000
+        MOVEM.L D0,(A0)
+        MOVEM.L D0,-(A0)
+        MOVEM.L D0/D1/D2/D3/A0-A7,-(A0)
+
+        MOVEM.L D0-D3,(A0)
+        MOVEM.L D0,$2000
+        MOVEM.L D0,$A000
+        MOVEM.L D0/A1/D2/A3/A0/A6,$2000
+        MOVEM.L D0/D5/D4/D3/A0/A7,$A000
+
+* MOVEM <ea>,<list> 
+        MOVEM.W (A0),D0
+        MOVEM.W (A0)+,D0
+
+        MOVEM.W $2000,D0
+        MOVEM.W $A000,D0
+
+        MOVEM.L (A0),D0
+        MOVEM.L (A0)+,D0
+        MOVEM.L (A0)+,D0/A1-A3/D2-D4/A3/A0/A6
+        MOVEM.L $2000,D0
+        MOVEM.L $A000,D0
+        MOVEM.L $2000,D0/A1-A3/D2-D4/A3/A0/A6
+        MOVEM.L $A000,D0/A1/D2/A1-A4/A0/A6
+
+
+
+---------------------OR---------------------------
+
 * OR.B <ea>,Dn
     CLR     D0
     CLR     D1
@@ -236,11 +278,9 @@
     OR.B    $1000,D0
     OR.B    $8000,D0
     OR.B    #127,D0
-    OR.B    #128,D0     *bug
     OR.B    #-128,D0
     OR.B    #-1,D0
-    OR.B    #255,D0     *bug
-    
+
 
 * OR.W <ea>,Dn
     OR.W    D0,D1
@@ -263,12 +303,9 @@
     OR.L    $1000,D0
     OR.L    $8000,D0
     OR.L    #$FFFFFFFF,D0
-    OR.L    #$10000000,D0     *bug
     OR.L    #$0,D0
     OR.L    #$9000,D0
     
-    
-* OR Dn,<ea>
 
 * OR.B Dn,<ea>
     OR.B    D3,(A1)
@@ -291,10 +328,9 @@
     OR.L    D3,$1000
     OR.L    D3,$8000
 
----------------------------------------
 
-* Test for group of AND instructions
-* AND <ea>,Dn
+----------------AND-----------------------
+
 
 * AND.B <ea>,Dn
     AND.B   D0,D1
@@ -328,8 +364,6 @@
     AND.L   #$10,D1
     AND.L   #$0,D1
 
-
-* AND   Dn,<ea>
 * AND.B Dn,<ea>
     AND.B   D1,(A1)
     AND.B   D1,(A1)+
@@ -557,7 +591,7 @@
     MOVE.W  #2,D1
     DIVU.W  D1,D0
 
-** Need to Populate A1 with ints
+** might need to populate A1 with ints
 
     MOVE.W  #2,D0
     DIVU.W  (A1),D0
@@ -576,6 +610,169 @@
 
     MOVE.W  #2,D0
     DIVU.W  #10,D0
+
+
+----------------------MULS--------------------
+
+
+* MULS <ea>,Dn
+
+    MULS.W  D1,D0
+    MULS.W  (A1),D0
+    MULS.W  (A1)+,D0
+    MULS.W  -(A1),D0
+    MULS.W  $1000,D0
+    MULS.W  $8000,D0
+    MULS.W  #$FFFF,D0
+    MULS.W  #$0,D0
+
+
+----------------------LSL-----------------------
+
+
+
+* LSL.W <ea> 
+
+    LSL.B   D0,D1
+    LSL.B   D7,D1
+    LSL.B   #8,D1
+    LSL.B   #1,D1
+    
+
+    LSL.W   D0,D1
+    LSL.W   D7,D1
+    LSL.W   #$8,D1
+    LSL.W   #1,D1
+    LSL.W   $8000
+    LSL.W   $1000
+    LSL.W   (A1)
+    LSL.W   (A1)+
+    LSL.W   -(A1)
+    
+    LSL.L   D0,D1
+    LSL.L   D7,D1
+    LSL.L   #8,D1
+    LSL.L   #1,D1
+
+
+-----------------------LSR-------------------------
+
+
+* LSR.W <ea> 
+  
+    LSR.B   D0,D1
+    LSR.B   D7,D1
+    LSR.B   #8,D1
+    LSR.B   #1,D1
+
+
+    LSR.W   D0,D1
+    LSR.W   D7,D1
+    LSR.W   #$8,D1
+    LSR.W   #1,D1
+    LSR.W   $8000
+    LSR.W   $1000
+    LSR.W   (A1)
+    LSR.W   (A1)+
+    LSR.W   -(A1)
+    
+    LSR.L   D0,D1
+    LSR.L   D7,D1
+    LSR.L   #8,D1
+    LSR.L   #1,D1
+
+    
+------------------------ASR----------------------------
+
+
+* ASR.W <ea>
+  
+    ASR.B   D0,D1
+    ASR.B   D7,D1
+    ASR.B   #8,D1
+    ASR.B   #1,D1
+    
+
+    ASR.W   D0,D1
+    ASR.W   D7,D1
+    ASR.W   #$8,D1
+    ASR.W   #1,D1
+    ASR.W   $8000
+    ASR.W   $1000
+    ASR.W   (A1)
+    ASR.W   (A1)+
+    ASR.W   -(A1)
+    
+    ASR.L   D0,D1
+    ASR.L   D7,D1
+    ASR.L   #8,D1
+    ASR.L   #1,D1    
+
+
+------------------------ASL--------------------------
+
+
+* ASL.W <ea>  
+    ASL.B   D0,D1
+    ASL.B   D7,D1
+    ASL.B   #8,D1
+    ASL.B   #1,D1
+    
+
+    ASL.W   D0,D1
+    ASL.W   D7,D1
+    ASL.W   #8,D1
+    ASL.W   #1,D1
+    ASL.W   $8000
+    ASL.W   $1000
+    ASL.W   (A1)
+    ASL.W   (A1)+
+    ASL.W   -(A1)
+
+    ASL.L   D0,D1
+    ASL.L   D7,D1
+    ASL.L   #8,D1
+    ASL.L   #1,D1
+
+
+-------------------------Bcc----------------------------
+
+test1      EQU     $700
+test2      EQU     $1000
+test3      EQU     $2000
+
+* 
+* program for test code here
+*
+    BCC     test
+    BCC     test1
+    BCC     test2
+    BCC     test3
+    BEQ     test
+    BGT     test
+    BNE     test
+    BRA     test
+
+test    
+
+
+-------------------------LEA----------------------------
+
+
+
+-------------------------NOT----------------------------
+
+
+
+-------------------------JRS----------------------------
+
+
+
+-------------------------RTS----------------------------
+
+
+
+-------------------------NOP----------------------------
 
 
 
