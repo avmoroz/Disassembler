@@ -18,7 +18,7 @@ IF_MOVEM
     
     BRA     IF_INVALID_OP
     
-IF_MOVEM_TO_ADDRESS
+IF_MOVEM_TO_REGISTER
     LEA     MOVEM_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
@@ -27,41 +27,59 @@ IF_MOVEM_TO_ADDRESS
     AND.W   #$0080,D3
     
     CMP.W   #$0080,D3   
-    BEQ     LONG_FOR_TO_ADDRESS
+    BEQ     LONG_FOR_TO_REGISTER
     
-    BRA     WORD_FOR_TO_ADDRESS
+    BRA     WORD_FOR_TO_REGISTER
 
-WORD_FOR_TO_ADDRESS
+WORD_FOR_TO_REGISTER
     LEA     W_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     
-    BSR     DISPLAY_EA_TO_ADDRESS
+    ADDQ    #2,A2
+    MOVE.W  (A2),A5
+    
+    BSR     DISPLAY_EA_TO_REGISTER
     
     MOVE.B  #COMMA,D1
     MOVE.B  #6,D0
     TRAP    #15
 
-    BSR     GET_MASK
-    BSR     LOAD_MASK
+    MOVE.L  #0,A6
+    MOVE.W  A5,D3
+    MOVE.W  A5,D4
+    
+    CMP.L   #0,D3
+    BEQ     IF_INVALID_OP
+    
+    BSR     PARSE_MASK
     BRA     ITERATE
 
-LONG_FOR_TO_ADDRESS
+LONG_FOR_TO_REGISTER
     LEA     L_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     
-    BSR     DISPLAY_EA_TO_ADDRESS
+    ADDQ    #2,A2
+    MOVE.W  (A2),A5
+    
+    BSR     DISPLAY_EA_TO_REGISTER
     
     MOVE.B  #COMMA,D1
     MOVE.B  #6,D0
     TRAP    #15
 
-    BSR     GET_MASK
-    BSR     LOAD_MASK
+    MOVE.L  #0,A6
+    MOVE.W  A5,D3
+    MOVE.W  A5,D4
+    
+    CMP.L   #0,D3
+    BEQ     IF_INVALID_OP
+    
+    BSR     PARSE_MASK
     BRA     ITERATE
     
-DISPLAY_EA_TO_ADDRESS
+DISPLAY_EA_TO_REGISTER
     MOVE.W  A4,D3   
     AND.W   #$003A,D3
     LSR.L   #3,D3
@@ -79,59 +97,15 @@ DISPLAY_EA_TO_ADDRESS
     BEQ     GET_WORD_OR_LONG
     
     BRA     IF_INVALID_OP
-
-LOAD_MASK
-    MOVE.W  A5,D3
-    MOVE.W  A5,D4
-    MOVE.L  #0,A6
-    
-    CMP.L   #0,D3
-    BEQ     IF_INVALID_OP
-    
-    BRA     PARSE_MASK
     
 PARSE_MASK
     CMP.L   #16,A6
     BEQ     END_PARSER
 
-    AND.L   #$00000003,D3
+    AND.L   #$00000001,D3
     
-    CMP.W   #%11,D3
-    BEQ     DISPLAY_WITH_DASH
-    
-    CMP.W   #%01,D3
-    BEQ     DISPLAY_WITHOUT_DASH
-    
-    CMP.W   #0,D3
-    BGT     CHECK_DRAW_SLASH
-    
-    BRA     ITERATE_MASK
-    
-DISPLAY_WITH_DASH
-    BSR     DISPLAY_REG
-    
-    BSR     DISPLAY_DASH
-    
-    MOVE.L #1,D6
-    
-    BRA     ITERATE_MASK
-
-
-DISPLAY_WITHOUT_DASH
-    MOVE.L  #0,D6
-    MOVE.L  #1,D5
-    BSR     DISPLAY_REG
-
-CHECK_DRAW_SLASH
-    CMP.W   #1,D5
-    BEQ     DISPLAY_SLASH
-    
-    BRA     ITERATE_MASK
-
-DISPLAY_SLASH
-    MOVE.B  #SLASH,D1
-    MOVE.B  #6,D0
-    TRAP    #15
+    CMP.W   #%1,D3
+    BEQ     DISPLAY_REG
     
     BRA     ITERATE_MASK
     
@@ -379,18 +353,44 @@ DISPLAY_A7
     MOVE.L  #7,D1
     TRAP    #15
     
-    BRA     ITERATE_MASK
+    RTS
 
 ITERATE_MASK
+    BSR     IF_DRAW_SLASH 
+
     ADDQ    #1,A6
     LSR.W   #1,D4
     
     MOVE.W  D4,D3
+    
+    CMP.W   #$F,A6
+    BGT     END_PARSER
+    
     BRA     PARSE_MASK
     
+DISPLAY_EA_TO_ADDRESS
+    MOVE.W  A4,D3   
+    AND.W   #$003A,D3
+    LSR.L   #3,D3
+    
+    MOVE.W  A4,D4   
+    AND.W   #$0007,D4
+    
+    CMP.W   #%010,D3
+    BEQ     DISPLAY_An_ADDRESS_ea
+    
+    CMP.W   #%100,D3
+    BEQ     DISPLAY_An_ADDRESS_DECREMENT_ea
+    
+    CMP.W   #%111,D3
+    BEQ     GET_WORD_OR_LONG
+    
+    BRA     IF_INVALID_OP
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-IF_MOVEM_TO_REGISTER
+IF_MOVEM_TO_ADDRESS
+    MOVE.L  #0,D5
+
     LEA     MOVEM_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
@@ -399,37 +399,356 @@ IF_MOVEM_TO_REGISTER
     AND.W   #$0080,D3
     
     CMP.W   #$0080,D3   
-    BEQ     LONG_FOR_TO_REGISTER
+    BEQ     LONG_FOR_TO_ADDRESS
     
-    BRA     WORD_FOR_TO_REGISTER
+    BRA     WORD_FOR_TO_ADDRESS
 
-WORD_FOR_TO_REGISTER
+WORD_FOR_TO_ADDRESS
     LEA     W_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     
-   
+    BSR     GET_MASK_ADDRESS
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15
 
-LONG_FOR_TO_REGISTER
+    BSR     DISPLAY_EA_TO_ADDRESS
+
+    BRA     ITERATE
+
+LONG_FOR_TO_ADDRESS
     LEA     L_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     
+    BSR     GET_MASK_ADDRESS
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+
+    BSR     DISPLAY_EA_TO_ADDRESS
+
+    BRA     ITERATE
+    
+
+GET_MASK_ADDRESS    
+    MOVE.W  A4,D3   
+    AND.W   #$003A,D3
+    LSR.L   #3,D3
+    
+    ADDQ    #2,A2
+    MOVE.W  (A2),A5
+    
+    CMP.W   #%100,D3
+    BRA     LOAD_MASK_ADDRESS    
+    
+    BRA     PARSE_MASK
+    
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+LOAD_MASK_ADDRESS
+    MOVE.W  A5,D3
+    MOVE.W  A5,D4
+    MOVE.L  #0,A6
+    
+    CMP.L   #0,D3
+    BEQ     IF_INVALID_OP
+    
+    BRA     PARSE_MASK_ADDRESS
+    
+PARSE_MASK_ADDRESS
+    CMP.L   #16,A6
+    BEQ     END_PARSER
+
+    AND.L   #$00008000,D3
+    
+    CMP.W   #%1,D3
+    BEQ     DISPLAY_REG_ADDRESS
+    
+    BRA     ITERATE_MASK_ADDRESS
+    
+DISPLAY_REG_ADDRESS
+    CMP.W   #$0,A6
+    BEQ     DISPLAY_D0_ADDRESS
+    
+    CMP.W   #$1,A6
+    BEQ     DISPLAY_D1_ADDRESS
+    
+    CMP.W   #$2,A6
+    BEQ     DISPLAY_D2_ADDRESS
+    
+    CMP.W   #$3,A6
+    BEQ     DISPLAY_D3_ADDRESS
+    
+    CMP.W   #$4,A6
+    BEQ     DISPLAY_D4_ADDRESS
+    
+    CMP.W   #$5,A6
+    BEQ     DISPLAY_D5_ADDRESS
+    
+    CMP.W   #$6,A6
+    BEQ     DISPLAY_D6_ADDRESS
+    
+    CMP.W   #$7,A6
+    BEQ     DISPLAY_D7_ADDRESS
+    
+    CMP.W   #$8,A6
+    BEQ     DISPLAY_A0_ADDRESS
+    
+    CMP.W   #$9,A6
+    BEQ     DISPLAY_A1_ADDRESS
+    
+    CMP.W   #$A,A6
+    BEQ     DISPLAY_A2_ADDRESS
+    
+    CMP.W   #$B,A6
+    BEQ     DISPLAY_A3_ADDRESS
+    
+    CMP.W   #$C,A6
+    BEQ     DISPLAY_A4_ADDRESS
+    
+    CMP.W   #$D,A6
+    BEQ     DISPLAY_A5_ADDRESS
+    
+    CMP.W   #$E,A6
+    BEQ     DISPLAY_A6_ADDRESS
+    
+    CMP.W   #$F,A6
+    BEQ     DISPLAY_A7_ADDRESS
+    
+    BRA     IF_INVALID_OP
+
+DISPLAY_D0_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #0,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D1_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #1,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D2_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #2,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D3_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #3,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D4_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #4,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D5_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #5,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D6_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #6,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_D7_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #7,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A0_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #0,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A1_ADDRESS
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #1,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A2_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #2,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A3_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #3,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A4_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #4,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A5_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #5,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A6_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #6,D1
+    TRAP    #15
+    
+    BRA     ITERATE_MASK_ADDRESS
+
+DISPLAY_A7_ADDRESS
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  #7,D1
+    TRAP    #15
+    
+    RTS
+
+ITERATE_MASK_ADDRESS
+    BSR     IF_DRAW_SLASH 
+
+    ADDQ    #1,A6
+    LSL.W   #1,D4
+    
+    MOVE.W  D4,D3
+    
+    CMP.W   #$F,A6
+    BGT     END_PARSER
+    
+    BRA     PARSE_MASK_ADDRESS
+    
+
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
-    
-DISPLAY_DASH
-    CMP.W   #0,D6
-    BNE     FINISH_SMOL_SUBROUTINE
 
-    MOVE.B  #DASH,D1
+IF_DRAW_SLASH
+    CMP.W   #0,D4
+    BNE     IF_DRAW_SLASH_2
+    
+    RTS
+
+IF_DRAW_SLASH_2
+    CMP.W   #1,D3
+    BEQ     DRAW_SLASH
+    
+    RTS
+
+DRAW_SLASH
+    MOVE.B  #SLASH,D1
     MOVE.B  #6,D0
     TRAP    #15
     
     RTS
 
-FINISH_SMOL_SUBROUTINE
-    RTS
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

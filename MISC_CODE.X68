@@ -35,7 +35,7 @@ IF_MISC
     BEQ     IF_LEA
     
     ;Check if it's MOVEM
-    BRA     CHECK_MOVEM
+    BRA     IF_MOVEM
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;NOT;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -178,12 +178,6 @@ IF_MULS_L
 IF_DIVU_L
     BRA     IF_INVALID_OP
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;MOVEM;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-CHECK_MOVEM
-    BRA     IF_INVALID_OP
-    
-    
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISPLAY_ea_NOT
@@ -332,6 +326,7 @@ DISPLAY_ea_JSR_LEA
     
     BRA     IF_INVALID_OP 
     
+
 
 *~Font name~Courier New~
 *~Font size~10~

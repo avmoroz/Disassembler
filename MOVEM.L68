@@ -1,0 +1,869 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 6/3/2019 2:40:28 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00003D60                             7      ORG    $3D60
+00003D60                             8  
+00003D60                             9  IF_MOVEM
+00003D60  360C                      10      MOVE.W  A4,D3   
+00003D62  C67C FF80                 11      AND.W   #$FF80,D3
+00003D66                            12      
+00003D66  B67C 4A80                 13      CMP.W   #$4A80,D3
+00003D6A  6700 033A                 14      BEQ     IF_MOVEM_TO_ADDRESS
+00003D6E                            15      
+00003D6E  B67C 4C80                 16      CMP.W   #$4C80,D3
+00003D72  6700 0006                 17      BEQ     IF_MOVEM_TO_REGISTER
+00003D76                            18      
+Line 19 ERROR: Undefined symbol
+00003D76  6000 7F9E                 19      BRA     IF_INVALID_OP
+00003D7A                            20      
+00003D7A                            21  IF_MOVEM_TO_REGISTER
+Line 22 ERROR: Undefined symbol
+00003D7A  43F9 004DBD16             22      LEA     MOVEM_OUTPUT,A1
+00003D80  103C 000E                 23      MOVE.B  #14,D0
+00003D84  4E4F                      24      TRAP    #15
+00003D86                            25  
+00003D86  360C                      26      MOVE.W  A4,D3   
+00003D88  C67C 0080                 27      AND.W   #$0080,D3
+00003D8C                            28      
+00003D8C  B67C 0080                 29      CMP.W   #$0080,D3   
+00003D90  6700 002C                 30      BEQ     LONG_FOR_TO_REGISTER
+00003D94                            31      
+00003D94  6000 0002                 32      BRA     WORD_FOR_TO_REGISTER
+00003D98                            33  
+00003D98                            34  WORD_FOR_TO_REGISTER
+Line 35 ERROR: Undefined symbol
+00003D98  43F9 004DBD16             35      LEA     W_OUTPUT,A1
+00003D9E  103C 000E                 36      MOVE.B  #14,D0
+00003DA2  4E4F                      37      TRAP    #15
+00003DA4                            38      
+00003DA4  6100 003E                 39      BSR     DISPLAY_EA_TO_REGISTER
+00003DA8                            40      
+Line 41 ERROR: Undefined symbol
+00003DA8  123C 0016                 41      MOVE.B  #COMMA,D1
+00003DAC  103C 0006                 42      MOVE.B  #6,D0
+00003DB0  4E4F                      43      TRAP    #15
+00003DB2                            44  
+Line 45 ERROR: Undefined symbol
+00003DB2  6100 7F62                 45      BSR     GET_MASK
+00003DB6  6100 0056                 46      BSR     LOAD_MASK
+Line 47 ERROR: Undefined symbol
+00003DBA  6000 7F5A                 47      BRA     ITERATE
+00003DBE                            48  
+00003DBE                            49  LONG_FOR_TO_REGISTER
+Line 50 ERROR: Undefined symbol
+00003DBE  43F9 004DBD16             50      LEA     L_OUTPUT,A1
+00003DC4  103C 000E                 51      MOVE.B  #14,D0
+00003DC8  4E4F                      52      TRAP    #15
+00003DCA                            53      
+00003DCA  6100 0018                 54      BSR     DISPLAY_EA_TO_REGISTER
+00003DCE                            55      
+Line 56 ERROR: Undefined symbol
+00003DCE  123C 0016                 56      MOVE.B  #COMMA,D1
+00003DD2  103C 0006                 57      MOVE.B  #6,D0
+00003DD6  4E4F                      58      TRAP    #15
+00003DD8                            59  
+Line 60 ERROR: Undefined symbol
+00003DD8  6100 7F3C                 60      BSR     GET_MASK
+00003DDC  6100 0030                 61      BSR     LOAD_MASK
+Line 62 ERROR: Undefined symbol
+00003DE0  6000 7F34                 62      BRA     ITERATE
+00003DE4                            63      
+00003DE4                            64  DISPLAY_EA_TO_REGISTER
+00003DE4  360C                      65      MOVE.W  A4,D3   
+00003DE6  C67C 003A                 66      AND.W   #$003A,D3
+00003DEA  E68B                      67      LSR.L   #3,D3
+00003DEC                            68      
+00003DEC  380C                      69      MOVE.W  A4,D4   
+00003DEE  C87C 0007                 70      AND.W   #$0007,D4
+00003DF2                            71      
+00003DF2  B67C 0002                 72      CMP.W   #%010,D3
+Line 73 ERROR: Undefined symbol
+00003DF6  6700 7F1E                 73      BEQ     DISPLAY_An_ADDRESS_ea
+00003DFA                            74      
+00003DFA  B67C 0003                 75      CMP.W   #%011,D3
+Line 76 ERROR: Undefined symbol
+00003DFE  6700 7F16                 76      BEQ     DISPLAY_An_ADDRESS_INCREMENT_ea
+00003E02                            77      
+00003E02  B67C 0007                 78      CMP.W   #%111,D3
+Line 79 ERROR: Undefined symbol
+00003E06  6700 7F0E                 79      BEQ     GET_WORD_OR_LONG
+00003E0A                            80      
+Line 81 ERROR: Undefined symbol
+00003E0A  6000 7F0A                 81      BRA     IF_INVALID_OP
+00003E0E                            82  
+00003E0E                            83  LOAD_MASK
+00003E0E                            84      
+00003E0E  2C7C 00000000             85      MOVE.L  #0,A6
+00003E14  360D                      86      MOVE.W  A5,D3
+00003E16  380D                      87      MOVE.W  A5,D4
+00003E18                            88      
+00003E18  B6BC 00000000             89      CMP.L   #0,D3
+Line 90 ERROR: Undefined symbol
+00003E1E  6700 7EF6                 90      BEQ     IF_INVALID_OP
+00003E22                            91      
+00003E22  6000 0002                 92      BRA     PARSE_MASK
+00003E26                            93      
+00003E26                            94  PARSE_MASK
+00003E26  BDFC 00000010             95      CMP.L   #16,A6
+00003E2C  6700 0014                 96      BEQ     END_PARSER
+00003E30                            97  
+00003E30  C6BC 00000001             98      AND.L   #$00000001,D3
+00003E36                            99      
+00003E36  B67C 0001                100      CMP.W   #%1,D3
+00003E3A  6700 0008                101      BEQ     DISPLAY_REG
+00003E3E                           102      
+00003E3E  6000 0226                103      BRA     ITERATE_MASK
+00003E42                           104      
+00003E42                           105  END_PARSER
+00003E42  4E75                     106      RTS
+00003E44                           107      
+00003E44                           108  DISPLAY_REG
+00003E44  BCFC 0000                109      CMP.W   #$0,A6
+00003E48  6700 007E                110      BEQ     DISPLAY_D0
+00003E4C                           111      
+00003E4C  BCFC 0001                112      CMP.W   #$1,A6
+00003E50  6700 0090                113      BEQ     DISPLAY_D1
+00003E54                           114      
+00003E54  BCFC 0002                115      CMP.W   #$2,A6
+00003E58  6700 00A2                116      BEQ     DISPLAY_D2
+00003E5C                           117      
+00003E5C  BCFC 0003                118      CMP.W   #$3,A6
+00003E60  6700 00B4                119      BEQ     DISPLAY_D3
+00003E64                           120      
+00003E64  BCFC 0004                121      CMP.W   #$4,A6
+00003E68  6700 00C6                122      BEQ     DISPLAY_D4
+00003E6C                           123      
+00003E6C  BCFC 0005                124      CMP.W   #$5,A6
+00003E70  6700 00D8                125      BEQ     DISPLAY_D5
+00003E74                           126      
+00003E74  BCFC 0006                127      CMP.W   #$6,A6
+00003E78  6700 00EA                128      BEQ     DISPLAY_D6
+00003E7C                           129      
+00003E7C  BCFC 0007                130      CMP.W   #$7,A6
+00003E80  6700 00FC                131      BEQ     DISPLAY_D7
+00003E84                           132      
+00003E84  BCFC 0008                133      CMP.W   #$8,A6
+00003E88  6700 010E                134      BEQ     DISPLAY_A0
+00003E8C                           135      
+00003E8C  BCFC 0009                136      CMP.W   #$9,A6
+00003E90  6700 0120                137      BEQ     DISPLAY_A1
+00003E94                           138      
+00003E94  BCFC 000A                139      CMP.W   #$A,A6
+00003E98  6700 0132                140      BEQ     DISPLAY_A2
+00003E9C                           141      
+00003E9C  BCFC 000B                142      CMP.W   #$B,A6
+00003EA0  6700 0144                143      BEQ     DISPLAY_A3
+00003EA4                           144      
+00003EA4  BCFC 000C                145      CMP.W   #$C,A6
+00003EA8  6700 0156                146      BEQ     DISPLAY_A4
+00003EAC                           147      
+00003EAC  BCFC 000D                148      CMP.W   #$D,A6
+00003EB0  6700 0168                149      BEQ     DISPLAY_A5
+00003EB4                           150      
+00003EB4  BCFC 000E                151      CMP.W   #$E,A6
+00003EB8  6700 017A                152      BEQ     DISPLAY_A6
+00003EBC                           153      
+00003EBC  BCFC 000F                154      CMP.W   #$F,A6
+00003EC0  6700 018C                155      BEQ     DISPLAY_A7
+00003EC4                           156      
+Line 157 ERROR: Undefined symbol
+00003EC4  6000 7E50                157      BRA     IF_INVALID_OP
+00003EC8                           158  
+00003EC8                           159  DISPLAY_D0
+Line 160 ERROR: Undefined symbol
+00003EC8  123C 0016                160      MOVE.B  #D,D1
+00003ECC  103C 0006                161      MOVE.B  #6,D0
+00003ED0  4E4F                     162      TRAP    #15
+00003ED2                           163      
+00003ED2  143C 0010                164      MOVE.B  #16,D2
+00003ED6  103C 000F                165      MOVE.B  #15,D0
+00003EDA  7200                     166      MOVE.L  #0,D1
+00003EDC  4E4F                     167      TRAP    #15
+00003EDE                           168      
+00003EDE  6000 0186                169      BRA     ITERATE_MASK
+00003EE2                           170  
+00003EE2                           171  DISPLAY_D1
+Line 172 ERROR: Undefined symbol
+00003EE2  123C 0016                172      MOVE.B  #D,D1
+00003EE6  103C 0006                173      MOVE.B  #6,D0
+00003EEA  4E4F                     174      TRAP    #15
+00003EEC                           175      
+00003EEC  143C 0010                176      MOVE.B  #16,D2
+00003EF0  103C 000F                177      MOVE.B  #15,D0
+00003EF4  7201                     178      MOVE.L  #1,D1
+00003EF6  4E4F                     179      TRAP    #15
+00003EF8                           180      
+00003EF8  6000 016C                181      BRA     ITERATE_MASK
+00003EFC                           182  
+00003EFC                           183  DISPLAY_D2
+Line 184 ERROR: Undefined symbol
+00003EFC  123C 0016                184      MOVE.B  #D,D1
+00003F00  103C 0006                185      MOVE.B  #6,D0
+00003F04  4E4F                     186      TRAP    #15
+00003F06                           187      
+00003F06  143C 0010                188      MOVE.B  #16,D2
+00003F0A  103C 000F                189      MOVE.B  #15,D0
+00003F0E  7202                     190      MOVE.L  #2,D1
+00003F10  4E4F                     191      TRAP    #15
+00003F12                           192      
+00003F12  6000 0152                193      BRA     ITERATE_MASK
+00003F16                           194  
+00003F16                           195  DISPLAY_D3
+Line 196 ERROR: Undefined symbol
+00003F16  123C 0016                196      MOVE.B  #D,D1
+00003F1A  103C 0006                197      MOVE.B  #6,D0
+00003F1E  4E4F                     198      TRAP    #15
+00003F20                           199      
+00003F20  143C 0010                200      MOVE.B  #16,D2
+00003F24  103C 000F                201      MOVE.B  #15,D0
+00003F28  7203                     202      MOVE.L  #3,D1
+00003F2A  4E4F                     203      TRAP    #15
+00003F2C                           204      
+00003F2C  6000 0138                205      BRA     ITERATE_MASK
+00003F30                           206  
+00003F30                           207  DISPLAY_D4
+Line 208 ERROR: Undefined symbol
+00003F30  123C 0016                208      MOVE.B  #D,D1
+00003F34  103C 0006                209      MOVE.B  #6,D0
+00003F38  4E4F                     210      TRAP    #15
+00003F3A                           211      
+00003F3A  143C 0010                212      MOVE.B  #16,D2
+00003F3E  103C 000F                213      MOVE.B  #15,D0
+00003F42  7204                     214      MOVE.L  #4,D1
+00003F44  4E4F                     215      TRAP    #15
+00003F46                           216      
+00003F46  6000 011E                217      BRA     ITERATE_MASK
+00003F4A                           218  
+00003F4A                           219  DISPLAY_D5
+Line 220 ERROR: Undefined symbol
+00003F4A  123C 0016                220      MOVE.B  #D,D1
+00003F4E  103C 0006                221      MOVE.B  #6,D0
+00003F52  4E4F                     222      TRAP    #15
+00003F54                           223      
+00003F54  143C 0010                224      MOVE.B  #16,D2
+00003F58  103C 000F                225      MOVE.B  #15,D0
+00003F5C  7205                     226      MOVE.L  #5,D1
+00003F5E  4E4F                     227      TRAP    #15
+00003F60                           228      
+00003F60  6000 0104                229      BRA     ITERATE_MASK
+00003F64                           230  
+00003F64                           231  DISPLAY_D6  
+Line 232 ERROR: Undefined symbol
+00003F64  123C 0016                232      MOVE.B  #D,D1
+00003F68  103C 0006                233      MOVE.B  #6,D0
+00003F6C  4E4F                     234      TRAP    #15
+00003F6E                           235      
+00003F6E  143C 0010                236      MOVE.B  #16,D2
+00003F72  103C 000F                237      MOVE.B  #15,D0
+00003F76  7206                     238      MOVE.L  #6,D1
+00003F78  4E4F                     239      TRAP    #15
+00003F7A                           240      
+00003F7A  6000 00EA                241      BRA     ITERATE_MASK
+00003F7E                           242  
+00003F7E                           243  DISPLAY_D7
+Line 244 ERROR: Undefined symbol
+00003F7E  123C 0016                244      MOVE.B  #D,D1
+00003F82  103C 0006                245      MOVE.B  #6,D0
+00003F86  4E4F                     246      TRAP    #15
+00003F88                           247      
+00003F88  143C 0010                248      MOVE.B  #16,D2
+00003F8C  103C 000F                249      MOVE.B  #15,D0
+00003F90  7207                     250      MOVE.L  #7,D1
+00003F92  4E4F                     251      TRAP    #15
+00003F94                           252      
+00003F94  6000 00D0                253      BRA     ITERATE_MASK
+00003F98                           254  
+00003F98                           255  DISPLAY_A0
+Line 256 ERROR: Undefined symbol
+00003F98  123C 0016                256      MOVE.B  #A,D1
+00003F9C  103C 0006                257      MOVE.B  #6,D0
+00003FA0  4E4F                     258      TRAP    #15
+00003FA2                           259      
+00003FA2  143C 0010                260      MOVE.B  #16,D2
+00003FA6  103C 000F                261      MOVE.B  #15,D0
+00003FAA  7200                     262      MOVE.L  #0,D1
+00003FAC  4E4F                     263      TRAP    #15
+00003FAE                           264      
+00003FAE  6000 00B6                265      BRA     ITERATE_MASK
+00003FB2                           266  
+00003FB2                           267  DISPLAY_A1
+Line 268 ERROR: Undefined symbol
+00003FB2  123C 0016                268      MOVE.B  #D,D1
+00003FB6  103C 0006                269      MOVE.B  #6,D0
+00003FBA  4E4F                     270      TRAP    #15
+00003FBC                           271      
+00003FBC  143C 0010                272      MOVE.B  #16,D2
+00003FC0  103C 000F                273      MOVE.B  #15,D0
+00003FC4  7201                     274      MOVE.L  #1,D1
+00003FC6  4E4F                     275      TRAP    #15
+00003FC8                           276      
+00003FC8  6000 009C                277      BRA     ITERATE_MASK
+00003FCC                           278  
+00003FCC                           279  DISPLAY_A2
+Line 280 ERROR: Undefined symbol
+00003FCC  123C 0016                280      MOVE.B  #A,D1
+00003FD0  103C 0006                281      MOVE.B  #6,D0
+00003FD4  4E4F                     282      TRAP    #15
+00003FD6                           283      
+00003FD6  143C 0010                284      MOVE.B  #16,D2
+00003FDA  103C 000F                285      MOVE.B  #15,D0
+00003FDE  7202                     286      MOVE.L  #2,D1
+00003FE0  4E4F                     287      TRAP    #15
+00003FE2                           288      
+00003FE2  6000 0082                289      BRA     ITERATE_MASK
+00003FE6                           290  
+00003FE6                           291  DISPLAY_A3
+Line 292 ERROR: Undefined symbol
+00003FE6  123C 0016                292      MOVE.B  #A,D1
+00003FEA  103C 0006                293      MOVE.B  #6,D0
+00003FEE  4E4F                     294      TRAP    #15
+00003FF0                           295      
+00003FF0  143C 0010                296      MOVE.B  #16,D2
+00003FF4  103C 000F                297      MOVE.B  #15,D0
+00003FF8  7203                     298      MOVE.L  #3,D1
+00003FFA  4E4F                     299      TRAP    #15
+00003FFC                           300      
+00003FFC  6000 0068                301      BRA     ITERATE_MASK
+00004000                           302  
+00004000                           303  DISPLAY_A4
+Line 304 ERROR: Undefined symbol
+00004000  123C 0016                304      MOVE.B  #A,D1
+00004004  103C 0006                305      MOVE.B  #6,D0
+00004008  4E4F                     306      TRAP    #15
+0000400A                           307      
+0000400A  143C 0010                308      MOVE.B  #16,D2
+0000400E  103C 000F                309      MOVE.B  #15,D0
+00004012  7204                     310      MOVE.L  #4,D1
+00004014  4E4F                     311      TRAP    #15
+00004016                           312      
+00004016  6000 004E                313      BRA     ITERATE_MASK
+0000401A                           314  
+0000401A                           315  DISPLAY_A5   
+Line 316 ERROR: Undefined symbol
+0000401A  123C 0016                316      MOVE.B  #A,D1
+0000401E  103C 0006                317      MOVE.B  #6,D0
+00004022  4E4F                     318      TRAP    #15
+00004024                           319      
+00004024  143C 0010                320      MOVE.B  #16,D2
+00004028  103C 000F                321      MOVE.B  #15,D0
+0000402C  7205                     322      MOVE.L  #5,D1
+0000402E  4E4F                     323      TRAP    #15
+00004030                           324      
+00004030  6000 0034                325      BRA     ITERATE_MASK
+00004034                           326  
+00004034                           327  DISPLAY_A6
+Line 328 ERROR: Undefined symbol
+00004034  123C 0016                328      MOVE.B  #A,D1
+00004038  103C 0006                329      MOVE.B  #6,D0
+0000403C  4E4F                     330      TRAP    #15
+0000403E                           331      
+0000403E  143C 0010                332      MOVE.B  #16,D2
+00004042  103C 000F                333      MOVE.B  #15,D0
+00004046  7206                     334      MOVE.L  #6,D1
+00004048  4E4F                     335      TRAP    #15
+0000404A                           336      
+0000404A  6000 001A                337      BRA     ITERATE_MASK
+0000404E                           338  
+0000404E                           339  DISPLAY_A7
+Line 340 ERROR: Undefined symbol
+0000404E  123C 0016                340      MOVE.B  #A,D1
+00004052  103C 0006                341      MOVE.B  #6,D0
+00004056  4E4F                     342      TRAP    #15
+00004058                           343      
+00004058  143C 0010                344      MOVE.B  #16,D2
+0000405C  103C 000F                345      MOVE.B  #15,D0
+00004060  7207                     346      MOVE.L  #7,D1
+00004062  4E4F                     347      TRAP    #15
+00004064                           348      
+00004064  4E75                     349      RTS
+00004066                           350  
+00004066                           351  ITERATE_MASK
+00004066  6100 0320                352      BSR     IF_DRAW_SLASH 
+0000406A                           353  
+0000406A  524E                     354      ADDQ    #1,A6
+0000406C  E24C                     355      LSR.W   #1,D4
+0000406E                           356      
+0000406E  3604                     357      MOVE.W  D4,D3
+00004070                           358      
+00004070  BCFC 000F                359      CMP.W   #$F,A6
+00004074  6E00 FDCC                360      BGT     END_PARSER
+00004078                           361      
+00004078  6000 FDAC                362      BRA     PARSE_MASK
+0000407C                           363      
+0000407C                           364  DISPLAY_EA_TO_ADDRESS
+0000407C  360C                     365      MOVE.W  A4,D3   
+0000407E  C67C 003A                366      AND.W   #$003A,D3
+00004082  E68B                     367      LSR.L   #3,D3
+00004084                           368      
+00004084  380C                     369      MOVE.W  A4,D4   
+00004086  C87C 0007                370      AND.W   #$0007,D4
+0000408A                           371      
+0000408A  B67C 0002                372      CMP.W   #%010,D3
+Line 373 ERROR: Undefined symbol
+0000408E  6700 7C86                373      BEQ     DISPLAY_An_ADDRESS_ea
+00004092                           374      
+00004092  B67C 0004                375      CMP.W   #%100,D3
+Line 376 ERROR: Undefined symbol
+00004096  6700 7C7E                376      BEQ     DISPLAY_An_ADDRESS_DECREMENT_ea
+0000409A                           377      
+0000409A  B67C 0007                378      CMP.W   #%111,D3
+Line 379 ERROR: Undefined symbol
+0000409E  6700 7C76                379      BEQ     GET_WORD_OR_LONG
+000040A2                           380      
+Line 381 ERROR: Undefined symbol
+000040A2  6000 7C72                381      BRA     IF_INVALID_OP
+000040A6                           382      
+000040A6                           383  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000040A6                           384  IF_MOVEM_TO_ADDRESS
+000040A6  7A00                     385      MOVE.L  #0,D5
+000040A8                           386  
+Line 387 ERROR: Undefined symbol
+000040A8  43F9 004DBD16            387      LEA     MOVEM_OUTPUT,A1
+000040AE  103C 000E                388      MOVE.B  #14,D0
+000040B2  4E4F                     389      TRAP    #15
+000040B4                           390  
+000040B4  360C                     391      MOVE.W  A4,D3   
+000040B6  C67C 0080                392      AND.W   #$0080,D3
+000040BA                           393      
+000040BA  B67C 0080                394      CMP.W   #$0080,D3   
+000040BE  6700 0026                395      BEQ     LONG_FOR_TO_ADDRESS
+000040C2                           396      
+000040C2  6000 0002                397      BRA     WORD_FOR_TO_ADDRESS
+000040C6                           398  
+000040C6                           399  WORD_FOR_TO_ADDRESS
+Line 400 ERROR: Undefined symbol
+000040C6  43F9 004DBD16            400      LEA     W_OUTPUT,A1
+000040CC  103C 000E                401      MOVE.B  #14,D0
+000040D0  4E4F                     402      TRAP    #15
+000040D2                           403      
+000040D2  6100 0034                404      BSR     GET_MASK_ADDRESS
+000040D6                           405      
+Line 406 ERROR: Undefined symbol
+000040D6  123C 0016                406      MOVE.B  #COMMA,D1
+000040DA  103C 0006                407      MOVE.B  #6,D0
+000040DE  4E4F                     408      TRAP    #15
+000040E0                           409  
+000040E0  619A                     410      BSR     DISPLAY_EA_TO_ADDRESS
+000040E2                           411  
+Line 412 ERROR: Undefined symbol
+000040E2  6000 7C32                412      BRA     ITERATE
+000040E6                           413  
+000040E6                           414  LONG_FOR_TO_ADDRESS
+Line 415 ERROR: Undefined symbol
+000040E6  43F9 004DBD16            415      LEA     L_OUTPUT,A1
+000040EC  103C 000E                416      MOVE.B  #14,D0
+000040F0  4E4F                     417      TRAP    #15
+000040F2                           418      
+000040F2  6100 0014                419      BSR     GET_MASK_ADDRESS
+000040F6                           420      
+Line 421 ERROR: Undefined symbol
+000040F6  123C 0016                421      MOVE.B  #COMMA,D1
+000040FA  103C 0006                422      MOVE.B  #6,D0
+000040FE  4E4F                     423      TRAP    #15
+00004100                           424  
+00004100  6100 FF7A                425      BSR     DISPLAY_EA_TO_ADDRESS
+00004104                           426  
+Line 427 ERROR: Undefined symbol
+00004104  6000 7C10                427      BRA     ITERATE
+00004108                           428      
+00004108                           429  
+00004108                           430  GET_MASK_ADDRESS    
+00004108  360C                     431      MOVE.W  A4,D3   
+0000410A  C67C 003A                432      AND.W   #$003A,D3
+0000410E  E68B                     433      LSR.L   #3,D3
+00004110                           434      
+00004110  B67C 0004                435      CMP.W   #%100,D3
+00004114  6000 0006                436      BRA     LOAD_MASK_ADDRESS
+00004118                           437      
+00004118  6000 FCF4                438      BRA     LOAD_MASK
+0000411C                           439      
+0000411C                           440  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0000411C                           441  LOAD_MASK_ADDRESS
+0000411C  360D                     442      MOVE.W  A5,D3
+0000411E  380D                     443      MOVE.W  A5,D4
+00004120  2C7C 00000000            444      MOVE.L  #0,A6
+00004126                           445      
+00004126  B6BC 00000000            446      CMP.L   #0,D3
+Line 447 ERROR: Undefined symbol
+0000412C  6700 7BE8                447      BEQ     IF_INVALID_OP
+00004130                           448      
+00004130  6000 0002                449      BRA     PARSE_MASK_ADDRESS
+00004134                           450      
+00004134                           451  PARSE_MASK_ADDRESS
+00004134  BDFC 00000010            452      CMP.L   #16,A6
+0000413A  6700 FD06                453      BEQ     END_PARSER
+0000413E                           454  
+0000413E  C6BC 00008000            455      AND.L   #$00008000,D3
+00004144                           456      
+00004144  B67C 0001                457      CMP.W   #%1,D3
+00004148  6700 0006                458      BEQ     DISPLAY_REG_ADDRESS
+0000414C                           459      
+0000414C  6000 0224                460      BRA     ITERATE_MASK_ADDRESS
+00004150                           461      
+00004150                           462  DISPLAY_REG_ADDRESS
+00004150  BCFC 0000                463      CMP.W   #$0,A6
+00004154  6700 007E                464      BEQ     DISPLAY_D0_ADDRESS
+00004158                           465      
+00004158  BCFC 0001                466      CMP.W   #$1,A6
+0000415C  6700 0090                467      BEQ     DISPLAY_D1_ADDRESS
+00004160                           468      
+00004160  BCFC 0002                469      CMP.W   #$2,A6
+00004164  6700 00A2                470      BEQ     DISPLAY_D2_ADDRESS
+00004168                           471      
+00004168  BCFC 0003                472      CMP.W   #$3,A6
+0000416C  6700 00B4                473      BEQ     DISPLAY_D3_ADDRESS
+00004170                           474      
+00004170  BCFC 0004                475      CMP.W   #$4,A6
+00004174  6700 00C6                476      BEQ     DISPLAY_D4_ADDRESS
+00004178                           477      
+00004178  BCFC 0005                478      CMP.W   #$5,A6
+0000417C  6700 00D8                479      BEQ     DISPLAY_D5_ADDRESS
+00004180                           480      
+00004180  BCFC 0006                481      CMP.W   #$6,A6
+00004184  6700 00EA                482      BEQ     DISPLAY_D6_ADDRESS
+00004188                           483      
+00004188  BCFC 0007                484      CMP.W   #$7,A6
+0000418C  6700 00FC                485      BEQ     DISPLAY_D7_ADDRESS
+00004190                           486      
+00004190  BCFC 0008                487      CMP.W   #$8,A6
+00004194  6700 010E                488      BEQ     DISPLAY_A0_ADDRESS
+00004198                           489      
+00004198  BCFC 0009                490      CMP.W   #$9,A6
+0000419C  6700 0120                491      BEQ     DISPLAY_A1_ADDRESS
+000041A0                           492      
+000041A0  BCFC 000A                493      CMP.W   #$A,A6
+000041A4  6700 0132                494      BEQ     DISPLAY_A2_ADDRESS
+000041A8                           495      
+000041A8  BCFC 000B                496      CMP.W   #$B,A6
+000041AC  6700 0144                497      BEQ     DISPLAY_A3_ADDRESS
+000041B0                           498      
+000041B0  BCFC 000C                499      CMP.W   #$C,A6
+000041B4  6700 0156                500      BEQ     DISPLAY_A4_ADDRESS
+000041B8                           501      
+000041B8  BCFC 000D                502      CMP.W   #$D,A6
+000041BC  6700 0168                503      BEQ     DISPLAY_A5_ADDRESS
+000041C0                           504      
+000041C0  BCFC 000E                505      CMP.W   #$E,A6
+000041C4  6700 017A                506      BEQ     DISPLAY_A6_ADDRESS
+000041C8                           507      
+000041C8  BCFC 000F                508      CMP.W   #$F,A6
+000041CC  6700 018C                509      BEQ     DISPLAY_A7_ADDRESS
+000041D0                           510      
+Line 511 ERROR: Undefined symbol
+000041D0  6000 7B44                511      BRA     IF_INVALID_OP
+000041D4                           512  
+000041D4                           513  DISPLAY_D0_ADDRESS
+Line 514 ERROR: Undefined symbol
+000041D4  123C 0016                514      MOVE.B  #D,D1
+000041D8  103C 0006                515      MOVE.B  #6,D0
+000041DC  4E4F                     516      TRAP    #15
+000041DE                           517      
+000041DE  143C 0010                518      MOVE.B  #16,D2
+000041E2  103C 000F                519      MOVE.B  #15,D0
+000041E6  7200                     520      MOVE.L  #0,D1
+000041E8  4E4F                     521      TRAP    #15
+000041EA                           522      
+000041EA  6000 0186                523      BRA     ITERATE_MASK_ADDRESS
+000041EE                           524  
+000041EE                           525  DISPLAY_D1_ADDRESS
+Line 526 ERROR: Undefined symbol
+000041EE  123C 0016                526      MOVE.B  #D,D1
+000041F2  103C 0006                527      MOVE.B  #6,D0
+000041F6  4E4F                     528      TRAP    #15
+000041F8                           529      
+000041F8  143C 0010                530      MOVE.B  #16,D2
+000041FC  103C 000F                531      MOVE.B  #15,D0
+00004200  7201                     532      MOVE.L  #1,D1
+00004202  4E4F                     533      TRAP    #15
+00004204                           534      
+00004204  6000 016C                535      BRA     ITERATE_MASK_ADDRESS
+00004208                           536  
+00004208                           537  DISPLAY_D2_ADDRESS
+Line 538 ERROR: Undefined symbol
+00004208  123C 0016                538      MOVE.B  #D,D1
+0000420C  103C 0006                539      MOVE.B  #6,D0
+00004210  4E4F                     540      TRAP    #15
+00004212                           541      
+00004212  143C 0010                542      MOVE.B  #16,D2
+00004216  103C 000F                543      MOVE.B  #15,D0
+0000421A  7202                     544      MOVE.L  #2,D1
+0000421C  4E4F                     545      TRAP    #15
+0000421E                           546      
+0000421E  6000 0152                547      BRA     ITERATE_MASK_ADDRESS
+00004222                           548  
+00004222                           549  DISPLAY_D3_ADDRESS
+Line 550 ERROR: Undefined symbol
+00004222  123C 0016                550      MOVE.B  #D,D1
+00004226  103C 0006                551      MOVE.B  #6,D0
+0000422A  4E4F                     552      TRAP    #15
+0000422C                           553      
+0000422C  143C 0010                554      MOVE.B  #16,D2
+00004230  103C 000F                555      MOVE.B  #15,D0
+00004234  7203                     556      MOVE.L  #3,D1
+00004236  4E4F                     557      TRAP    #15
+00004238                           558      
+00004238  6000 0138                559      BRA     ITERATE_MASK_ADDRESS
+0000423C                           560  
+0000423C                           561  DISPLAY_D4_ADDRESS
+Line 562 ERROR: Undefined symbol
+0000423C  123C 0016                562      MOVE.B  #D,D1
+00004240  103C 0006                563      MOVE.B  #6,D0
+00004244  4E4F                     564      TRAP    #15
+00004246                           565      
+00004246  143C 0010                566      MOVE.B  #16,D2
+0000424A  103C 000F                567      MOVE.B  #15,D0
+0000424E  7204                     568      MOVE.L  #4,D1
+00004250  4E4F                     569      TRAP    #15
+00004252                           570      
+00004252  6000 011E                571      BRA     ITERATE_MASK_ADDRESS
+00004256                           572  
+00004256                           573  DISPLAY_D5_ADDRESS
+Line 574 ERROR: Undefined symbol
+00004256  123C 0016                574      MOVE.B  #D,D1
+0000425A  103C 0006                575      MOVE.B  #6,D0
+0000425E  4E4F                     576      TRAP    #15
+00004260                           577      
+00004260  143C 0010                578      MOVE.B  #16,D2
+00004264  103C 000F                579      MOVE.B  #15,D0
+00004268  7205                     580      MOVE.L  #5,D1
+0000426A  4E4F                     581      TRAP    #15
+0000426C                           582      
+0000426C  6000 0104                583      BRA     ITERATE_MASK_ADDRESS
+00004270                           584  
+00004270                           585  DISPLAY_D6_ADDRESS
+Line 586 ERROR: Undefined symbol
+00004270  123C 0016                586      MOVE.B  #D,D1
+00004274  103C 0006                587      MOVE.B  #6,D0
+00004278  4E4F                     588      TRAP    #15
+0000427A                           589      
+0000427A  143C 0010                590      MOVE.B  #16,D2
+0000427E  103C 000F                591      MOVE.B  #15,D0
+00004282  7206                     592      MOVE.L  #6,D1
+00004284  4E4F                     593      TRAP    #15
+00004286                           594      
+00004286  6000 00EA                595      BRA     ITERATE_MASK_ADDRESS
+0000428A                           596  
+0000428A                           597  DISPLAY_D7_ADDRESS
+Line 598 ERROR: Undefined symbol
+0000428A  123C 0016                598      MOVE.B  #D,D1
+0000428E  103C 0006                599      MOVE.B  #6,D0
+00004292  4E4F                     600      TRAP    #15
+00004294                           601      
+00004294  143C 0010                602      MOVE.B  #16,D2
+00004298  103C 000F                603      MOVE.B  #15,D0
+0000429C  7207                     604      MOVE.L  #7,D1
+0000429E  4E4F                     605      TRAP    #15
+000042A0                           606      
+000042A0  6000 00D0                607      BRA     ITERATE_MASK_ADDRESS
+000042A4                           608  
+000042A4                           609  DISPLAY_A0_ADDRESS
+Line 610 ERROR: Undefined symbol
+000042A4  123C 0016                610      MOVE.B  #A,D1
+000042A8  103C 0006                611      MOVE.B  #6,D0
+000042AC  4E4F                     612      TRAP    #15
+000042AE                           613      
+000042AE  143C 0010                614      MOVE.B  #16,D2
+000042B2  103C 000F                615      MOVE.B  #15,D0
+000042B6  7200                     616      MOVE.L  #0,D1
+000042B8  4E4F                     617      TRAP    #15
+000042BA                           618      
+000042BA  6000 00B6                619      BRA     ITERATE_MASK_ADDRESS
+000042BE                           620  
+000042BE                           621  DISPLAY_A1_ADDRESS
+Line 622 ERROR: Undefined symbol
+000042BE  123C 0016                622      MOVE.B  #D,D1
+000042C2  103C 0006                623      MOVE.B  #6,D0
+000042C6  4E4F                     624      TRAP    #15
+000042C8                           625      
+000042C8  143C 0010                626      MOVE.B  #16,D2
+000042CC  103C 000F                627      MOVE.B  #15,D0
+000042D0  7201                     628      MOVE.L  #1,D1
+000042D2  4E4F                     629      TRAP    #15
+000042D4                           630      
+000042D4  6000 009C                631      BRA     ITERATE_MASK_ADDRESS
+000042D8                           632  
+000042D8                           633  DISPLAY_A2_ADDRESS
+Line 634 ERROR: Undefined symbol
+000042D8  123C 0016                634      MOVE.B  #A,D1
+000042DC  103C 0006                635      MOVE.B  #6,D0
+000042E0  4E4F                     636      TRAP    #15
+000042E2                           637      
+000042E2  143C 0010                638      MOVE.B  #16,D2
+000042E6  103C 000F                639      MOVE.B  #15,D0
+000042EA  7202                     640      MOVE.L  #2,D1
+000042EC  4E4F                     641      TRAP    #15
+000042EE                           642      
+000042EE  6000 0082                643      BRA     ITERATE_MASK_ADDRESS
+000042F2                           644  
+000042F2                           645  DISPLAY_A3_ADDRESS
+Line 646 ERROR: Undefined symbol
+000042F2  123C 0016                646      MOVE.B  #A,D1
+000042F6  103C 0006                647      MOVE.B  #6,D0
+000042FA  4E4F                     648      TRAP    #15
+000042FC                           649      
+000042FC  143C 0010                650      MOVE.B  #16,D2
+00004300  103C 000F                651      MOVE.B  #15,D0
+00004304  7203                     652      MOVE.L  #3,D1
+00004306  4E4F                     653      TRAP    #15
+00004308                           654      
+00004308  6000 0068                655      BRA     ITERATE_MASK_ADDRESS
+0000430C                           656  
+0000430C                           657  DISPLAY_A4_ADDRESS
+Line 658 ERROR: Undefined symbol
+0000430C  123C 0016                658      MOVE.B  #A,D1
+00004310  103C 0006                659      MOVE.B  #6,D0
+00004314  4E4F                     660      TRAP    #15
+00004316                           661      
+00004316  143C 0010                662      MOVE.B  #16,D2
+0000431A  103C 000F                663      MOVE.B  #15,D0
+0000431E  7204                     664      MOVE.L  #4,D1
+00004320  4E4F                     665      TRAP    #15
+00004322                           666      
+00004322  6000 004E                667      BRA     ITERATE_MASK_ADDRESS
+00004326                           668  
+00004326                           669  DISPLAY_A5_ADDRESS
+Line 670 ERROR: Undefined symbol
+00004326  123C 0016                670      MOVE.B  #A,D1
+0000432A  103C 0006                671      MOVE.B  #6,D0
+0000432E  4E4F                     672      TRAP    #15
+00004330                           673      
+00004330  143C 0010                674      MOVE.B  #16,D2
+00004334  103C 000F                675      MOVE.B  #15,D0
+00004338  7205                     676      MOVE.L  #5,D1
+0000433A  4E4F                     677      TRAP    #15
+0000433C                           678      
+0000433C  6000 0034                679      BRA     ITERATE_MASK_ADDRESS
+00004340                           680  
+00004340                           681  DISPLAY_A6_ADDRESS
+Line 682 ERROR: Undefined symbol
+00004340  123C 0016                682      MOVE.B  #A,D1
+00004344  103C 0006                683      MOVE.B  #6,D0
+00004348  4E4F                     684      TRAP    #15
+0000434A                           685      
+0000434A  143C 0010                686      MOVE.B  #16,D2
+0000434E  103C 000F                687      MOVE.B  #15,D0
+00004352  7206                     688      MOVE.L  #6,D1
+00004354  4E4F                     689      TRAP    #15
+00004356                           690      
+00004356  6000 001A                691      BRA     ITERATE_MASK_ADDRESS
+0000435A                           692  
+0000435A                           693  DISPLAY_A7_ADDRESS
+Line 694 ERROR: Undefined symbol
+0000435A  123C 0016                694      MOVE.B  #A,D1
+0000435E  103C 0006                695      MOVE.B  #6,D0
+00004362  4E4F                     696      TRAP    #15
+00004364                           697      
+00004364  143C 0010                698      MOVE.B  #16,D2
+00004368  103C 000F                699      MOVE.B  #15,D0
+0000436C  7207                     700      MOVE.L  #7,D1
+0000436E  4E4F                     701      TRAP    #15
+00004370                           702      
+00004370  4E75                     703      RTS
+00004372                           704  
+00004372                           705  ITERATE_MASK_ADDRESS
+00004372  6100 0014                706      BSR     IF_DRAW_SLASH 
+00004376                           707  
+00004376  524E                     708      ADDQ    #1,A6
+00004378  E34C                     709      LSL.W   #1,D4
+0000437A                           710      
+0000437A  3604                     711      MOVE.W  D4,D3
+0000437C                           712      
+0000437C  BCFC 000F                713      CMP.W   #$F,A6
+00004380  6E00 FAC0                714      BGT     END_PARSER
+00004384                           715      
+00004384  6000 FDAE                716      BRA     PARSE_MASK_ADDRESS
+00004388                           717      
+00004388                           718  
+00004388                           719      
+00004388                           720  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
+00004388                           721  
+00004388                           722  IF_DRAW_SLASH
+00004388  B87C 0000                723      CMP.W   #0,D4
+0000438C  6600 0004                724      BNE     IF_DRAW_SLASH_2
+00004390                           725      
+00004390  4E75                     726      RTS
+00004392                           727  
+00004392                           728  IF_DRAW_SLASH_2
+00004392  B67C 0001                729      CMP.W   #1,D3
+00004396  6700 0004                730      BEQ     DRAW_SLASH
+0000439A                           731      
+0000439A  4E75                     732      RTS
+0000439C                           733  
+0000439C                           734  DRAW_SLASH
+Line 735 ERROR: Undefined symbol
+0000439C  123C 0016                735      MOVE.B  #SLASH,D1
+000043A0  103C 0006                736      MOVE.B  #6,D0
+000043A4  4E4F                     737      TRAP    #15
+000043A6                           738      
+000043A6  4E75                     739      RTS
+000043A8                           740  
+Line 741 WARNING: END directive missing, starting address not set
+
+62 errors detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DISPLAY_A0          3F98
+DISPLAY_A0_ADDRESS  42A4
+DISPLAY_A1          3FB2
+DISPLAY_A1_ADDRESS  42BE
+DISPLAY_A2          3FCC
+DISPLAY_A2_ADDRESS  42D8
+DISPLAY_A3          3FE6
+DISPLAY_A3_ADDRESS  42F2
+DISPLAY_A4          4000
+DISPLAY_A4_ADDRESS  430C
+DISPLAY_A5          401A
+DISPLAY_A5_ADDRESS  4326
+DISPLAY_A6          4034
+DISPLAY_A6_ADDRESS  4340
+DISPLAY_A7          404E
+DISPLAY_A7_ADDRESS  435A
+DISPLAY_D0          3EC8
+DISPLAY_D0_ADDRESS  41D4
+DISPLAY_D1          3EE2
+DISPLAY_D1_ADDRESS  41EE
+DISPLAY_D2          3EFC
+DISPLAY_D2_ADDRESS  4208
+DISPLAY_D3          3F16
+DISPLAY_D3_ADDRESS  4222
+DISPLAY_D4          3F30
+DISPLAY_D4_ADDRESS  423C
+DISPLAY_D5          3F4A
+DISPLAY_D5_ADDRESS  4256
+DISPLAY_D6          3F64
+DISPLAY_D6_ADDRESS  4270
+DISPLAY_D7          3F7E
+DISPLAY_D7_ADDRESS  428A
+DISPLAY_EA_TO_ADDRESS  407C
+DISPLAY_EA_TO_REGISTER  3DE4
+DISPLAY_REG         3E44
+DISPLAY_REG_ADDRESS  4150
+DRAW_SLASH          439C
+END_PARSER          3E42
+GET_MASK_ADDRESS    4108
+IF_DRAW_SLASH       4388
+IF_DRAW_SLASH_2     4392
+IF_MOVEM            3D60
+IF_MOVEM_TO_ADDRESS  40A6
+IF_MOVEM_TO_REGISTER  3D7A
+ITERATE_MASK        4066
+ITERATE_MASK_ADDRESS  4372
+LOAD_MASK           3E0E
+LOAD_MASK_ADDRESS   411C
+LONG_FOR_TO_ADDRESS  40E6
+LONG_FOR_TO_REGISTER  3DBE
+PARSE_MASK          3E26
+PARSE_MASK_ADDRESS  4134
+WORD_FOR_TO_ADDRESS  40C6
+WORD_FOR_TO_REGISTER  3D98
