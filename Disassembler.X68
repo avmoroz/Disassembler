@@ -81,6 +81,9 @@ PARSE_COMPLEX
     CMP.W   #LS_CODE,D3
     BEQ     IF_LS_CODE
     
+    CMP.W   #MOVEM_CODE,D3
+    BEQ     IF_MOVEM
+    
     BRA     IF_INVALID_OP
     
 IF_NOP
@@ -145,6 +148,7 @@ NUM             EQU     $23
 HEX             EQU     $24
 COMMA           EQU     $2C
 SPACE           EQU     $20
+SLASH           EQU     $2F
 
 ;Codes to be parsed
 NOP_CODE        EQU     $4E71
@@ -195,6 +199,7 @@ NOT_OUTPUT      DC.B    'NOT',0
 JSR_OUTPUT      DC.B    'JSR ',0
 LEA_OUTPUT      DC.B    'LEA',0
 MOVEQ_OUTPUT    DC.B    'MOVEQ ',0
+MOVEM_OUPUT     DC.B    'MOVEM',0
 
 BRA_OUTPUT      DC.B    'BRA ',0
 BGT_OUTPUT      DC.B    'BGE ',0
@@ -216,6 +221,7 @@ INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
 
 
 
