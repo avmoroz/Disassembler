@@ -33,7 +33,7 @@ IF_LS_CODE
     ;Check if REGISTER SHIFT
     
     MOVE.W  A4,D3   
-    AND.W   #$F11A,D3
+    AND.W   #$F118,D3
     
     CMP.W   #LSR_REGISTER,D3
     BEQ     IF_LSR_REGISTER
@@ -141,7 +141,7 @@ GET_WORD_OR_LONG
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF_LSR_REGISTER
-    LEA     LSL_OUTPUT,A1
+    LEA     LSR_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     
@@ -186,7 +186,7 @@ GET_SIZE
     MOVE.W  A4,D3   
     AND.W   #$00C0,D3
     
-    LSL.W   #6,D3
+    LSR.W   #6,D3
     
     CMP.B   #%00,D3
     BEQ     DISPLAY_SIZE_BYTE
@@ -227,7 +227,7 @@ DETERMINE_SRC
     MOVE.W  A4,D4
     AND.W   #$0E00,D4
     ROL.W   #7,D4
-    AND.L   #$FFFFFFFA,D4
+    AND.L   #$00000007,D4
     
     CMP.W   #$0020,D3
     BEQ     DISPLAY_REGISTER_1
@@ -295,6 +295,7 @@ SET_TO_ZERO
     MOVE.L  #8,D4
     RTS
    
+
 
 
 

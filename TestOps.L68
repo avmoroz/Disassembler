@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 6/4/2019 9:32:15 PM
+Created On: 6/4/2019 11:07:05 PM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -9,16 +9,17 @@ Created On: 6/4/2019 9:32:15 PM
 00000000                             5  * Description:
 00000000                             6  *-----------------------------------------------------------
 00006000                             7      ORG    $6000
-00006000                             8  
-00006000  4600                       9      NOT.B   D0
-00006002  4610                      10      NOT.B   (A0)
-00006004  4618                      11      NOT.B   (A0)+
-00006006  4620                      12      NOT.B   -(A0)
-00006008  4638 0012                 13      NOT.B   $12
-0000600C  4638 1234                 14      NOT.B   $1234
-00006010  4639 12345678             15      NOT.B   $12345678
-00006016                            16  
-Line 17 WARNING: END directive missing, starting address not set
+00006000                             8      
+00006000  E349                       9      LSL.W   #1,D1
+00006002  E149                      10      LSL.W   #8,D1
+00006004  E34F                      11      LSL.W   #1,D7
+00006006  E14F                      12      LSL.W   #8,D7
+00006008                            13      
+00006008  E249                      14      LSR.W   #1,D1
+0000600A  E049                      15      LSR.W   #8,D1
+0000600C  E24F                      16      LSR.W   #1,D7
+0000600E  E04F                      17      LSR.W   #8,D7
+Line 18 WARNING: END directive missing, starting address not set
 
 No errors detected
 1 warning generated
