@@ -37,6 +37,7 @@ DISPLAY_MOVEQ
     MOVE.B  #15,D0
     MOVE.L  D3,D1
     AND.L   #$000000FF,D3
+    MOVE.B  #16,D2
     TRAP    #15
     
     MOVE.B  #COMMA,D1
@@ -57,6 +58,7 @@ DISPLAY_MOVEQ
 
 
     
+
 
 *~Font name~Courier New~
 *~Font size~10~

@@ -22,12 +22,73 @@ START   ORG    $1000
     ; first instruction of program
     
     ;TODO: put in an actual line counter 
-    MOVE.L  #$6000,A2
-    MOVE.L  #$7000,A3
+    
+    
+    ;MOVE.B  #4,D0
+    ;TRAP    #15
+    
+    ;MOVE.L  D1,A2
+    
+    MOVE.L  #0,A4
+    MOVE.L  #9,A3
+    
+    
+    
+    BRA     GET_INPUT1
+    
+    MOVE.L  #$60B0,A3
     BRA     COMPARE
+
+GET_INPUT1
+    ADDQ.L  #1,A4                
+    CMP.L   A4,A3
+    BEQ     LOAD_INPUT1
+
+    MOVE.B  #5,D0
+    TRAP    #15
+    BSR     GET_NUMBER
+    BRA     GET_INPUT1
+
+LOAD_INPUT1
+    MOVE.L  D2,A2
+    MOVE.L  #$0,A4
+    
+    MOVE.B  #COMMA,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    BRA     GET_INPUT2
+    
+    
+GET_INPUT2
+    ADDQ.L  #1,A4                
+    CMP.L   A4,A3
+    BEQ     LOAD_INPUT2
+
+    MOVE.B  #5,D0
+    TRAP    #15
+    BSR     GET_NUMBER
+    BRA     GET_INPUT2
+    
+LOAD_INPUT2
+    MOVE.L  D2,A3
+        
+    LEA     NEWLINE,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     PARSE_SIMPLE
 
 ;Parses Simple Commands, such as NOP     
 PARSE_SIMPLE    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  A2,D1
+    TRAP    #15
+    
+    MOVE.B  #HT,D1
+    MOVE.B  #6,D0
+    TRAP    #15
     
     MOVE.W  (A2),A4
     
@@ -109,14 +170,20 @@ IF_MOVE_L
     BRA     PARSE_MOVE
 
 IF_INVALID_OP
-    LEA     INVALID_OUTPUT,A1
+    LEA     ERROR_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
-    BRA     DONE
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.W  (A2),D1
+    TRAP    #15
+    
+    BRA     ITERATE
 
 ITERATE
     ADDQ.L  #2,A2
-    
+        
     LEA     NEWLINE,A1
     MOVE.B  #14,D0
     TRAP    #15
@@ -124,23 +191,112 @@ ITERATE
     BRA     COMPARE
     
 COMPARE    
-    CMP     A3,A2     
-    BGE     DONE
-    
-    MOVE.B  #16,D2
-    MOVE.B  #15,D0
-    MOVE.L  A2,D1
-    TRAP    #15
-    
-    MOVE.B  #HT,D1
-    MOVE.B  #6,D0
-    TRAP    #15
+    CMP.L   A2,A3     
+    BLT     DONE
     
     BRA     PARSE_SIMPLE
 
 DONE
     MOVE.B  #9,D0
     TRAP    #15
+    
+GET_NUMBER
+                SUB.B   #$30,D1
+                LSL.L   #4,D2
+                BRA     IS_0
+                
+IS_0
+                CMP.B   #$0,D1
+                BEQ     ADD_NUM
+                BRA     IS_1                 
+
+IS_1
+                CMP.B   #$1,D1
+                BEQ     ADD_NUM
+                BRA     IS_2 
+
+IS_2
+                CMP.B   #$2,D1
+                BEQ     ADD_NUM
+                BRA     IS_3 
+
+IS_3
+                CMP.B   #$3,D1
+                BEQ     ADD_NUM
+                BRA     IS_4
+    
+IS_4
+                CMP.B   #$4,D1
+                BEQ     ADD_NUM
+                BRA     IS_5 
+    
+IS_5
+                CMP.B   #$5,D1
+                BEQ     ADD_NUM
+                BRA     IS_6 
+
+IS_6
+                CMP.B   #$6,D1
+                BEQ     ADD_NUM
+                BRA     IS_7 
+    
+IS_7
+                CMP.B   #$7,D1
+                BEQ     ADD_NUM
+                BRA     IS_8 
+
+
+IS_8
+                CMP.B   #$8,D1
+                BEQ     ADD_NUM
+                BRA     IS_9 
+    
+IS_9
+                CMP.B   #$9,D1
+                BEQ     ADD_NUM
+                BRA     IS_A
+                
+IS_A
+                CMP.B   #$A,D1
+                BEQ     ADD_NUM
+                BRA     IS_B 
+                
+IS_B
+                CMP.B   #$B,D1
+                BEQ     ADD_NUM
+                BRA     IS_C 
+
+IS_C
+                CMP.B   #$C,D1
+                BEQ     ADD_NUM
+                BRA     IS_D 
+
+IS_D
+                CMP.B   #$D,D1
+                BEQ     ADD_NUM
+                BRA     IS_E 
+
+IS_E
+                CMP.B   #$E,D1
+                BEQ     ADD_NUM
+                BRA     IS_F 
+
+IS_F
+                CMP.B   #$F,D1
+                BEQ     ADD_NUM
+                BRA     IS_INVALID
+
+IS_INVALID
+                ;LEA     ERROR_MESSAGE,A1
+                ;MOVE.B  #14,D0
+                ;TRAP    #15
+                BRA     DONE
+                
+* Add the number in
+
+ADD_NUM
+                ADD.L   D1,D2
+                RTS    
 
 * Put variables and constants here
 
@@ -170,10 +326,10 @@ DIVU_OR_CODE    EQU     $8000 ; [DIVU], OR (done)
 SUB_CODE        EQU     $9000 ; SUB (done)
 MULS_AND_CODE   EQU     $C000 ; MULS, AND (done)
 ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
-LS_CODE         EQU     $E000 ; LOGICAL SHIFTS (in progress)
+LS_CODE         EQU     $E000 ; LOGICAL SHIFTS (done)
 ADDQ_CODE       EQU     $5000 ; ADDQ (done)
 Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
-MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (LEA, NOT, JSR done)
+MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (done)
 
 
 LSR_ADDRESS     EQU     $E2C0
@@ -191,8 +347,8 @@ ROR_REGISTER    EQU     $E018
 ROL_REGISTER    EQU     $E118
 
 ;Sample outputs
-NOP_OUTPUT      DC.B    'NOP',CR,LF,0
-RTS_OUTPUT      DC.B    'RTS',CR,LF,0
+NOP_OUTPUT      DC.B    'NOP',0
+RTS_OUTPUT      DC.B    'RTS',0
 
 MOVEA_OUTPUT    DC.B    'MOVEA',0
 MOVE_OUTPUT     DC.B    'MOVE',0
@@ -226,10 +382,15 @@ B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
 L_OUTPUT        DC.B    '.L ',0
 
-INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
+INVALID_OUTPUT  DC.B    'Invalid operation!',0
+ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
+
+
+
 
 
 
