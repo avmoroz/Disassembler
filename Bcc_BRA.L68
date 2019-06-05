@@ -1,0 +1,160 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 6/4/2019 2:04:26 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00002080                             7      ORG    $2080
+00002080                             8  
+00002080                             9  IF_Bcc_BRA
+00002080  360C                      10      MOVE.W  A4,D3   
+00002082  C67C FF00                 11      AND.W   #$FF00,D3
+00002086                            12      
+00002086  B67C 6000                 13      CMP.W   #$6000,D3
+0000208A  6700 001E                 14      BEQ     DISPLAY_BRA
+0000208E                            15      
+0000208E  B67C 6E00                 16      CMP.W   #$6E00,D3
+00002092  6700 0028                 17      BEQ     DISPLAY_BGT
+00002096                            18      
+00002096  B67C 6F00                 19      CMP.W   #$6F00,D3
+0000209A  6700 0046                 20      BEQ     DISPLAY_BLE
+0000209E                            21      
+0000209E  B67C 6700                 22      CMP.W   #$6700,D3
+000020A2  6700 0064                 23      BEQ     DISPLAY_BEQ
+000020A6                            24      
+Line 25 ERROR: Undefined symbol
+000020A6  6000 9C6E                 25      BRA     IF_INVALID_OP
+000020AA                            26      
+000020AA                            27  DISPLAY_BRA
+Line 28 ERROR: Undefined symbol
+000020AA  43F9 004DBD16             28      LEA     BRA_OUTPUT,A1
+000020B0  103C 000E                 29      MOVE.B  #14,D0
+000020B4  4E4F                      30      TRAP    #15
+000020B6                            31  
+000020B6  360C                      32      MOVE.W  A4,D3   
+000020B8  C67C 00FF                 33      AND.W   #$00FF,D3
+000020BC                            34     
+000020BC                            35  DISPLAY_BGT
+Line 36 ERROR: Undefined symbol
+000020BC  43F9 004DBD16             36      LEA     BGT_OUTPUT,A1
+000020C2  103C 000E                 37      MOVE.B  #14,D0
+000020C6  4E4F                      38      TRAP    #15
+000020C8                            39  
+000020C8  360C                      40      MOVE.W  A4,D3   
+000020CA  C67C 00FF                 41      AND.W   #$00FF,D3
+000020CE                            42      
+000020CE  B63C 0000                 43      CMP.B   #$00,D3
+000020D2  6700 006E                 44      BEQ     PARSE_DISPLACEMENT_WORD
+000020D6                            45      
+000020D6  B63C 00FF                 46      CMP.B   #$FF,D3
+Line 47 ERROR: Undefined symbol
+000020DA  6700 9C3A                 47      BEQ     IF_INVALID_OP ;We don't handle 32 bit
+000020DE                            48      
+000020DE  6000 004E                 49      BRA     PARSE_DISPLACEMENT_BYTE
+000020E2                            50      
+000020E2                            51  DISPLAY_BLE
+Line 52 ERROR: Undefined symbol
+000020E2  43F9 004DBD16             52      LEA     BLE_OUTPUT,A1
+000020E8  103C 000E                 53      MOVE.B  #14,D0
+000020EC  4E4F                      54      TRAP    #15
+000020EE                            55  
+000020EE  360C                      56      MOVE.W  A4,D3   
+000020F0  C67C 00FF                 57      AND.W   #$00FF,D3
+000020F4                            58      
+000020F4  B63C 0000                 59      CMP.B   #$00,D3
+000020F8  6700 0048                 60      BEQ     PARSE_DISPLACEMENT_WORD
+000020FC                            61      
+000020FC  B63C 00FF                 62      CMP.B   #$FF,D3
+Line 63 ERROR: Undefined symbol
+00002100  6700 9C14                 63      BEQ     IF_INVALID_OP ;We don't handle 32 bit
+00002104                            64      
+00002104  6000 0028                 65      BRA     PARSE_DISPLACEMENT_BYTE
+00002108                            66      
+00002108                            67  DISPLAY_BEQ
+Line 68 ERROR: Undefined symbol
+00002108  43F9 004DBD16             68      LEA     BEQ_OUTPUT,A1
+0000210E  103C 000E                 69      MOVE.B  #14,D0
+00002112  4E4F                      70      TRAP    #15
+00002114                            71  
+00002114  360C                      72      MOVE.W  A4,D3   
+00002116  C67C 00FF                 73      AND.W   #$00FF,D3
+0000211A                            74      
+0000211A  B63C 0000                 75      CMP.B   #$00,D3
+0000211E  6700 0022                 76      BEQ     PARSE_DISPLACEMENT_WORD
+00002122                            77      
+00002122  B63C 00FF                 78      CMP.B   #$FF,D3
+Line 79 ERROR: Undefined symbol
+00002126  6700 9BEE                 79      BEQ     IF_INVALID_OP ;We don't handle 32 bit
+0000212A                            80      
+0000212A  6000 0002                 81      BRA     PARSE_DISPLACEMENT_BYTE
+0000212E                            82      
+0000212E                            83  PARSE_DISPLACEMENT_BYTE
+0000212E  7200                      84      MOVE.L  #$00000000,D1
+00002130                            85  
+00002130  C6BC 000000FF             86      AND.L   #$000000FF,D3
+00002136  B63C 00A0                 87      CMP.B   #$A0,D3    
+0000213A  6C00 001E                 88      BGE     IF_NEGATIVE_BYTE
+0000213E                            89  
+0000213E  6000 0038                 90      BRA     DISPLAY_DISPLACEMENT_AS_ADDRESS
+00002142                            91  
+00002142                            92  PARSE_DISPLACEMENT_WORD
+00002142  7200                      93      MOVE.L  #$00000000,D1
+00002144                            94  
+00002144  544A                      95      ADDQ    #2,A2
+00002146  3612                      96      MOVE.W  (A2),D3
+00002148                            97      
+00002148  C6BC 0000FFFF             98      AND.L   #$0000FFFF,D3
+0000214E  B67C A000                 99      CMP.W   #$A000,D3    
+00002152  6C00 0016                100      BGE     IF_NEGATIVE_WORD
+00002156                           101  
+00002156  6000 0020                102      BRA     DISPLAY_DISPLACEMENT_AS_ADDRESS
+0000215A                           103      
+0000215A                           104  IF_NEGATIVE_BYTE
+0000215A  223C FFFFFF00            105      MOVE.L  #$FFFFFF00,D1
+00002160  D283                     106      ADD.L   D3,D1
+00002162                           107      
+00002162  D28A                     108      ADD.L   A2,D1
+00002164  5441                     109      ADDQ    #2,D1
+00002166                           110      
+00002166  6000 0010                111      BRA     DISPLAY_DISPLACEMENT_AS_ADDRESS
+0000216A                           112  
+0000216A                           113  IF_NEGATIVE_WORD
+0000216A  223C FFFF0000            114      MOVE.L  #$FFFF0000,D1
+00002170  D283                     115      ADD.L   D3,D1
+00002172  D28A                     116      ADD.L   A2,D1
+00002174  6000 0002                117      BRA     DISPLAY_DISPLACEMENT_AS_ADDRESS
+00002178                           118  
+00002178                           119  DISPLAY_DISPLACEMENT_AS_ADDRESS
+00002178  143C 0010                120      MOVE.B  #16,D2
+0000217C  103C 000F                121      MOVE.B  #15,D0
+00002180  4E4F                     122      TRAP    #15
+Line 123 ERROR: Undefined symbol
+00002182  6000 9B92                123      BRA     ITERATE
+00002186                           124  
+00002186                           125  
+00002186                           126  
+00002186                           127  
+00002186                           128  
+Line 129 WARNING: END directive missing, starting address not set
+
+9 errors detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DISPLAY_BEQ         2108
+DISPLAY_BGT         20BC
+DISPLAY_BLE         20E2
+DISPLAY_BRA         20AA
+DISPLAY_DISPLACEMENT_AS_ADDRESS  2178
+IF_BCC_BRA          2080
+IF_NEGATIVE_BYTE    215A
+IF_NEGATIVE_WORD    216A
+PARSE_DISPLACEMENT_BYTE  212E
+PARSE_DISPLACEMENT_WORD  2142

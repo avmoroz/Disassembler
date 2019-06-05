@@ -165,8 +165,8 @@ Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
 MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (LEA, NOT, JSR done)
 
 
-LSR_ADDRESS     EQU     $E4C0
-LSL_ADDRESS     EQU     $E5C0
+LSR_ADDRESS     EQU     $E2C0
+LSL_ADDRESS     EQU     $E3C0
 ASR_ADDRESS     EQU     $E0C0
 ASL_ADDRESS     EQU     $E1C0
 ROR_ADDRESS     EQU     $E6C0
@@ -195,14 +195,14 @@ OR_OUTPUT       DC.B    'OR',0
 DIVU_OUTPUT     DC.B    'DIVU',0
 NOT_OUTPUT      DC.B    'NOT',0
 JSR_OUTPUT      DC.B    'JSR ',0
-LEA_OUTPUT      DC.B    'LEA',0
+LEA_OUTPUT      DC.B    'LEA ',0
 MOVEQ_OUTPUT    DC.B    'MOVEQ ',0
 MOVEM_OUTPUT    DC.B    'MOVEM',0
 
-BRA_OUTPUT      DC.B    'BRA ',0
-BGT_OUTPUT      DC.B    'BGE ',0
-BLE_OUTPUT      DC.B    'BLE ',0
-BEQ_OUTPUT      DC.B    'BEQ ',0
+BRA_OUTPUT      DC.B    'BRA',0
+BGT_OUTPUT      DC.B    'BGE',0
+BLE_OUTPUT      DC.B    'BLE',0
+BEQ_OUTPUT      DC.B    'BEQ',0
 
 LSR_OUTPUT      DC.B    'LSR',0
 LSL_OUTPUT      DC.B    'LSL',0
@@ -219,6 +219,9 @@ INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
+
+
 
 
 

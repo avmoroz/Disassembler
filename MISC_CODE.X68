@@ -69,7 +69,7 @@ DISPLAY_NOT_BYTE
     AND.W   #$0007,D4
     
     AND.W   #$0038,D5
-    LSL.W   #3,D5
+    LSR.W   #3,D5
     
     BSR     DISPLAY_ea_NOT
 
@@ -103,7 +103,7 @@ DISPLAY_NOT_LONG
     AND.W   #$0007,D4
     
     AND.W   #$0038,D5
-    LSR.W   #3,D5    
+    LSR.W   #3,D5   
     
     BSR     DISPLAY_ea_NOT
     
@@ -123,16 +123,16 @@ IF_JSR
     AND.W   #$0007,D4
     
     AND.W   #$0038,D5
-    LSL.W   #3,D5    
+    LSR.W   #3,D5    
     
     BSR     DISPLAY_ea_JSR_LEA
     
     BRA     ITERATE
-
+    
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;LEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF_LEA
-    LEA     JSR_OUTPUT,A1
+    LEA     LEA_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
     
@@ -154,12 +154,12 @@ IF_LEA
     MOVE.B  #6,D0
     TRAP    #15
     
-    MOVE.W  A4,D1
+    MOVE.L  A4,D1
     
     AND.W   #$0E00,D1
     
-    LSR     #7,D1
-    LSR     #2,D1   
+    LSR.L   #7,D1
+    LSR.L   #2,D1   
         
     MOVE.B  #16,D2
     MOVE.B  #15,D0
@@ -181,19 +181,19 @@ IF_DIVU_L
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISPLAY_ea_NOT
-    CMP.W   #%000,D4
+    CMP.W   #%000,D5
     BEQ     DISPLAY_Dn_NOT
 
-    CMP.W   #%010,D4
+    CMP.W   #%010,D5
     BEQ     DISPLAY_An_ADDRESS_NOT
     
-    CMP.W   #%011,D4
+    CMP.W   #%011,D5
     BEQ     DISPLAY_An_ADDRESS_INCREMENT_NOT
     
-    CMP.W   #%100,D4
+    CMP.W   #%100,D5
     BEQ     DISPLAY_An_ADDRESS_DECREMENT_NOT
     
-    CMP.W   #%111,D4
+    CMP.W   #%111,D5
     BEQ     DISPLAY_ADDRESS_OR_DATA_NOT
     
     BRA     IF_INVALID_OP
@@ -205,7 +205,7 @@ DISPLAY_Dn_NOT
     
     MOVE.B  #16,D2
     MOVE.B  #15,D0
-    MOVE.L  D5,D1
+    MOVE.L  D4,D1
     TRAP    #15
     
     RTS
@@ -221,7 +221,7 @@ DISPLAY_An_ADDRESS_NOT
     
     MOVE.B  #16,D2
     MOVE.B  #15,D0
-    MOVE.L  D5,D1
+    MOVE.L  D4,D1
     TRAP    #15
     
     MOVE.B  #RIGHT_PAR,D1
@@ -229,6 +229,30 @@ DISPLAY_An_ADDRESS_NOT
     TRAP    #15
 
     RTS
+    
+DISPLAY_An_ADDRESS_LEA
+    MOVE.B  #LEFT_PAR,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+
+    MOVE.B  #A,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
+    MOVE.W  A4,D5
+    ROR.W   #7,D5
+    AND.L   #$00000007,D5
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  D4,D1
+    TRAP    #15
+    
+    MOVE.B  #RIGHT_PAR,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+
+    RTS    
 
 DISPLAY_An_ADDRESS_INCREMENT_NOT
     MOVE.B  #LEFT_PAR,D1
@@ -241,7 +265,7 @@ DISPLAY_An_ADDRESS_INCREMENT_NOT
     
     MOVE.B  #16,D2
     MOVE.B  #15,D0
-    MOVE.L  D5,D1
+    MOVE.L  D4,D1
     TRAP    #15
     
     MOVE.B  #RIGHT_PAR,D1
@@ -269,7 +293,7 @@ DISPLAY_An_ADDRESS_DECREMENT_NOT
     
     MOVE.B  #16,D2
     MOVE.B  #15,D0
-    MOVE.L  D5,D1
+    MOVE.L  D4,D1
     TRAP    #15
     
     MOVE.B  #RIGHT_PAR,D1
@@ -280,10 +304,10 @@ DISPLAY_An_ADDRESS_DECREMENT_NOT
 
 DISPLAY_ADDRESS_OR_DATA_NOT
     CMP.W   #%000,D4
-    BEQ     DISPLAY_ADDRESS_WORD_SRC
+    BEQ     DISPLAY_ADDRESS_WORD_NOT
     
     CMP.W   #%001,D4
-    BEQ     DISPLAY_ADDRESS_LONG_SRC
+    BEQ     DISPLAY_ADDRESS_LONG_NOT
 
     BRA     IF_INVALID_OP
 
@@ -296,6 +320,7 @@ DISPLAY_ADDRESS_WORD_NOT
     
     MOVE.W  (A2),D1
     AND.L   #$0000FFFF,D1
+    MOVE.B  #16,D2
     MOVE.B  #15,D0
     TRAP    #15
     
@@ -318,14 +343,17 @@ DISPLAY_ADDRESS_LONG_NOT
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISPLAY_ea_JSR_LEA
-    CMP.W   #%010,D4
+    CMP.W   #%010,D5
     BEQ     DISPLAY_An_ADDRESS_NOT
     
-    CMP.W   #%111,D4
+    CMP.W   #%111,D5
     BEQ     DISPLAY_ADDRESS_OR_DATA_NOT
     
     BRA     IF_INVALID_OP 
     
+
+
+
 
 
 *~Font name~Courier New~

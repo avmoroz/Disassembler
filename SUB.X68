@@ -50,9 +50,36 @@ DISPLAY_SUB
     MOVE.B  #14,D0
     TRAP    #15
     
-    BRA     DISPLAY_ARGS
+    CMP.W   #%011,A5
+    BNE     DISPLAY_ARGS
+  
+    CMP.W   #%011,A5
+    BEQ     DISPLAY_SUB_W
+    
+    CMP.W   #%111,A5
+    BEQ     DISPLAY_SUB_L
+    
+    BRA     IF_INVALID_OP
+    
+DISPLAY_SUB_W
+    LEA     W_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
 
+    BSR     GET_EFFECTIVE_ADDRESS_ea
+    BRA     DISPLAY_ADDA_REGISTER
 
+DISPLAY_SUB_L
+    LEA     L_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+  
+    BSR     GET_EFFECTIVE_ADDRESS_ea
+    BRA     DISPLAY_ADDA_REGISTER
+    
+    
+    
+    
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
