@@ -10,7 +10,16 @@
 
     ORG $00009000
 
-NOP
+    MULS.W    D0,D1
+    MULS.W    (A0),D1
+    MULS.W    -(A0),D1
+    MULS.W    (A0)+,D1
+    DIVU.W    D0,D1
+    DIVU.W    (A0),D1
+    DIVU.W    -(A0),D1
+    DIVU.W    (A0)+,D1
+
+    NOP
     RTS
     NOP
     RTS
@@ -663,6 +672,7 @@ label4
     MOVEM.L $A000,D0
     MOVEM.L $2000,D0/A1-A3/D2-D4/A3/A0/A6
     MOVEM.L $A000,D0/A1/D2/A1-A4/A0/A6
+
 
 
 *~Font name~Courier New~

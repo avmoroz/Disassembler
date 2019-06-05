@@ -31,9 +31,7 @@ START   ORG    $1000
     
     MOVE.L  #0,A4
     MOVE.L  #9,A3
-    
-    
-    
+        
     BRA     GET_INPUT1
     
     MOVE.L  #$60B0,A3
