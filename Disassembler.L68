@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 6/5/2019 2:11:38 AM
+Created On: 6/5/2019 2:23:36 AM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -76,7 +76,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003D76  6000 D352                 72      BRA     IF_INVALID_OP
 00003D7A                            73      
 00003D7A                            74  IF_MOVEM_TO_REGISTER
-00003D7A  43F9 0000114B             75      LEA     MOVEM_OUTPUT,A1
+00003D7A  43F9 00001161             75      LEA     MOVEM_OUTPUT,A1
 00003D80  103C 000E                 76      MOVE.B  #14,D0
 00003D84  4E4F                      77      TRAP    #15
 00003D86                            78  
@@ -89,7 +89,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003D94  6000 0002                 85      BRA     WORD_FOR_TO_REGISTER
 00003D98                            86  
 00003D98                            87  WORD_FOR_TO_REGISTER
-00003D98  43F9 0000117D             88      LEA     W_OUTPUT,A1
+00003D98  43F9 00001193             88      LEA     W_OUTPUT,A1
 00003D9E  103C 000E                 89      MOVE.B  #14,D0
 00003DA2  4E4F                      90      TRAP    #15
 00003DA4                            91      
@@ -113,7 +113,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003DCE  6000 D30A                109      BRA     ITERATE
 00003DD2                           110  
 00003DD2                           111  LONG_FOR_TO_REGISTER
-00003DD2  43F9 00001181            112      LEA     L_OUTPUT,A1
+00003DD2  43F9 00001197            112      LEA     L_OUTPUT,A1
 00003DD8  103C 000E                113      MOVE.B  #14,D0
 00003DDC  4E4F                     114      TRAP    #15
 00003DDE                           115      
@@ -449,7 +449,7 @@ Created On: 6/5/2019 2:11:38 AM
 000040BC                           445  IF_MOVEM_TO_ADDRESS
 000040BC  7A00                     446      MOVE.L  #0,D5
 000040BE                           447  
-000040BE  43F9 0000114B            448      LEA     MOVEM_OUTPUT,A1
+000040BE  43F9 00001161            448      LEA     MOVEM_OUTPUT,A1
 000040C4  103C 000E                449      MOVE.B  #14,D0
 000040C8  4E4F                     450      TRAP    #15
 000040CA                           451  
@@ -462,7 +462,7 @@ Created On: 6/5/2019 2:11:38 AM
 000040D8  6000 0002                458      BRA     WORD_FOR_TO_ADDRESS
 000040DC                           459  
 000040DC                           460  WORD_FOR_TO_ADDRESS
-000040DC  43F9 0000117D            461      LEA     W_OUTPUT,A1
+000040DC  43F9 00001193            461      LEA     W_OUTPUT,A1
 000040E2  103C 000E                462      MOVE.B  #14,D0
 000040E6  4E4F                     463      TRAP    #15
 000040E8                           464      
@@ -477,7 +477,7 @@ Created On: 6/5/2019 2:11:38 AM
 000040F8  6000 CFE0                473      BRA     ITERATE
 000040FC                           474  
 000040FC                           475  LONG_FOR_TO_ADDRESS
-000040FC  43F9 00001181            476      LEA     L_OUTPUT,A1
+000040FC  43F9 00001197            476      LEA     L_OUTPUT,A1
 00004102  103C 000E                477      MOVE.B  #14,D0
 00004106  4E4F                     478      TRAP    #15
 00004108                           479      
@@ -889,7 +889,7 @@ Created On: 6/5/2019 2:11:38 AM
 0000292C  6000 E79C                885      BRA     IF_INVALID_OP
 00002930                           886      
 00002930                           887  IF_LSR_ADDRESS
-00002930  43F9 00001161            888      LEA     LSR_OUTPUT,A1
+00002930  43F9 00001177            888      LEA     LSR_OUTPUT,A1
 00002936  103C 000E                889      MOVE.B  #14,D0
 0000293A  4E4F                     890      TRAP    #15
 0000293C                           891      
@@ -897,7 +897,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002940  6000 E798                893      BRA     ITERATE
 00002944                           894  
 00002944                           895  IF_LSL_ADDRESS
-00002944  43F9 00001165            896      LEA     LSL_OUTPUT,A1
+00002944  43F9 0000117B            896      LEA     LSL_OUTPUT,A1
 0000294A  103C 000E                897      MOVE.B  #14,D0
 0000294E  4E4F                     898      TRAP    #15
 00002950                           899      
@@ -905,7 +905,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002954  6000 E784                901      BRA     ITERATE
 00002958                           902  
 00002958                           903  IF_ASR_ADDRESS
-00002958  43F9 00001169            904      LEA     ASR_OUTPUT,A1
+00002958  43F9 0000117F            904      LEA     ASR_OUTPUT,A1
 0000295E  103C 000E                905      MOVE.B  #14,D0
 00002962  4E4F                     906      TRAP    #15
 00002964                           907      
@@ -913,7 +913,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002968  6000 E770                909      BRA     ITERATE
 0000296C                           910  
 0000296C                           911  IF_ASL_ADDRESS
-0000296C  43F9 0000116D            912      LEA     ASL_OUTPUT,A1
+0000296C  43F9 00001183            912      LEA     ASL_OUTPUT,A1
 00002972  103C 000E                913      MOVE.B  #14,D0
 00002976  4E4F                     914      TRAP    #15
 00002978                           915      
@@ -921,7 +921,7 @@ Created On: 6/5/2019 2:11:38 AM
 0000297C  6000 E75C                917      BRA     ITERATE
 00002980                           918  
 00002980                           919  IF_ROR_ADDRESS
-00002980  43F9 00001171            920      LEA     ROR_OUTPUT,A1
+00002980  43F9 00001187            920      LEA     ROR_OUTPUT,A1
 00002986  103C 000E                921      MOVE.B  #14,D0
 0000298A  4E4F                     922      TRAP    #15
 0000298C                           923  
@@ -929,7 +929,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002990  6000 E748                925      BRA     ITERATE
 00002994                           926  
 00002994                           927  IF_ROL_ADDRESS
-00002994  43F9 00001175            928      LEA     ROL_OUTPUT,A1
+00002994  43F9 0000118B            928      LEA     ROL_OUTPUT,A1
 0000299A  103C 000E                929      MOVE.B  #14,D0
 0000299E  4E4F                     930      TRAP    #15
 000029A0                           931  
@@ -974,42 +974,42 @@ Created On: 6/5/2019 2:11:38 AM
 000029F8                           970      
 000029F8                           971  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 000029F8                           972  IF_LSR_REGISTER
-000029F8  43F9 00001161            973      LEA     LSR_OUTPUT,A1
+000029F8  43F9 00001177            973      LEA     LSR_OUTPUT,A1
 000029FE  103C 000E                974      MOVE.B  #14,D0
 00002A02  4E4F                     975      TRAP    #15
 00002A04                           976      
 00002A04  6000 0052                977      BRA     GET_SIZE
 00002A08                           978  
 00002A08                           979  IF_LSL_REGISTER
-00002A08  43F9 00001165            980      LEA     LSL_OUTPUT,A1
+00002A08  43F9 0000117B            980      LEA     LSL_OUTPUT,A1
 00002A0E  103C 000E                981      MOVE.B  #14,D0
 00002A12  4E4F                     982      TRAP    #15
 00002A14                           983  
 00002A14  6000 0042                984      BRA     GET_SIZE
 00002A18                           985      
 00002A18                           986  IF_ASR_REGISTER
-00002A18  43F9 00001169            987      LEA     ASR_OUTPUT,A1
+00002A18  43F9 0000117F            987      LEA     ASR_OUTPUT,A1
 00002A1E  103C 000E                988      MOVE.B  #14,D0
 00002A22  4E4F                     989      TRAP    #15
 00002A24                           990  
 00002A24  6000 0032                991      BRA     GET_SIZE
 00002A28                           992  
 00002A28                           993  IF_ASL_REGISTER
-00002A28  43F9 0000116D            994      LEA     ASL_OUTPUT,A1
+00002A28  43F9 00001183            994      LEA     ASL_OUTPUT,A1
 00002A2E  103C 000E                995      MOVE.B  #14,D0
 00002A32  4E4F                     996      TRAP    #15
 00002A34                           997      
 00002A34  6000 0022                998      BRA     GET_SIZE
 00002A38                           999  
 00002A38                          1000  IF_ROR_REGISTER
-00002A38  43F9 00001171           1001      LEA     ROR_OUTPUT,A1
+00002A38  43F9 00001187           1001      LEA     ROR_OUTPUT,A1
 00002A3E  103C 000E               1002      MOVE.B  #14,D0
 00002A42  4E4F                    1003      TRAP    #15
 00002A44                          1004      
 00002A44  6000 0012               1005      BRA     GET_SIZE
 00002A48                          1006  
 00002A48                          1007  IF_ROL_REGISTER
-00002A48  43F9 00001175           1008      LEA     ROL_OUTPUT,A1
+00002A48  43F9 0000118B           1008      LEA     ROL_OUTPUT,A1
 00002A4E  103C 000E               1009      MOVE.B  #14,D0
 00002A52  4E4F                    1010      TRAP    #15
 00002A54                          1011      
@@ -1033,21 +1033,21 @@ Created On: 6/5/2019 2:11:38 AM
 00002A78  6000 E650               1029      BRA     IF_INVALID_OP
 00002A7C                          1030      
 00002A7C                          1031  DISPLAY_SIZE_BYTE
-00002A7C  43F9 00001179           1032      LEA     B_OUTPUT,A1
+00002A7C  43F9 0000118F           1032      LEA     B_OUTPUT,A1
 00002A82  103C 000E               1033      MOVE.B  #14,D0
 00002A86  4E4F                    1034      TRAP    #15
 00002A88                          1035      
 00002A88  6000 0022               1036      BRA     DETERMINE_SRC
 00002A8C                          1037  
 00002A8C                          1038  DISPLAY_SIZE_WORD
-00002A8C  43F9 0000117D           1039      LEA     W_OUTPUT,A1
+00002A8C  43F9 00001193           1039      LEA     W_OUTPUT,A1
 00002A92  103C 000E               1040      MOVE.B  #14,D0
 00002A96  4E4F                    1041      TRAP    #15
 00002A98                          1042      
 00002A98  6000 0012               1043      BRA     DETERMINE_SRC
 00002A9C                          1044  
 00002A9C                          1045  DISPLAY_SIZE_LONG
-00002A9C  43F9 00001181           1046      LEA     L_OUTPUT,A1
+00002A9C  43F9 00001197           1046      LEA     L_OUTPUT,A1
 00002AA2  103C 000E               1047      MOVE.B  #14,D0
 00002AA6  4E4F                    1048      TRAP    #15
 00002AA8                          1049      
@@ -1157,7 +1157,7 @@ Created On: 6/5/2019 2:11:38 AM
 000020A6  6000 F022               1153      BRA     IF_INVALID_OP
 000020AA                          1154      
 000020AA                          1155  DISPLAY_BRA
-000020AA  43F9 00001151           1156      LEA     BRA_OUTPUT,A1
+000020AA  43F9 00001167           1156      LEA     BRA_OUTPUT,A1
 000020B0  103C 000E               1157      MOVE.B  #14,D0
 000020B4  4E4F                    1158      TRAP    #15
 000020B6                          1159  
@@ -1165,7 +1165,7 @@ Created On: 6/5/2019 2:11:38 AM
 000020B8  C67C 00FF               1161      AND.W   #$00FF,D3
 000020BC                          1162     
 000020BC                          1163  DISPLAY_BGT
-000020BC  43F9 00001155           1164      LEA     BGT_OUTPUT,A1
+000020BC  43F9 0000116B           1164      LEA     BGT_OUTPUT,A1
 000020C2  103C 000E               1165      MOVE.B  #14,D0
 000020C6  4E4F                    1166      TRAP    #15
 000020C8                          1167  
@@ -1181,7 +1181,7 @@ Created On: 6/5/2019 2:11:38 AM
 000020DE  6000 004E               1177      BRA     PARSE_DISPLACEMENT_BYTE
 000020E2                          1178      
 000020E2                          1179  DISPLAY_BLE
-000020E2  43F9 00001159           1180      LEA     BLE_OUTPUT,A1
+000020E2  43F9 0000116F           1180      LEA     BLE_OUTPUT,A1
 000020E8  103C 000E               1181      MOVE.B  #14,D0
 000020EC  4E4F                    1182      TRAP    #15
 000020EE                          1183  
@@ -1197,7 +1197,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002104  6000 0028               1193      BRA     PARSE_DISPLACEMENT_BYTE
 00002108                          1194      
 00002108                          1195  DISPLAY_BEQ
-00002108  43F9 0000115D           1196      LEA     BEQ_OUTPUT,A1
+00002108  43F9 00001173           1196      LEA     BEQ_OUTPUT,A1
 0000210E  103C 000E               1197      MOVE.B  #14,D0
 00002112  4E4F                    1198      TRAP    #15
 00002114                          1199  
@@ -1213,7 +1213,7 @@ Created On: 6/5/2019 2:11:38 AM
 0000212A  6000 0002               1209      BRA     PARSE_DISPLACEMENT_BYTE
 0000212E                          1210      
 0000212E                          1211  PARSE_DISPLACEMENT_BYTE
-0000212E  43F9 00001179           1212      LEA     B_OUTPUT,A1
+0000212E  43F9 0000118F           1212      LEA     B_OUTPUT,A1
 00002134  103C 000E               1213      MOVE.B  #14,D0
 00002138  4E4F                    1214      TRAP    #15
 0000213A                          1215  
@@ -1234,7 +1234,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002158  6000 0050               1230      BRA     DISPLAY_DISPLACEMENT_AS_ADDRESS
 0000215C                          1231  
 0000215C                          1232  PARSE_DISPLACEMENT_WORD
-0000215C  43F9 0000117D           1233      LEA     W_OUTPUT,A1
+0000215C  43F9 00001193           1233      LEA     W_OUTPUT,A1
 00002162  103C 000E               1234      MOVE.B  #14,D0
 00002166  4E4F                    1235      TRAP    #15
 00002168                          1236  
@@ -1297,7 +1297,7 @@ Created On: 6/5/2019 2:11:38 AM
 0000310E  6000 DFBA               1293      BRA     IF_INVALID_OP
 00003112                          1294      
 00003112                          1295  DISPLAY_MOVEQ
-00003112  43F9 00001144           1296      LEA     MOVEQ_OUTPUT,A1
+00003112  43F9 0000115A           1296      LEA     MOVEQ_OUTPUT,A1
 00003118  103C 000E               1297      MOVE.B  #14,D0
 0000311C  4E4F                    1298      TRAP    #15
 0000311E                          1299      
@@ -1377,7 +1377,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002D1C                          1373  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002D1C                          1374  ;NOT;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002D1C                          1375  IF_NOT
-00002D1C  43F9 00001136           1376      LEA     NOT_OUTPUT,A1
+00002D1C  43F9 0000114C           1376      LEA     NOT_OUTPUT,A1
 00002D22  103C 000E               1377      MOVE.B  #14,D0
 00002D26  4E4F                    1378      TRAP    #15
 00002D28                          1379  
@@ -1396,7 +1396,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002D46  6000 E382               1392      BRA     IF_INVALID_OP
 00002D4A                          1393  
 00002D4A                          1394  DISPLAY_NOT_BYTE
-00002D4A  43F9 00001179           1395      LEA     B_OUTPUT,A1
+00002D4A  43F9 0000118F           1395      LEA     B_OUTPUT,A1
 00002D50  103C 000E               1396      MOVE.B  #14,D0
 00002D54  4E4F                    1397      TRAP    #15
 00002D56                          1398      
@@ -1413,7 +1413,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002D68  6000 E370               1409      BRA     ITERATE
 00002D6C                          1410  
 00002D6C                          1411  DISPLAY_NOT_WORD
-00002D6C  43F9 0000117D           1412      LEA     W_OUTPUT,A1
+00002D6C  43F9 00001193           1412      LEA     W_OUTPUT,A1
 00002D72  103C 000E               1413      MOVE.B  #14,D0
 00002D76  4E4F                    1414      TRAP    #15
 00002D78                          1415      
@@ -1430,7 +1430,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002D8A  6000 E34E               1426      BRA     ITERATE
 00002D8E                          1427  
 00002D8E                          1428  DISPLAY_NOT_LONG
-00002D8E  43F9 00001181           1429      LEA     L_OUTPUT,A1
+00002D8E  43F9 00001197           1429      LEA     L_OUTPUT,A1
 00002D94  103C 000E               1430      MOVE.B  #14,D0
 00002D98  4E4F                    1431      TRAP    #15
 00002D9A                          1432      
@@ -1450,7 +1450,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002DB0                          1446  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002DB0                          1447  ;JSR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002DB0                          1448  IF_JSR
-00002DB0  43F9 0000113A           1449      LEA     JSR_OUTPUT,A1
+00002DB0  43F9 00001150           1449      LEA     JSR_OUTPUT,A1
 00002DB6  103C 000E               1450      MOVE.B  #14,D0
 00002DBA  4E4F                    1451      TRAP    #15
 00002DBC                          1452  
@@ -1469,7 +1469,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002DD2                          1465  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002DD2                          1466  ;LEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002DD2                          1467  IF_LEA
-00002DD2  43F9 0000113F           1468      LEA     LEA_OUTPUT,A1
+00002DD2  43F9 00001155           1468      LEA     LEA_OUTPUT,A1
 00002DD8  103C 000E               1469      MOVE.B  #14,D0
 00002DDC  4E4F                    1470      TRAP    #15
 00002DDE                          1471      
@@ -1747,7 +1747,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002508                          1743  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002508                          1744  ;OR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00002508                          1745  DISPLAY_OR
-00002508  43F9 0000112E           1746      LEA     OR_OUTPUT,A1
+00002508  43F9 00001144           1746      LEA     OR_OUTPUT,A1
 0000250E  103C 000E               1747      MOVE.B  #14,D0
 00002512  4E4F                    1748      TRAP    #15
 00002514                          1749  
@@ -1772,7 +1772,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002544  6000 EB84               1768      BRA     IF_INVALID_OP 
 00002548                          1769  
 00002548                          1770  DISPLAY_BYTE_SRC_OR
-00002548  43F9 00001179           1771      LEA     B_OUTPUT,A1
+00002548  43F9 0000118F           1771      LEA     B_OUTPUT,A1
 0000254E  103C 000E               1772      MOVE.B  #14,D0
 00002552  4E4F                    1773      TRAP    #15
 00002554                          1774  
@@ -1787,7 +1787,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002566  6000 EB72               1783      BRA     ITERATE
 0000256A                          1784  
 0000256A                          1785  DISPLAY_WORD_SRC_OR
-0000256A  43F9 0000117D           1786      LEA     W_OUTPUT,A1
+0000256A  43F9 00001193           1786      LEA     W_OUTPUT,A1
 00002570  103C 000E               1787      MOVE.B  #14,D0
 00002574  4E4F                    1788      TRAP    #15
 00002576                          1789  
@@ -1802,7 +1802,7 @@ Created On: 6/5/2019 2:11:38 AM
 00002588  6000 EB50               1798      BRA     ITERATE
 0000258C                          1799  
 0000258C                          1800  DISPLAY_LONG_SRC_OR
-0000258C  43F9 00001181           1801      LEA     L_OUTPUT,A1
+0000258C  43F9 00001197           1801      LEA     L_OUTPUT,A1
 00002592  103C 000E               1802      MOVE.B  #14,D0
 00002596  4E4F                    1803      TRAP    #15
 00002598                          1804  
@@ -1817,7 +1817,7 @@ Created On: 6/5/2019 2:11:38 AM
 000025AA  6000 EB2E               1813      BRA     ITERATE
 000025AE                          1814  
 000025AE                          1815  DISPLAY_BYTE_DEST_OR
-000025AE  43F9 00001179           1816      LEA     B_OUTPUT,A1
+000025AE  43F9 0000118F           1816      LEA     B_OUTPUT,A1
 000025B4  103C 000E               1817      MOVE.B  #14,D0
 000025B8  4E4F                    1818      TRAP    #15
 000025BA                          1819  
@@ -1832,7 +1832,7 @@ Created On: 6/5/2019 2:11:38 AM
 000025CC  6000 EB0C               1828      BRA     ITERATE
 000025D0                          1829  
 000025D0                          1830  DISPLAY_WORD_DEST_OR
-000025D0  43F9 0000117D           1831      LEA     W_OUTPUT,A1
+000025D0  43F9 00001193           1831      LEA     W_OUTPUT,A1
 000025D6  103C 000E               1832      MOVE.B  #14,D0
 000025DA  4E4F                    1833      TRAP    #15
 000025DC                          1834  
@@ -1847,7 +1847,7 @@ Created On: 6/5/2019 2:11:38 AM
 000025EE  6000 EAEA               1843      BRA     ITERATE
 000025F2                          1844  
 000025F2                          1845  DISPLAY_LONG_DEST_OR
-000025F2  43F9 00001181           1846      LEA     L_OUTPUT,A1
+000025F2  43F9 00001197           1846      LEA     L_OUTPUT,A1
 000025F8  103C 000E               1847      MOVE.B  #14,D0
 000025FC  4E4F                    1848      TRAP    #15
 000025FE                          1849  
@@ -1937,13 +1937,13 @@ Created On: 6/5/2019 2:11:38 AM
 00001478  6000 0012               1933      BRA     DISPLAY_MOVE
 0000147C                          1934      
 0000147C                          1935  DISPLAY_MOVEA
-0000147C  43F9 00001108           1936      LEA     MOVEA_OUTPUT,A1
+0000147C  43F9 0000111E           1936      LEA     MOVEA_OUTPUT,A1
 00001482  103C 000E               1937      MOVE.B  #14,D0
 00001486  4E4F                    1938      TRAP    #15
 00001488  6000 0012               1939      BRA     DISPLAY_TYPE
 0000148C                          1940  
 0000148C                          1941  DISPLAY_MOVE
-0000148C  43F9 0000110E           1942      LEA     MOVE_OUTPUT,A1
+0000148C  43F9 00001124           1942      LEA     MOVE_OUTPUT,A1
 00001492  103C 000E               1943      MOVE.B  #14,D0
 00001496  4E4F                    1944      TRAP    #15
 00001498  6000 0002               1945      BRA     DISPLAY_TYPE
@@ -1961,19 +1961,19 @@ Created On: 6/5/2019 2:11:38 AM
 000014B4  6000 FC14               1957      BRA     IF_INVALID_OP     
 000014B8                          1958      
 000014B8                          1959  DISPLAY_BYTE
-000014B8  43F9 00001179           1960      LEA     B_OUTPUT,A1
+000014B8  43F9 0000118F           1960      LEA     B_OUTPUT,A1
 000014BE  103C 000E               1961      MOVE.B  #14,D0
 000014C2  4E4F                    1962      TRAP    #15
 000014C4  6000 0022               1963      BRA     DISPLAY_SRC_MODE
 000014C8                          1964  
 000014C8                          1965  DISPLAY_WORD
-000014C8  43F9 0000117D           1966      LEA     W_OUTPUT,A1
+000014C8  43F9 00001193           1966      LEA     W_OUTPUT,A1
 000014CE  103C 000E               1967      MOVE.B  #14,D0
 000014D2  4E4F                    1968      TRAP    #15
 000014D4  6000 0012               1969      BRA     DISPLAY_SRC_MODE
 000014D8                          1970  
 000014D8                          1971  DISPLAY_LONG
-000014D8  43F9 00001181           1972      LEA     L_OUTPUT,A1
+000014D8  43F9 00001197           1972      LEA     L_OUTPUT,A1
 000014DE  103C 000E               1973      MOVE.B  #14,D0
 000014E2  4E4F                    1974      TRAP    #15
 000014E4  6000 0002               1975      BRA     DISPLAY_SRC_MODE
@@ -2420,11 +2420,11 @@ Created On: 6/5/2019 2:11:38 AM
 000018A8                          2416  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 000018A8                          2417  
 000018A8                          2418  DISPLAY_ADDA_W
-000018A8  43F9 00001113           2419      LEA     ADDA_OUTPUT,A1
+000018A8  43F9 00001129           2419      LEA     ADDA_OUTPUT,A1
 000018AE  103C 000E               2420      MOVE.B  #14,D0
 000018B2  4E4F                    2421      TRAP    #15
 000018B4                          2422  
-000018B4  43F9 0000117D           2423      LEA     W_OUTPUT,A1
+000018B4  43F9 00001193           2423      LEA     W_OUTPUT,A1
 000018BA  103C 000E               2424      MOVE.B  #14,D0
 000018BE  4E4F                    2425      TRAP    #15
 000018C0                          2426      
@@ -2432,11 +2432,11 @@ Created On: 6/5/2019 2:11:38 AM
 000018C4  6000 01F0               2428      BRA     DISPLAY_ADDA_REGISTER
 000018C8                          2429  
 000018C8                          2430  DISPLAY_ADDA_L
-000018C8  43F9 00001113           2431      LEA     ADDA_OUTPUT,A1
+000018C8  43F9 00001129           2431      LEA     ADDA_OUTPUT,A1
 000018CE  103C 000E               2432      MOVE.B  #14,D0
 000018D2  4E4F                    2433      TRAP    #15
 000018D4                          2434      
-000018D4  43F9 00001181           2435      LEA     L_OUTPUT,A1
+000018D4  43F9 00001197           2435      LEA     L_OUTPUT,A1
 000018DA  103C 000E               2436      MOVE.B  #14,D0
 000018DE  4E4F                    2437      TRAP    #15
 000018E0                          2438      
@@ -2687,7 +2687,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001ADA                          2683      
 00001ADA                          2684  
 00001ADA                          2685  DISPLAY_ADD
-00001ADA  43F9 00001118           2686      LEA     ADD_OUTPUT,A1
+00001ADA  43F9 0000112E           2686      LEA     ADD_OUTPUT,A1
 00001AE0  103C 000E               2687      MOVE.B  #14,D0
 00001AE4  4E4F                    2688      TRAP    #15
 00001AE6                          2689      
@@ -2716,7 +2716,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001B1A  6000 F5AE               2712      BRA     IF_INVALID_OP   
 00001B1E                          2713      
 00001B1E                          2714  DISPLAY_BYTE_SRC
-00001B1E  43F9 00001179           2715      LEA     B_OUTPUT,A1
+00001B1E  43F9 0000118F           2715      LEA     B_OUTPUT,A1
 00001B24  103C 000E               2716      MOVE.B  #14,D0
 00001B28  4E4F                    2717      TRAP    #15
 00001B2A                          2718  
@@ -2731,7 +2731,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001B3C  6000 F59C               2727      BRA     ITERATE
 00001B40                          2728  
 00001B40                          2729  DISPLAY_WORD_SRC
-00001B40  43F9 0000117D           2730      LEA     W_OUTPUT,A1
+00001B40  43F9 00001193           2730      LEA     W_OUTPUT,A1
 00001B46  103C 000E               2731      MOVE.B  #14,D0
 00001B4A  4E4F                    2732      TRAP    #15
 00001B4C                          2733  
@@ -2746,7 +2746,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001B5E  6000 F57A               2742      BRA     ITERATE
 00001B62                          2743  
 00001B62                          2744  DISPLAY_LONG_SRC
-00001B62  43F9 00001181           2745      LEA     L_OUTPUT,A1
+00001B62  43F9 00001197           2745      LEA     L_OUTPUT,A1
 00001B68  103C 000E               2746      MOVE.B  #14,D0
 00001B6C  4E4F                    2747      TRAP    #15
 00001B6E                          2748  
@@ -2761,7 +2761,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001B80  6000 F558               2757      BRA     ITERATE
 00001B84                          2758  
 00001B84                          2759  DISPLAY_BYTE_DEST
-00001B84  43F9 00001179           2760      LEA     B_OUTPUT,A1
+00001B84  43F9 0000118F           2760      LEA     B_OUTPUT,A1
 00001B8A  103C 000E               2761      MOVE.B  #14,D0
 00001B8E  4E4F                    2762      TRAP    #15
 00001B90                          2763  
@@ -2776,7 +2776,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001BA2  6000 F536               2772      BRA     ITERATE
 00001BA6                          2773  
 00001BA6                          2774  DISPLAY_WORD_DEST
-00001BA6  43F9 0000117D           2775      LEA     W_OUTPUT,A1
+00001BA6  43F9 00001193           2775      LEA     W_OUTPUT,A1
 00001BAC  103C 000E               2776      MOVE.B  #14,D0
 00001BB0  4E4F                    2777      TRAP    #15
 00001BB2                          2778  
@@ -2791,7 +2791,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001BC4  6000 F514               2787      BRA     ITERATE
 00001BC8                          2788  
 00001BC8                          2789  DISPLAY_LONG_DEST
-00001BC8  43F9 00001181           2790      LEA     L_OUTPUT,A1
+00001BC8  43F9 00001197           2790      LEA     L_OUTPUT,A1
 00001BCE  103C 000E               2791      MOVE.B  #14,D0
 00001BD2  4E4F                    2792      TRAP    #15
 00001BD4                          2793  
@@ -2886,7 +2886,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003990  6000 0002               2882      BRA     DISPLAY_SUB
 00003994                          2883      
 00003994                          2884  DISPLAY_SUB
-00003994  43F9 0000111C           2885      LEA     SUB_OUTPUT,A1
+00003994  43F9 00001132           2885      LEA     SUB_OUTPUT,A1
 0000399A  103C 000E               2886      MOVE.B  #14,D0
 0000399E  4E4F                    2887      TRAP    #15
 000039A0                          2888      
@@ -2902,7 +2902,7 @@ Created On: 6/5/2019 2:11:38 AM
 000039B8  6000 D710               2898      BRA     IF_INVALID_OP
 000039BC                          2899      
 000039BC                          2900  DISPLAY_SUB_W
-000039BC  43F9 0000117D           2901      LEA     W_OUTPUT,A1
+000039BC  43F9 00001193           2901      LEA     W_OUTPUT,A1
 000039C2  103C 000E               2902      MOVE.B  #14,D0
 000039C6  4E4F                    2903      TRAP    #15
 000039C8                          2904  
@@ -2910,7 +2910,7 @@ Created On: 6/5/2019 2:11:38 AM
 000039CC  6000 E0E8               2906      BRA     DISPLAY_ADDA_REGISTER
 000039D0                          2907  
 000039D0                          2908  DISPLAY_SUB_L
-000039D0  43F9 00001181           2909      LEA     L_OUTPUT,A1
+000039D0  43F9 00001197           2909      LEA     L_OUTPUT,A1
 000039D6  103C 000E               2910      MOVE.B  #14,D0
 000039DA  4E4F                    2911      TRAP    #15
 000039DC                          2912    
@@ -2966,7 +2966,7 @@ Created On: 6/5/2019 2:11:38 AM
 00001CB4  6000 0002               2962      BRA     DISPLAY_ADDQ
 00001CB8                          2963      
 00001CB8                          2964  DISPLAY_ADDQ
-00001CB8  43F9 00001120           2965      LEA     ADDQ_OUTPUT,A1
+00001CB8  43F9 00001136           2965      LEA     ADDQ_OUTPUT,A1
 00001CBE  103C 000E               2966      MOVE.B  #14,D0
 00001CC2  4E4F                    2967      TRAP    #15
 00001CC4                          2968  
@@ -2985,19 +2985,19 @@ Created On: 6/5/2019 2:11:38 AM
 00001CE0  6000 F3E8               2981      BRA     IF_INVALID_OP
 00001CE4                          2982  
 00001CE4                          2983  DISPLAY_ADDQ_BYTE
-00001CE4  43F9 00001179           2984      LEA     B_OUTPUT,A1
+00001CE4  43F9 0000118F           2984      LEA     B_OUTPUT,A1
 00001CEA  103C 000E               2985      MOVE.B  #14,D0
 00001CEE  4E4F                    2986      TRAP    #15
 00001CF0  6000 0022               2987      BRA     DISPLAY_ADDQ_COMMA
 00001CF4                          2988  
 00001CF4                          2989  DISPLAY_ADDQ_WORD
-00001CF4  43F9 0000117D           2990      LEA     W_OUTPUT,A1
+00001CF4  43F9 00001193           2990      LEA     W_OUTPUT,A1
 00001CFA  103C 000E               2991      MOVE.B  #14,D0
 00001CFE  4E4F                    2992      TRAP    #15
 00001D00  6000 0012               2993      BRA     DISPLAY_ADDQ_COMMA
 00001D04                          2994  
 00001D04                          2995  DISPLAY_ADDQ_LONG
-00001D04  43F9 00001181           2996      LEA     L_OUTPUT,A1
+00001D04  43F9 00001197           2996      LEA     L_OUTPUT,A1
 00001D0A  103C 000E               2997      MOVE.B  #14,D0
 00001D0E  4E4F                    2998      TRAP    #15
 00001D10  6000 0002               2999      BRA     DISPLAY_ADDQ_COMMA    
@@ -3121,7 +3121,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003580                          3117  
 00003580                          3118  ;AND;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 00003580                          3119  DISPLAY_AND 
-00003580  43F9 00001125           3120      LEA     AND_OUTPUT,A1
+00003580  43F9 0000113B           3120      LEA     AND_OUTPUT,A1
 00003586  103C 000E               3121      MOVE.B  #14,D0
 0000358A  4E4F                    3122      TRAP    #15
 0000358C                          3123      
@@ -3146,7 +3146,7 @@ Created On: 6/5/2019 2:11:38 AM
 000035BC  6000 DB0C               3142      BRA     IF_INVALID_OP   
 000035C0                          3143      
 000035C0                          3144  DISPLAY_BYTE_SRC_AND
-000035C0  43F9 00001179           3145      LEA     B_OUTPUT,A1
+000035C0  43F9 0000118F           3145      LEA     B_OUTPUT,A1
 000035C6  103C 000E               3146      MOVE.B  #14,D0
 000035CA  4E4F                    3147      TRAP    #15
 000035CC                          3148  
@@ -3161,7 +3161,7 @@ Created On: 6/5/2019 2:11:38 AM
 000035DE  6000 DAFA               3157      BRA     ITERATE
 000035E2                          3158  
 000035E2                          3159  DISPLAY_WORD_SRC_AND
-000035E2  43F9 0000117D           3160      LEA     W_OUTPUT,A1
+000035E2  43F9 00001193           3160      LEA     W_OUTPUT,A1
 000035E8  103C 000E               3161      MOVE.B  #14,D0
 000035EC  4E4F                    3162      TRAP    #15
 000035EE                          3163  
@@ -3176,7 +3176,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003600  6000 DAD8               3172      BRA     ITERATE
 00003604                          3173  
 00003604                          3174  DISPLAY_LONG_SRC_AND
-00003604  43F9 00001181           3175      LEA     L_OUTPUT,A1
+00003604  43F9 00001197           3175      LEA     L_OUTPUT,A1
 0000360A  103C 000E               3176      MOVE.B  #14,D0
 0000360E  4E4F                    3177      TRAP    #15
 00003610                          3178  
@@ -3191,7 +3191,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003622  6000 DAB6               3187      BRA     ITERATE
 00003626                          3188  
 00003626                          3189  DISPLAY_BYTE_DEST_AND
-00003626  43F9 00001179           3190      LEA     B_OUTPUT,A1
+00003626  43F9 0000118F           3190      LEA     B_OUTPUT,A1
 0000362C  103C 000E               3191      MOVE.B  #14,D0
 00003630  4E4F                    3192      TRAP    #15
 00003632                          3193  
@@ -3206,7 +3206,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003644  6000 DA94               3202      BRA     ITERATE
 00003648                          3203  
 00003648                          3204  DISPLAY_WORD_DEST_AND
-00003648  43F9 0000117D           3205      LEA     W_OUTPUT,A1
+00003648  43F9 00001193           3205      LEA     W_OUTPUT,A1
 0000364E  103C 000E               3206      MOVE.B  #14,D0
 00003652  4E4F                    3207      TRAP    #15
 00003654                          3208  
@@ -3221,7 +3221,7 @@ Created On: 6/5/2019 2:11:38 AM
 00003666  6000 DA72               3217      BRA     ITERATE
 0000366A                          3218  
 0000366A                          3219  DISPLAY_LONG_DEST_AND
-0000366A  43F9 00001181           3220      LEA     L_OUTPUT,A1
+0000366A  43F9 00001197           3220      LEA     L_OUTPUT,A1
 00003670  103C 000E               3221      MOVE.B  #14,D0
 00003674  4E4F                    3222      TRAP    #15
 00003676                          3223  
@@ -3281,12 +3281,12 @@ Created On: 6/5/2019 2:11:38 AM
 000036F0                          3277  
 000036F0                          3278  ;MULS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 000036F0                          3279  DISPLAY_MULS
-000036F0  43F9 00001129           3280      LEA     MULS_OUTPUT,A1
+000036F0  43F9 0000113F           3280      LEA     MULS_OUTPUT,A1
 000036F6  103C 000E               3281      MOVE.B  #14,D0
 000036FA  4E4F                    3282      TRAP    #15
 000036FC  6000 D9CC               3283      BRA     IF_INVALID_OP
 00003700                          3284      
-00003700  43F9 0000117D           3285      LEA     W_OUTPUT,A1
+00003700  43F9 00001193           3285      LEA     W_OUTPUT,A1
 00003706  103C 000E               3286      MOVE.B  #14,D0
 0000370A  4E4F                    3287      TRAP    #15
 0000370C  6000 D9BC               3288      BRA     IF_INVALID_OP
@@ -3379,13 +3379,13 @@ Created On: 6/5/2019 2:11:38 AM
 0000108E  6000 003A               3375      BRA     IF_INVALID_OP
 00001092                          3376      
 00001092                          3377  IF_NOP
-00001092  43F9 000010FC           3378      LEA     NOP_OUTPUT,A1
+00001092  43F9 00001112           3378      LEA     NOP_OUTPUT,A1
 00001098  103C 000E               3379      MOVE.B  #14,D0
 0000109C  4E4F                    3380      TRAP    #15
 0000109E  6000 003A               3381      BRA     ITERATE
 000010A2                          3382  
 000010A2                          3383  IF_RTS
-000010A2  43F9 00001102           3384      LEA     RTS_OUTPUT,A1
+000010A2  43F9 00001118           3384      LEA     RTS_OUTPUT,A1
 000010A8  103C 000E               3385      MOVE.B  #14,D0
 000010AC  4E4F                    3386      TRAP    #15
 000010AE  6000 002A               3387      BRA     ITERATE
@@ -3403,15 +3403,15 @@ Created On: 6/5/2019 2:11:38 AM
 000010C6  6000 0358               3399      BRA     PARSE_MOVE
 000010CA                          3400  
 000010CA                          3401  IF_INVALID_OP
-000010CA  43F9 00001185           3402      LEA     INVALID_OUTPUT,A1
+000010CA  43F9 0000119B           3402      LEA     INVALID_OUTPUT,A1
 000010D0  103C 000E               3403      MOVE.B  #14,D0
 000010D4  4E4F                    3404      TRAP    #15
-000010D6  6000 001E               3405      BRA     DONE
+000010D6  6000 0034               3405      BRA     DONE
 000010DA                          3406  
 000010DA                          3407  ITERATE
 000010DA  548A                    3408      ADDQ.L  #2,A2
 000010DC                          3409      
-000010DC  43F9 0000119A           3410      LEA     NEWLINE,A1
+000010DC  43F9 000011B0           3410      LEA     NEWLINE,A1
 000010E2  103C 000E               3411      MOVE.B  #14,D0
 000010E6  4E4F                    3412      TRAP    #15
 000010E8                          3413      
@@ -3419,100 +3419,111 @@ Created On: 6/5/2019 2:11:38 AM
 000010EC                          3415      
 000010EC                          3416  COMPARE    
 000010EC  B4CB                    3417      CMP     A3,A2     
-000010EE  6C00 0006               3418      BGE     DONE
-000010F2  6000 FF1C               3419      BRA     PARSE_SIMPLE
-000010F6                          3420  
-000010F6                          3421  DONE
-000010F6  103C 0009               3422      MOVE.B  #9,D0
-000010FA  4E4F                    3423      TRAP    #15
-000010FC                          3424  
-000010FC                          3425  * Put variables and constants here
-000010FC                          3426  
-000010FC  =0000000D               3427  CR              EQU     $0D
-000010FC  =0000000A               3428  LF              EQU     $0A
-000010FC  =00000028               3429  LEFT_PAR        EQU     $28
-000010FC  =00000029               3430  RIGHT_PAR       EQU     $29
-000010FC  =00000041               3431  A               EQU     $41
-000010FC  =00000044               3432  D               EQU     $44
-000010FC  =0000002B               3433  PLUS            EQU     $2B
-000010FC  =0000002D               3434  MINUS           EQU     $2D
-000010FC  =00000023               3435  NUM             EQU     $23
-000010FC  =00000024               3436  HEX             EQU     $24
-000010FC  =0000002C               3437  COMMA           EQU     $2C
-000010FC  =00000020               3438  SPACE           EQU     $20
-000010FC  =0000002F               3439  SLASH           EQU     $2F
-000010FC                          3440  
-000010FC                          3441  ;Codes to be parsed
-000010FC  =00004E71               3442  NOP_CODE        EQU     $4E71
-000010FC  =00004E75               3443  RTS_CODE        EQU     $4E75
-000010FC  =00001000               3444  MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B (done)
-000010FC  =00003000               3445  MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W (done)
-000010FC  =00002000               3446  MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L (done)
-000010FC  =00007000               3447  MOVEQ_CODE      EQU     $7000 ; MOVEQ (done)
-000010FC  =00008000               3448  DIVU_OR_CODE    EQU     $8000 ; [DIVU], OR (done)
-000010FC  =00009000               3449  SUB_CODE        EQU     $9000 ; SUB (done)
-000010FC  =0000C000               3450  MULS_AND_CODE   EQU     $C000 ; MULS, AND (done)
-000010FC  =0000D000               3451  ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
-000010FC  =0000E000               3452  LS_CODE         EQU     $E000 ; LOGICAL SHIFTS (in progress)
-000010FC  =00005000               3453  ADDQ_CODE       EQU     $5000 ; ADDQ (done)
-000010FC  =00006000               3454  Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
-000010FC  =00004000               3455  MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (LEA, NOT, JSR done)
-000010FC                          3456  
-000010FC                          3457  
-000010FC  =0000E2C0               3458  LSR_ADDRESS     EQU     $E2C0
-000010FC  =0000E3C0               3459  LSL_ADDRESS     EQU     $E3C0
-000010FC  =0000E0C0               3460  ASR_ADDRESS     EQU     $E0C0
-000010FC  =0000E1C0               3461  ASL_ADDRESS     EQU     $E1C0
-000010FC  =0000E6C0               3462  ROR_ADDRESS     EQU     $E6C0
-000010FC  =0000E7C0               3463  ROL_ADDRESS     EQU     $E7C0
-000010FC                          3464  
-000010FC  =0000E008               3465  LSR_REGISTER    EQU     $E008
-000010FC  =0000E108               3466  LSL_REGISTER    EQU     $E108
-000010FC  =0000E000               3467  ASR_REGISTER    EQU     $E000
-000010FC  =0000E100               3468  ASL_REGISTER    EQU     $E100
-000010FC  =0000E018               3469  ROR_REGISTER    EQU     $E018
-000010FC  =0000E118               3470  ROL_REGISTER    EQU     $E118
-000010FC                          3471  
-000010FC                          3472  ;Sample outputs
-000010FC= 4E 4F 50 0D 0A 00       3473  NOP_OUTPUT      DC.B    'NOP',CR,LF,0
-00001102= 52 54 53 0D 0A 00       3474  RTS_OUTPUT      DC.B    'RTS',CR,LF,0
-00001108                          3475  
-00001108= 4D 4F 56 45 41 00       3476  MOVEA_OUTPUT    DC.B    'MOVEA',0
-0000110E= 4D 4F 56 45 00          3477  MOVE_OUTPUT     DC.B    'MOVE',0
-00001113= 41 44 44 41 00          3478  ADDA_OUTPUT     DC.B    'ADDA',0
-00001118= 41 44 44 00             3479  ADD_OUTPUT      DC.B    'ADD',0
-0000111C= 53 55 42 00             3480  SUB_OUTPUT      DC.B    'SUB',0
-00001120= 41 44 44 51 00          3481  ADDQ_OUTPUT     DC.B    'ADDQ',0
-00001125= 41 4E 44 00             3482  AND_OUTPUT      DC.B    'AND',0
-00001129= 4D 55 4C 53 00          3483  MULS_OUTPUT     DC.B    'MULS',0
-0000112E= 4F 52 00                3484  OR_OUTPUT       DC.B    'OR',0
-00001131= 44 49 56 55 00          3485  DIVU_OUTPUT     DC.B    'DIVU',0
-00001136= 4E 4F 54 00             3486  NOT_OUTPUT      DC.B    'NOT',0
-0000113A= 4A 53 52 20 00          3487  JSR_OUTPUT      DC.B    'JSR ',0
-0000113F= 4C 45 41 20 00          3488  LEA_OUTPUT      DC.B    'LEA ',0
-00001144= 4D 4F 56 45 51 20 00    3489  MOVEQ_OUTPUT    DC.B    'MOVEQ ',0
-0000114B= 4D 4F 56 45 4D 00       3490  MOVEM_OUTPUT    DC.B    'MOVEM',0
-00001151                          3491  
-00001151= 42 52 41 00             3492  BRA_OUTPUT      DC.B    'BRA',0
-00001155= 42 47 45 00             3493  BGT_OUTPUT      DC.B    'BGE',0
-00001159= 42 4C 45 00             3494  BLE_OUTPUT      DC.B    'BLE',0
-0000115D= 42 45 51 00             3495  BEQ_OUTPUT      DC.B    'BEQ',0
-00001161                          3496  
-00001161= 4C 53 52 00             3497  LSR_OUTPUT      DC.B    'LSR',0
-00001165= 4C 53 4C 00             3498  LSL_OUTPUT      DC.B    'LSL',0
-00001169= 41 53 52 00             3499  ASR_OUTPUT      DC.B    'ASR',0
-0000116D= 41 53 4C 00             3500  ASL_OUTPUT      DC.B    'ASL',0
-00001171= 52 4F 52 00             3501  ROR_OUTPUT      DC.B    'ROR',0
-00001175= 52 4F 4C 00             3502  ROL_OUTPUT      DC.B    'ROL',0
-00001179                          3503  
-00001179= 2E 42 20 00             3504  B_OUTPUT        DC.B    '.B ',0
-0000117D= 2E 57 20 00             3505  W_OUTPUT        DC.B    '.W ',0
-00001181= 2E 4C 20 00             3506  L_OUTPUT        DC.B    '.L ',0
-00001185                          3507  
-00001185= 49 6E 76 61 6C 69 ...   3508  INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
-0000119A= 0D 0A 00                3509  NEWLINE         DC.B    CR,LF,0
-0000119D                          3510  
-0000119D                          3511              END    START        ; last line of source
+000010EE  6C00 001C               3418      BGE     DONE
+000010F2                          3419      
+000010F2  143C 0010               3420      MOVE.B  #16,D2
+000010F6  103C 000F               3421      MOVE.B  #15,D0
+000010FA  220A                    3422      MOVE.L  A2,D1
+000010FC  4E4F                    3423      TRAP    #15
+000010FE                          3424      
+000010FE  123C 0009               3425      MOVE.B  #HT,D1
+00001102  103C 0006               3426      MOVE.B  #6,D0
+00001106  4E4F                    3427      TRAP    #15
+00001108                          3428      
+00001108  6000 FF06               3429      BRA     PARSE_SIMPLE
+0000110C                          3430  
+0000110C                          3431  DONE
+0000110C  103C 0009               3432      MOVE.B  #9,D0
+00001110  4E4F                    3433      TRAP    #15
+00001112                          3434  
+00001112                          3435  * Put variables and constants here
+00001112                          3436  
+00001112  =0000000D               3437  CR              EQU     $0D
+00001112  =0000000A               3438  LF              EQU     $0A
+00001112  =00000028               3439  LEFT_PAR        EQU     $28
+00001112  =00000029               3440  RIGHT_PAR       EQU     $29
+00001112  =00000041               3441  A               EQU     $41
+00001112  =00000044               3442  D               EQU     $44
+00001112  =0000002B               3443  PLUS            EQU     $2B
+00001112  =0000002D               3444  MINUS           EQU     $2D
+00001112  =00000023               3445  NUM             EQU     $23
+00001112  =00000024               3446  HEX             EQU     $24
+00001112  =0000002C               3447  COMMA           EQU     $2C
+00001112  =00000020               3448  SPACE           EQU     $20
+00001112  =0000002F               3449  SLASH           EQU     $2F
+00001112  =00000009               3450  HT              EQU     $09
+00001112                          3451  
+00001112                          3452  ;Codes to be parsed
+00001112  =00004E71               3453  NOP_CODE        EQU     $4E71
+00001112  =00004E75               3454  RTS_CODE        EQU     $4E75
+00001112  =00001000               3455  MOVE_B_CODE     EQU     $1000 ; MOVE.B, MOVEA.B (done)
+00001112  =00003000               3456  MOVE_W_CODE     EQU     $3000 ; MOVE.W, MOVEA.W (done)
+00001112  =00002000               3457  MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L (done)
+00001112  =00007000               3458  MOVEQ_CODE      EQU     $7000 ; MOVEQ (done)
+00001112  =00008000               3459  DIVU_OR_CODE    EQU     $8000 ; [DIVU], OR (done)
+00001112  =00009000               3460  SUB_CODE        EQU     $9000 ; SUB (done)
+00001112  =0000C000               3461  MULS_AND_CODE   EQU     $C000 ; MULS, AND (done)
+00001112  =0000D000               3462  ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
+00001112  =0000E000               3463  LS_CODE         EQU     $E000 ; LOGICAL SHIFTS (in progress)
+00001112  =00005000               3464  ADDQ_CODE       EQU     $5000 ; ADDQ (done)
+00001112  =00006000               3465  Bcc_BRA_CODE    EQU     $6000 ; Bcc (BGT, BLE, BEQ), BRA
+00001112  =00004000               3466  MISC_CODE       EQU     $4000 ; LEA, NOT, JSR, MOVEM (LEA, NOT, JSR done)
+00001112                          3467  
+00001112                          3468  
+00001112  =0000E2C0               3469  LSR_ADDRESS     EQU     $E2C0
+00001112  =0000E3C0               3470  LSL_ADDRESS     EQU     $E3C0
+00001112  =0000E0C0               3471  ASR_ADDRESS     EQU     $E0C0
+00001112  =0000E1C0               3472  ASL_ADDRESS     EQU     $E1C0
+00001112  =0000E6C0               3473  ROR_ADDRESS     EQU     $E6C0
+00001112  =0000E7C0               3474  ROL_ADDRESS     EQU     $E7C0
+00001112                          3475  
+00001112  =0000E008               3476  LSR_REGISTER    EQU     $E008
+00001112  =0000E108               3477  LSL_REGISTER    EQU     $E108
+00001112  =0000E000               3478  ASR_REGISTER    EQU     $E000
+00001112  =0000E100               3479  ASL_REGISTER    EQU     $E100
+00001112  =0000E018               3480  ROR_REGISTER    EQU     $E018
+00001112  =0000E118               3481  ROL_REGISTER    EQU     $E118
+00001112                          3482  
+00001112                          3483  ;Sample outputs
+00001112= 4E 4F 50 0D 0A 00       3484  NOP_OUTPUT      DC.B    'NOP',CR,LF,0
+00001118= 52 54 53 0D 0A 00       3485  RTS_OUTPUT      DC.B    'RTS',CR,LF,0
+0000111E                          3486  
+0000111E= 4D 4F 56 45 41 00       3487  MOVEA_OUTPUT    DC.B    'MOVEA',0
+00001124= 4D 4F 56 45 00          3488  MOVE_OUTPUT     DC.B    'MOVE',0
+00001129= 41 44 44 41 00          3489  ADDA_OUTPUT     DC.B    'ADDA',0
+0000112E= 41 44 44 00             3490  ADD_OUTPUT      DC.B    'ADD',0
+00001132= 53 55 42 00             3491  SUB_OUTPUT      DC.B    'SUB',0
+00001136= 41 44 44 51 00          3492  ADDQ_OUTPUT     DC.B    'ADDQ',0
+0000113B= 41 4E 44 00             3493  AND_OUTPUT      DC.B    'AND',0
+0000113F= 4D 55 4C 53 00          3494  MULS_OUTPUT     DC.B    'MULS',0
+00001144= 4F 52 00                3495  OR_OUTPUT       DC.B    'OR',0
+00001147= 44 49 56 55 00          3496  DIVU_OUTPUT     DC.B    'DIVU',0
+0000114C= 4E 4F 54 00             3497  NOT_OUTPUT      DC.B    'NOT',0
+00001150= 4A 53 52 20 00          3498  JSR_OUTPUT      DC.B    'JSR ',0
+00001155= 4C 45 41 20 00          3499  LEA_OUTPUT      DC.B    'LEA ',0
+0000115A= 4D 4F 56 45 51 20 00    3500  MOVEQ_OUTPUT    DC.B    'MOVEQ ',0
+00001161= 4D 4F 56 45 4D 00       3501  MOVEM_OUTPUT    DC.B    'MOVEM',0
+00001167                          3502  
+00001167= 42 52 41 00             3503  BRA_OUTPUT      DC.B    'BRA',0
+0000116B= 42 47 45 00             3504  BGT_OUTPUT      DC.B    'BGE',0
+0000116F= 42 4C 45 00             3505  BLE_OUTPUT      DC.B    'BLE',0
+00001173= 42 45 51 00             3506  BEQ_OUTPUT      DC.B    'BEQ',0
+00001177                          3507  
+00001177= 4C 53 52 00             3508  LSR_OUTPUT      DC.B    'LSR',0
+0000117B= 4C 53 4C 00             3509  LSL_OUTPUT      DC.B    'LSL',0
+0000117F= 41 53 52 00             3510  ASR_OUTPUT      DC.B    'ASR',0
+00001183= 41 53 4C 00             3511  ASL_OUTPUT      DC.B    'ASL',0
+00001187= 52 4F 52 00             3512  ROR_OUTPUT      DC.B    'ROR',0
+0000118B= 52 4F 4C 00             3513  ROL_OUTPUT      DC.B    'ROL',0
+0000118F                          3514  
+0000118F= 2E 42 20 00             3515  B_OUTPUT        DC.B    '.B ',0
+00001193= 2E 57 20 00             3516  W_OUTPUT        DC.B    '.W ',0
+00001197= 2E 4C 20 00             3517  L_OUTPUT        DC.B    '.L ',0
+0000119B                          3518  
+0000119B= 49 6E 76 61 6C 69 ...   3519  INVALID_OUTPUT  DC.B    'Invalid operation!',CR,LF,0
+000011B0= 0D 0A 00                3520  NEWLINE         DC.B    CR,LF,0
+000011B3                          3521  
+000011B3                          3522              END    START        ; last line of source
 
 No errors detected
 No warnings generated
@@ -3522,24 +3533,24 @@ SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
 A                   41
-ADDA_OUTPUT         1113
+ADDA_OUTPUT         1129
 ADDQ_CODE           5000
-ADDQ_OUTPUT         1120
+ADDQ_OUTPUT         1136
 ADD_CODE            D000
-ADD_OUTPUT          1118
-AND_OUTPUT          1125
+ADD_OUTPUT          112E
+AND_OUTPUT          113B
 ASL_ADDRESS         E1C0
-ASL_OUTPUT          116D
+ASL_OUTPUT          1183
 ASL_REGISTER        E100
 ASR_ADDRESS         E0C0
-ASR_OUTPUT          1169
+ASR_OUTPUT          117F
 ASR_REGISTER        E000
 BCC_BRA_CODE        6000
-BEQ_OUTPUT          115D
-BGT_OUTPUT          1155
-BLE_OUTPUT          1159
-BRA_OUTPUT          1151
-B_OUTPUT            1179
+BEQ_OUTPUT          1173
+BGT_OUTPUT          116B
+BLE_OUTPUT          116F
+BRA_OUTPUT          1167
+B_OUTPUT            118F
 CHECK_FOR_EIGHT     1D8E
 CHECK_IF_0          2B38
 COMMA               2C
@@ -3693,8 +3704,8 @@ DISPLAY_WORD_SRC    1B40
 DISPLAY_WORD_SRC_AND  35E2
 DISPLAY_WORD_SRC_OR  256A
 DIVU_OR_CODE        8000
-DIVU_OUTPUT         1131
-DONE                10F6
+DIVU_OUTPUT         1147
+DONE                110C
 DRAW_SLASH          43EE
 END_PARSER          3E52
 GET_EFFECTIVE_ADDRESS_AND_SRC  368C
@@ -3706,6 +3717,7 @@ GET_MASK_ADDRESS    411E
 GET_SIZE            2A58
 GET_WORD_OR_LONG    29E4
 HEX                 24
+HT                  9
 IF_ADDQ             1C60
 IF_ADD_ADDA         1840
 IF_ASL_ADDRESS      296C
@@ -3747,12 +3759,12 @@ IF_ROR_ADDRESS      2980
 IF_ROR_REGISTER     2A38
 IF_RTS              10A2
 IF_SUB              3940
-INVALID_OUTPUT      1185
+INVALID_OUTPUT      119B
 ITERATE             10DA
 ITERATE_MASK        4076
 ITERATE_MASK_ADDRESS  43AC
-JSR_OUTPUT          113A
-LEA_OUTPUT          113F
+JSR_OUTPUT          1150
+LEA_OUTPUT          1155
 LEFT_PAR            28
 LF                  A
 LOAD_MASK_ADDRESS   4152
@@ -3760,31 +3772,31 @@ LOAD_PARSE_MASK     4136
 LONG_FOR_TO_ADDRESS  40FC
 LONG_FOR_TO_REGISTER  3DD2
 LSL_ADDRESS         E3C0
-LSL_OUTPUT          1165
+LSL_OUTPUT          117B
 LSL_REGISTER        E108
 LSR_ADDRESS         E2C0
-LSR_OUTPUT          1161
+LSR_OUTPUT          1177
 LSR_REGISTER        E008
 LS_CODE             E000
-L_OUTPUT            1181
+L_OUTPUT            1197
 MINUS               2D
 MISC_CODE           4000
-MOVEA_OUTPUT        1108
-MOVEM_OUTPUT        114B
+MOVEA_OUTPUT        111E
+MOVEM_OUTPUT        1161
 MOVEQ_CODE          7000
-MOVEQ_OUTPUT        1144
+MOVEQ_OUTPUT        115A
 MOVE_B_CODE         1000
 MOVE_L_CODE         2000
-MOVE_OUTPUT         110E
+MOVE_OUTPUT         1124
 MOVE_W_CODE         3000
 MULS_AND_CODE       C000
-MULS_OUTPUT         1129
-NEWLINE             119A
+MULS_OUTPUT         113F
+NEWLINE             11B0
 NOP_CODE            4E71
-NOP_OUTPUT          10FC
-NOT_OUTPUT          1136
+NOP_OUTPUT          1112
+NOT_OUTPUT          114C
 NUM                 23
-OR_OUTPUT           112E
+OR_OUTPUT           1144
 PARSE_COMPLEX       1026
 PARSE_DISPLACEMENT_BYTE  212E
 PARSE_DISPLACEMENT_WORD  215C
@@ -3795,20 +3807,20 @@ PARSE_SIMPLE        1010
 PLUS                2B
 RIGHT_PAR           29
 ROL_ADDRESS         E7C0
-ROL_OUTPUT          1175
+ROL_OUTPUT          118B
 ROL_REGISTER        E118
 ROR_ADDRESS         E6C0
-ROR_OUTPUT          1171
+ROR_OUTPUT          1187
 ROR_REGISTER        E018
 RTS_CODE            4E75
-RTS_OUTPUT          1102
+RTS_OUTPUT          1118
 SET_TO_EIGHT        1D98
 SET_TO_ZERO         2B42
 SLASH               2F
 SPACE               20
 START               1000
 SUB_CODE            9000
-SUB_OUTPUT          111C
+SUB_OUTPUT          1132
 WORD_FOR_TO_ADDRESS  40DC
 WORD_FOR_TO_REGISTER  3D98
-W_OUTPUT            117D
+W_OUTPUT            1193

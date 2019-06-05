@@ -126,6 +126,16 @@ ITERATE
 COMPARE    
     CMP     A3,A2     
     BGE     DONE
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.L  A2,D1
+    TRAP    #15
+    
+    MOVE.B  #HT,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
     BRA     PARSE_SIMPLE
 
 DONE
@@ -147,6 +157,7 @@ HEX             EQU     $24
 COMMA           EQU     $2C
 SPACE           EQU     $20
 SLASH           EQU     $2F
+HT              EQU     $09
 
 ;Codes to be parsed
 NOP_CODE        EQU     $4E71
