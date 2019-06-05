@@ -8,9 +8,9 @@
 
 IF_MOVEM
     MOVE.W  A4,D3   
-    AND.W   #$FF80,D3
+    AND.W   #$FC80,D3
     
-    CMP.W   #$4A80,D3
+    CMP.W   #$4880,D3
     BEQ     IF_MOVEM_TO_ADDRESS
     
     CMP.W   #$4C80,D3
@@ -24,9 +24,9 @@ IF_MOVEM_TO_REGISTER
     TRAP    #15
 
     MOVE.W  A4,D3   
-    AND.W   #$0080,D3
+    AND.W   #$0040,D3
     
-    CMP.W   #$0080,D3   
+    CMP.W   #$0040,D3   
     BEQ     LONG_FOR_TO_REGISTER
     
     BRA     WORD_FOR_TO_REGISTER
@@ -52,7 +52,7 @@ WORD_FOR_TO_REGISTER
     CMP.L   #0,D3
     BEQ     IF_INVALID_OP
     
-    BSR     PARSE_MASK
+    BSR     LOAD_PARSE_MASK
     BRA     ITERATE
 
 LONG_FOR_TO_REGISTER
@@ -76,7 +76,7 @@ LONG_FOR_TO_REGISTER
     CMP.L   #0,D3
     BEQ     IF_INVALID_OP
     
-    BSR     PARSE_MASK
+    BSR     LOAD_PARSE_MASK
     BRA     ITERATE
     
 DISPLAY_EA_TO_REGISTER
@@ -272,7 +272,7 @@ DISPLAY_A0
     BRA     ITERATE_MASK
 
 DISPLAY_A1
-    MOVE.B  #D,D1
+    MOVE.B  #A,D1
     MOVE.B  #6,D0
     TRAP    #15
     
@@ -356,11 +356,12 @@ DISPLAY_A7
     RTS
 
 ITERATE_MASK
-    BSR     IF_DRAW_SLASH 
-
     ADDQ    #1,A6
-    LSR.W   #1,D4
     
+    BSR     IF_DRAW_SLASH_REGISTER
+    
+    LSR.W   #1,D4
+    LSR.W   #1,D5
     MOVE.W  D4,D3
     
     CMP.W   #$F,A6
@@ -369,12 +370,12 @@ ITERATE_MASK
     BRA     PARSE_MASK
     
 DISPLAY_EA_TO_ADDRESS
-    MOVE.W  A4,D3   
-    AND.W   #$003A,D3
+    MOVE.L  A4,D3   
+    AND.L   #$0000003A,D3
     LSR.L   #3,D3
     
     MOVE.W  A4,D4   
-    AND.W   #$0007,D4
+    AND.L   #$00000007,D4
     
     CMP.W   #%010,D3
     BEQ     DISPLAY_An_ADDRESS_ea
@@ -396,9 +397,9 @@ IF_MOVEM_TO_ADDRESS
     TRAP    #15
 
     MOVE.W  A4,D3   
-    AND.W   #$0080,D3
+    AND.W   #$0040,D3
     
-    CMP.W   #$0080,D3   
+    CMP.W   #$0040,D3   
     BEQ     LONG_FOR_TO_ADDRESS
     
     BRA     WORD_FOR_TO_ADDRESS
@@ -436,24 +437,38 @@ LONG_FOR_TO_ADDRESS
 
 GET_MASK_ADDRESS    
     MOVE.W  A4,D3   
-    AND.W   #$003A,D3
+    AND.W   #$0038,D3
     LSR.L   #3,D3
     
     ADDQ    #2,A2
     MOVE.W  (A2),A5
     
     CMP.W   #%100,D3
-    BRA     LOAD_MASK_ADDRESS    
+    BEQ     LOAD_MASK_ADDRESS    
+    
+    BRA     LOAD_PARSE_MASK
+
+LOAD_PARSE_MASK
+    MOVE.W  A5,D3
+    MOVE.W  A5,D4
+    MOVE.W  A5,D5
+    LSR.W   #1,D5
+    MOVE.L  #0,A6
+    
+    CMP.L   #$0,D3
+    BEQ     IF_INVALID_OP
     
     BRA     PARSE_MASK
-    
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LOAD_MASK_ADDRESS
     MOVE.W  A5,D3
     MOVE.W  A5,D4
+    MOVE.W  A5,D5
+    LSL.W   #1,D5
     MOVE.L  #0,A6
     
-    CMP.L   #0,D3
+    CMP.L   #$0,D3
     BEQ     IF_INVALID_OP
     
     BRA     PARSE_MASK_ADDRESS
@@ -464,7 +479,7 @@ PARSE_MASK_ADDRESS
 
     AND.L   #$00008000,D3
     
-    CMP.W   #%1,D3
+    CMP.W   #$8000,D3
     BEQ     DISPLAY_REG_ADDRESS
     
     BRA     ITERATE_MASK_ADDRESS
@@ -629,7 +644,7 @@ DISPLAY_A0_ADDRESS
     BRA     ITERATE_MASK_ADDRESS
 
 DISPLAY_A1_ADDRESS
-    MOVE.B  #D,D1
+    MOVE.B  #A,D1
     MOVE.B  #6,D0
     TRAP    #15
     
@@ -713,10 +728,11 @@ DISPLAY_A7_ADDRESS
     RTS
 
 ITERATE_MASK_ADDRESS
-    BSR     IF_DRAW_SLASH 
-
     ADDQ    #1,A6
-    LSL.W   #1,D4
+    BSR     IF_DRAW_SLASH_ADDRESS
+    
+    LSL.L   #1,D4
+    LSL.W   #1,D5
     
     MOVE.W  D4,D3
     
@@ -729,15 +745,27 @@ ITERATE_MASK_ADDRESS
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
 
-IF_DRAW_SLASH
-    CMP.W   #0,D4
-    BNE     IF_DRAW_SLASH_2
+IF_DRAW_SLASH_ADDRESS
+    CMP.W   #0,D5
+    BNE     IF_DRAW_SLASH_2_ADDRESS
     
     RTS
 
-IF_DRAW_SLASH_2
-    CMP.W   #1,D3
+IF_DRAW_SLASH_2_ADDRESS
+    CMP.W   #$8000,D3
     BEQ     DRAW_SLASH
+    
+    RTS
+
+IF_DRAW_SLASH_REGISTER
+    CMP.W   #0,D3
+    BNE     IF_DRAW_SLASH_2_REGISTER
+    
+    RTS
+
+IF_DRAW_SLASH_2_REGISTER
+    CMP.L   #0,D5
+    BGT     DRAW_SLASH
     
     RTS
 
@@ -747,6 +775,7 @@ DRAW_SLASH
     TRAP    #15
     
     RTS
+
 
 
 *~Font name~Courier New~

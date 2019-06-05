@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 6/4/2019 11:07:05 PM
+Created On: 6/5/2019 2:03:51 AM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -10,16 +10,39 @@ Created On: 6/4/2019 11:07:05 PM
 00000000                             6  *-----------------------------------------------------------
 00006000                             7      ORG    $6000
 00006000                             8      
-00006000  E349                       9      LSL.W   #1,D1
-00006002  E149                      10      LSL.W   #8,D1
-00006004  E34F                      11      LSL.W   #1,D7
-00006006  E14F                      12      LSL.W   #8,D7
-00006008                            13      
-00006008  E249                      14      LSR.W   #1,D1
-0000600A  E049                      15      LSR.W   #8,D1
-0000600C  E24F                      16      LSR.W   #1,D7
-0000600E  E04F                      17      LSR.W   #8,D7
-Line 18 WARNING: END directive missing, starting address not set
+00006000                             9  * MOVEM <list>,<ea>
+00006000  4890 0001                 10          MOVEM.W D0,(A0)
+00006004  48E0 8000                 11          MOVEM.L D0,-(A0)
+00006008                            12  
+00006008  4890 FF0F                 13          MOVEM.W D0/D1/D2/D3/A0-A7,(A0)
+0000600C  4890 000F                 14          MOVEM.W D0-D3,(A0)
+00006010  48B8 0001 2000            15          MOVEM.W D0,$2000
+00006016  48B9 0001 0000A000        16          MOVEM.W D0,$A000
+0000601E  48D0 0001                 17          MOVEM.L D0,(A0)
+00006022  48E0 8000                 18          MOVEM.L D0,-(A0)
+00006026  48E0 F0FF                 19          MOVEM.L D0/D1/D2/D3/A0-A7,-(A0)
+0000602A                            20  
+0000602A  48D0 000F                 21          MOVEM.L D0-D3,(A0)
+0000602E  48F8 0001 2000            22          MOVEM.L D0,$2000
+00006034  48F9 0001 0000A000        23          MOVEM.L D0,$A000
+0000603C  48F8 4B05 2000            24          MOVEM.L D0/A1/D2/A3/A0/A6,$2000
+00006042  48F9 8139 0000A000        25          MOVEM.L D0/D5/D4/D3/A0/A7,$A000
+0000604A                            26  
+0000604A                            27  * MOVEM <ea>,<list> 
+0000604A  4C90 0001                 28          MOVEM.W (A0),D0
+0000604E  4C98 0001                 29          MOVEM.W (A0)+,D0
+00006052                            30  
+00006052  4CB8 0001 2000            31          MOVEM.W $2000,D0
+00006058  4CB9 0001 0000A000        32          MOVEM.W $A000,D0
+00006060                            33  
+00006060  4CD0 0001                 34          MOVEM.L (A0),D0
+00006064  4CD8 0001                 35          MOVEM.L (A0)+,D0
+00006068  4CD8 4F1D                 36          MOVEM.L (A0)+,D0/A1-A3/D2-D4/A3/A0/A6
+0000606C  4CF8 0001 2000            37          MOVEM.L $2000,D0
+00006072  4CF9 0001 0000A000        38          MOVEM.L $A000,D0
+0000607A  4CF8 4F1D 2000            39          MOVEM.L $2000,D0/A1-A3/D2-D4/A3/A0/A6
+00006080  4CF9 5F05 0000A000        40          MOVEM.L $A000,D0/A1/D2/A1-A4/A0/A6
+Line 41 WARNING: END directive missing, starting address not set
 
 No errors detected
 1 warning generated
