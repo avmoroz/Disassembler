@@ -49,6 +49,10 @@ DISPLAY_MOVEQ
     AND.W   #$0E00,D3
     ROL.W   #7,D3
     
+    MOVE.B  #D,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+    
     MOVE.B  #15,D0
     MOVE.L  D3,D1
     AND.L   #$00000007,D3
@@ -58,6 +62,7 @@ DISPLAY_MOVEQ
 
 
     
+
 
 
 

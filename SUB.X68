@@ -50,14 +50,14 @@ DISPLAY_SUB
     MOVE.B  #14,D0
     TRAP    #15
     
+    CMP.W   #%111,A5
+    BEQ     DISPLAY_SUB_L
+    
     CMP.W   #%011,A5
     BNE     DISPLAY_ARGS
   
     CMP.W   #%011,A5
     BEQ     DISPLAY_SUB_W
-    
-    CMP.W   #%111,A5
-    BEQ     DISPLAY_SUB_L
     
     BRA     IF_INVALID_OP
     
@@ -80,6 +80,7 @@ DISPLAY_SUB_L
     
     
     
+
 
 *~Font name~Courier New~
 *~Font size~10~

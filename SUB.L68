@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 5/29/2019 11:16:33 AM
+Created On: 6/6/2019 10:32:20 AM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -8,64 +8,102 @@ Created On: 5/29/2019 11:16:33 AM
 00000000                             4  * Date       :
 00000000                             5  * Description:
 00000000                             6  *-----------------------------------------------------------
-00003000                             7      ORG    $3000
-00003000                             8  
-00003000                             9  IF_SUB 
-00003000  360C                      10      MOVE.W  A4,D3
-00003002                            11      
-00003002                            12      ;Get the register
-00003002  C67C 0FFF                 13      AND.W   #$0FFF,D3
-00003006  E743                      14      ASL.W   #3,D3
-00003008  3803                      15      MOVE.W  D3,D4
-0000300A  C8BC 0000F000             16      AND.L   #$0000F000,D4
-00003010  E95C                      17      ROL.W   #4,D4
-00003012  2844                      18      MOVE.L  D4,A4 ;register
-00003014                            19  
-00003014                            20      ;Get the opmode
-00003014  C67C 0FFF                 21      AND.W   #$0FFF,D3
-00003018  E743                      22      ASL.W   #3,D3
-0000301A  3803                      23      MOVE.W  D3,D4
-0000301C  C8BC 0000F000             24      AND.L   #$0000F000,D4
-00003022  E95C                      25      ROL.W   #4,D4
-00003024  2A44                      26      MOVE.L  D4,A5 ;opmode
-00003026                            27  
-00003026                            28      ;Get the effective mode 
-00003026  C67C 0FFF                 29      AND.W   #$0FFF,D3
-0000302A  E743                      30      ASL.W   #3,D3
-0000302C  3803                      31      MOVE.W  D3,D4
-0000302E  C8BC 0000F000             32      AND.L   #$0000F000,D4
-00003034  E95C                      33      ROL.W   #4,D4
-00003036  2C44                      34      MOVE.L  D4,A6 ;effective mode
-00003038                            35      
-00003038                            36      ;Get the effective register
-00003038  C67C 0FFF                 37      AND.W   #$0FFF,D3
-0000303C  E743                      38      ASL.W   #3,D3
-0000303E  3803                      39      MOVE.W  D3,D4
-00003040  C8BC 0000F000             40      AND.L   #$0000F000,D4
-00003046  E95C                      41      ROL.W   #4,D4 ;effective register
-00003048                            42      
-00003048  143C 0010                 43      MOVE.B  #16,D2
-0000304C  103C 000F                 44      MOVE.B  #15,D0
-00003050                            45      
-00003050  6000 0002                 46      BRA     DISPLAY_SUB
-00003054                            47      
-00003054                            48  DISPLAY_SUB
+00003D20                             7      ORG    $3D20
+00003D20                             8  
+00003D20                             9  IF_SUB 
+00003D20  360C                      10      MOVE.W  A4,D3
+00003D22                            11      
+00003D22                            12      ;Get the register
+00003D22  C67C 0FFF                 13      AND.W   #$0FFF,D3
+00003D26  E743                      14      ASL.W   #3,D3
+00003D28  3803                      15      MOVE.W  D3,D4
+00003D2A  C8BC 0000F000             16      AND.L   #$0000F000,D4
+00003D30  E95C                      17      ROL.W   #4,D4
+00003D32  2844                      18      MOVE.L  D4,A4 ;register
+00003D34                            19  
+00003D34                            20      ;Get the opmode
+00003D34  C67C 0FFF                 21      AND.W   #$0FFF,D3
+00003D38  E743                      22      ASL.W   #3,D3
+00003D3A  3803                      23      MOVE.W  D3,D4
+00003D3C  C8BC 0000F000             24      AND.L   #$0000F000,D4
+00003D42  E95C                      25      ROL.W   #4,D4
+00003D44  2A44                      26      MOVE.L  D4,A5 ;opmode
+00003D46                            27  
+00003D46                            28      ;Get the effective mode 
+00003D46  C67C 0FFF                 29      AND.W   #$0FFF,D3
+00003D4A  E743                      30      ASL.W   #3,D3
+00003D4C  3803                      31      MOVE.W  D3,D4
+00003D4E  C8BC 0000F000             32      AND.L   #$0000F000,D4
+00003D54  E95C                      33      ROL.W   #4,D4
+00003D56  2C44                      34      MOVE.L  D4,A6 ;effective mode
+00003D58                            35      
+00003D58                            36      ;Get the effective register
+00003D58  C67C 0FFF                 37      AND.W   #$0FFF,D3
+00003D5C  E743                      38      ASL.W   #3,D3
+00003D5E  3803                      39      MOVE.W  D3,D4
+00003D60  C8BC 0000F000             40      AND.L   #$0000F000,D4
+00003D66  E95C                      41      ROL.W   #4,D4 ;effective register
+00003D68                            42      
+00003D68  143C 0010                 43      MOVE.B  #16,D2
+00003D6C  103C 000F                 44      MOVE.B  #15,D0
+00003D70                            45      
+00003D70  6000 0002                 46      BRA     DISPLAY_SUB
+00003D74                            47      
+00003D74                            48  DISPLAY_SUB
 Line 49 ERROR: Undefined symbol
-00003054  43F9 004DBD16             49      LEA     SUB_OUTPUT,A1
-0000305A  103C 000E                 50      MOVE.B  #14,D0
-0000305E  4E4F                      51      TRAP    #15
-00003060                            52      
-Line 53 ERROR: Undefined symbol
-00003060  6000 8CB4                 53      BRA     DISPLAY_ARGS
-00003064                            54  
-Line 55 WARNING: END directive missing, starting address not set
+00003D74  43F9 004DBD16             49      LEA     SUB_OUTPUT,A1
+00003D7A  103C 000E                 50      MOVE.B  #14,D0
+00003D7E  4E4F                      51      TRAP    #15
+00003D80                            52      
+00003D80  BAFC 0003                 53      CMP.W   #%011,A5
+Line 54 ERROR: Undefined symbol
+00003D84  6600 7F90                 54      BNE     DISPLAY_ARGS
+00003D88                            55    
+00003D88  BAFC 0003                 56      CMP.W   #%011,A5
+00003D8C  6700 000E                 57      BEQ     DISPLAY_SUB_W
+00003D90                            58      
+00003D90  BAFC 0007                 59      CMP.W   #%111,A5
+00003D94  6700 001A                 60      BEQ     DISPLAY_SUB_L
+00003D98                            61      
+Line 62 ERROR: Undefined symbol
+00003D98  6000 7F7C                 62      BRA     IF_INVALID_OP
+00003D9C                            63      
+00003D9C                            64  DISPLAY_SUB_W
+Line 65 ERROR: Undefined symbol
+00003D9C  43F9 004DBD16             65      LEA     W_OUTPUT,A1
+00003DA2  103C 000E                 66      MOVE.B  #14,D0
+00003DA6  4E4F                      67      TRAP    #15
+00003DA8                            68  
+Line 69 ERROR: Undefined symbol
+00003DA8  6100 7F6C                 69      BSR     GET_EFFECTIVE_ADDRESS_ea
+Line 70 ERROR: Undefined symbol
+00003DAC  6000 7F68                 70      BRA     DISPLAY_ADDA_REGISTER
+00003DB0                            71  
+00003DB0                            72  DISPLAY_SUB_L
+Line 73 ERROR: Undefined symbol
+00003DB0  43F9 004DBD16             73      LEA     L_OUTPUT,A1
+00003DB6  103C 000E                 74      MOVE.B  #14,D0
+00003DBA  4E4F                      75      TRAP    #15
+00003DBC                            76    
+Line 77 ERROR: Undefined symbol
+00003DBC  6100 7F58                 77      BSR     GET_EFFECTIVE_ADDRESS_ea
+Line 78 ERROR: Undefined symbol
+00003DC0  6000 7F54                 78      BRA     DISPLAY_ADDA_REGISTER
+00003DC4                            79      
+00003DC4                            80      
+00003DC4                            81      
+00003DC4                            82      
+00003DC4                            83  
+Line 84 WARNING: END directive missing, starting address not set
 
-2 errors detected
+9 errors detected
 1 warning generated
 
 
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-DISPLAY_SUB         3054
-IF_SUB              3000
+DISPLAY_SUB         3D74
+DISPLAY_SUB_L       3DB0
+DISPLAY_SUB_W       3D9C
+IF_SUB              3D20

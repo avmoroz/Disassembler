@@ -109,12 +109,12 @@ DISPLAY_EFFECTIVE_ADDRESS
     TRAP    #15
     
     ;Get mode
-    MOVE.W  A4,D3   
-    AND.W   #$003A,D3
+    MOVE.L  A4,D3   
+    AND.L   #$003A,D3
     LSR.L   #3,D3
     
-    MOVE.W  A4,D4   
-    AND.W   #$0007,D4
+    MOVE.L  A4,D4   
+    AND.L   #$0007,D4
     
     CMP.W   #%010,D3
     BEQ     DISPLAY_An_ADDRESS_ea
@@ -183,8 +183,8 @@ IF_ROL_REGISTER
     BRA     GET_SIZE
     
 GET_SIZE
-    MOVE.W  A4,D3   
-    AND.W   #$00C0,D3
+    MOVE.L  A4,D3   
+    AND.L   #$00C0,D3
     
     LSR.W   #6,D3
     
@@ -221,11 +221,11 @@ DISPLAY_SIZE_LONG
     BRA     DETERMINE_SRC
     
 DETERMINE_SRC
-    MOVE.W  A4,D3   
-    AND.W   #$0020,D3
+    MOVE.L  A4,D3   
+    AND.L   #$0020,D3
     
-    MOVE.W  A4,D4
-    AND.W   #$0E00,D4
+    MOVE.L  A4,D4
+    AND.L   #$0E00,D4
     ROL.W   #7,D4
     AND.L   #$00000007,D4
     
@@ -241,7 +241,7 @@ DISPLAY_REGISTER_1
     
     MOVE.B  #16,D2
     MOVE.B  #15,D0
-    MOVE.B  D4,D1
+    MOVE.L  D4,D1
     TRAP    #15
     
     BRA     DISPLAY_REGISTER_2
@@ -275,7 +275,7 @@ DISPLAY_REGISTER_2
     MOVE.B  #6,D0
     TRAP    #15
     
-    MOVE.W  A4,D1
+    MOVE.L  A4,D1
     AND.L   #$00000007,D1
     
     MOVE.B  #16,D2
@@ -295,6 +295,8 @@ SET_TO_ZERO
     MOVE.L  #8,D4
     RTS
    
+
+
 
 
 

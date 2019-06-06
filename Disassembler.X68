@@ -81,7 +81,9 @@ LOAD_INPUT2
     BRA     PARSE_SIMPLE
 
 ;Parses Simple Commands, such as NOP     
-PARSE_SIMPLE    
+PARSE_SIMPLE
+    BSR     LOAD_0s_FOR_MEM_LOCATION
+    
     MOVE.B  #16,D2
     MOVE.B  #15,D0
     MOVE.L  A2,D1
@@ -175,6 +177,8 @@ IF_INVALID_OP
     MOVE.B  #14,D0
     TRAP    #15
     
+    BSR     LOAD_0s_FOR_DATA
+    
     MOVE.B  #16,D2
     MOVE.B  #15,D0
     MOVE.W  (A2),D1
@@ -210,11 +214,11 @@ DONE
     TRAP    #15
     
 GET_NUMBER
-                SUB.B   #$30,D1
-                LSL.L   #4,D2
                 BRA     IS_0
                 
 IS_0
+                SUB.B   #$30,D1
+                LSL.L   #4,D2
                 CMP.B   #$0,D1
                 BEQ     ADD_NUM
                 BRA     IS_1                 
@@ -266,6 +270,7 @@ IS_9
                 BRA     IS_A
                 
 IS_A
+                SUB.B   #$7,D1
                 CMP.B   #$A,D1
                 BEQ     ADD_NUM
                 BRA     IS_B 
@@ -393,6 +398,76 @@ RUN_AGAIN_CHECK
     BEQ     DONE
     
     BRA     RUN_AGAIN_CHECK
+    
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+LOAD_0s_FOR_DATA
+    MOVE.W  (A2),D5
+    AND.L   #$0000FFFF,D5
+
+    MOVE.B  #$30,D1
+    MOVE.B  #6,D0
+    
+    CMP.L   #$0000000F,D5
+    BLE     DISPLAY_ZERO_3
+    
+    CMP.L   #$000000FF,D5
+    BLE     DISPLAY_ZERO_2
+    
+    CMP.L   #$00000FFF,D5
+    BLE     DISPLAY_ZERO_1
+
+    BRA     DISPLAY_NO_ZERO
+
+LOAD_0s_FOR_MEM_LOCATION
+    MOVE.B  #$30,D1
+    MOVE.B  #6,D0
+    
+    CMP.L   #$0000000F,A2
+    BLE     DISPLAY_ZERO_7
+    
+    CMP.L   #$000000FF,A2
+    BLE     DISPLAY_ZERO_6
+    
+    CMP.L   #$00000FFF,A2
+    BLE     DISPLAY_ZERO_5
+
+    CMP.L   #$0000FFFF,A2
+    BLE     DISPLAY_ZERO_4
+    
+    CMP.L   #$000FFFFF,A2
+    BLE     DISPLAY_ZERO_3
+    
+    CMP.L   #$00FFFFFF,A2
+    BLE     DISPLAY_ZERO_2
+    
+    CMP.L   #$0FFFFFFF,A2
+    BLE     DISPLAY_ZERO_1
+    
+    BRA     DISPLAY_NO_ZERO
+
+DISPLAY_ZERO_7
+    TRAP    #15
+    
+DISPLAY_ZERO_6
+    TRAP    #15
+    
+DISPLAY_ZERO_5
+    TRAP    #15
+    
+DISPLAY_ZERO_4
+    TRAP    #15
+    
+DISPLAY_ZERO_3
+    TRAP    #15
+    
+DISPLAY_ZERO_2
+    TRAP    #15
+    
+DISPLAY_ZERO_1
+    TRAP    #15
+    
+DISPLAY_NO_ZERO
+    RTS
 
 * Put variables and constants here
 
@@ -498,6 +573,7 @@ ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
 
 
 
