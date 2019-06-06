@@ -24,14 +24,15 @@ START   ORG    $1000
     ;TODO: put in an actual line counter 
     
     
-    ;MOVE.B  #4,D0
-    ;TRAP    #15
-    
-    ;MOVE.L  D1,A2
+    MOVE.L  #0,D7
     
     MOVE.L  #0,A4
     MOVE.L  #9,A3
-        
+    
+    LEA     INPUT1_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15    
+    
     BRA     GET_INPUT1
     
     MOVE.L  #$60B0,A3
@@ -41,7 +42,7 @@ GET_INPUT1
     ADDQ.L  #1,A4                
     CMP.L   A4,A3
     BEQ     LOAD_INPUT1
-
+    
     MOVE.B  #5,D0
     TRAP    #15
     BSR     GET_NUMBER
@@ -51,9 +52,9 @@ LOAD_INPUT1
     MOVE.L  D2,A2
     MOVE.L  #$0,A4
     
-    MOVE.B  #COMMA,D1
-    MOVE.B  #6,D0
-    TRAP    #15
+    LEA     INPUT2_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15 
     
     BRA     GET_INPUT2
     
@@ -66,6 +67,7 @@ GET_INPUT2
     MOVE.B  #5,D0
     TRAP    #15
     BSR     GET_NUMBER
+    
     BRA     GET_INPUT2
     
 LOAD_INPUT2
@@ -73,6 +75,7 @@ LOAD_INPUT2
         
     LEA     NEWLINE,A1
     MOVE.B  #14,D0
+    TRAP    #15
     TRAP    #15
     
     BRA     PARSE_SIMPLE
@@ -181,20 +184,28 @@ IF_INVALID_OP
 
 ITERATE
     ADDQ.L  #2,A2
+    
+    ADDQ.L  #1,D7
         
     LEA     NEWLINE,A1
     MOVE.B  #14,D0
     TRAP    #15
     
+    BSR     SHOULD_PAUSE_PARSER
+    
     BRA     COMPARE
     
 COMPARE    
     CMP.L   A2,A3     
-    BLT     DONE
+    BLT     SHOULD_RUN_AGAIN
     
     BRA     PARSE_SIMPLE
 
 DONE
+    LEA     DONE_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
     MOVE.B  #9,D0
     TRAP    #15
     
@@ -294,7 +305,94 @@ IS_INVALID
 
 ADD_NUM
                 ADD.L   D1,D2
-                RTS    
+                RTS
+                
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                
+SHOULD_PAUSE_PARSER
+    CMP.L   #20,D7
+    BEQ     PAUSE_PARSER
+    RTS
+    
+PAUSE_PARSER
+    LEA     CONTINUTE_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    LEA     RESET_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    LEA     EXIT_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     SHOULD_CONTINUE
+    
+SHOULD_CONTINUE
+    MOVE.B  #5,D0
+    TRAP    #15
+    
+    CMP.B   #C_LOWER,D1
+    BEQ     CONTINUE
+    
+    CMP.B   #C_UPPER,D1
+    BEQ     CONTINUE
+    
+    CMP.B   #R_LOWER,D1
+    BEQ     RESET
+    
+    CMP.B   #R_UPPER,D1
+    BEQ     RESET
+    
+    CMP.B   #ESC,D1
+    BEQ     DONE
+    
+    BRA     SHOULD_CONTINUE
+
+CONTINUE
+    MOVE.W  #$FF00,D1
+    MOVE.B  #11,D0
+    TRAP    #15
+    
+    LEA     NEWLINE,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    MOVE.L  #0,D7
+    RTS
+
+RESET
+    MOVE.W  #$FF00,D1
+    MOVE.B  #11,D0
+    TRAP    #15
+    BRA     START
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHOULD_RUN_AGAIN
+    LEA     RESET_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    LEA     EXIT_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     RUN_AGAIN_CHECK
+    
+RUN_AGAIN_CHECK
+    MOVE.B  #5,D0
+    TRAP    #15
+    
+    CMP.B   #R_LOWER,D1
+    BEQ     RESET
+    
+    CMP.B   #R_UPPER,D1
+    BEQ     RESET
+    
+    CMP.B   #ESC,D1
+    BEQ     DONE
+    
+    BRA     RUN_AGAIN_CHECK
 
 * Put variables and constants here
 
@@ -312,6 +410,13 @@ COMMA           EQU     $2C
 SPACE           EQU     $20
 SLASH           EQU     $2F
 HT              EQU     $09
+ESC             EQU     $1B
+C_LOWER         EQU     $63
+C_UPPER         EQU     $43
+R_LOWER         EQU     $72
+R_UPPER         EQU     $52
+ZERO            EQU     $30
+
 
 ;Codes to be parsed
 NOP_CODE        EQU     $4E71
@@ -322,7 +427,7 @@ MOVE_L_CODE     EQU     $2000 ; MOVE.L, MOVEA.L (done)
 MOVEQ_CODE      EQU     $7000 ; MOVEQ (done)
 DIVU_OR_CODE    EQU     $8000 ; [DIVU], OR (done)
 SUB_CODE        EQU     $9000 ; SUB (done)
-MULS_AND_CODE   EQU     $C000 ; MULS, AND (done)
+MULS_AND_CODE   EQU     $C000 ; [MULS], AND (done)
 ADD_CODE        EQU     $D000 ; ADD, ADDA (done)
 LS_CODE         EQU     $E000 ; LOGICAL SHIFTS (done)
 ADDQ_CODE       EQU     $5000 ; ADDQ (done)
@@ -380,11 +485,22 @@ B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
 L_OUTPUT        DC.B    '.L ',0
 
+INPUT1_OUTPUT   DC.B    'Please enter the starting address: ',0
+INPUT2_OUTPUT   DC.B    CR,LF,'Please enter the end address: ',0
+
+CONTINUTE_TEXT  DC.B    CR,LF,'Press [c] to continue disassembler',CR,LF,0
+RESET_TEXT      DC.B    'Press [r] to reset disassembler',CR,LF,0
+EXIT_TEXT       DC.B    'Press [esc] to end disassembler',CR,LF,0
+DONE_TEXT       DC.B    CR,LF,'[Disassembler exited]',CR,LF,0
+
 INVALID_OUTPUT  DC.B    'Invalid operation!',0
 ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
             END    START        ; last line of source
+
+
+
 
 
 

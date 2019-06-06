@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $28C0
+    ORG    $2CA0
     
 IF_LS_CODE
     MOVE.W  A4,D3   
@@ -260,7 +260,7 @@ DISPLAY_NUM
     
     MOVE.B  #16,D2
     MOVE.B  #15,D0
-    MOVE.B  D4,D1
+    MOVE.L  D4,D1
     TRAP    #15
     
     BRA     DISPLAY_REGISTER_2
@@ -295,6 +295,8 @@ SET_TO_ZERO
     MOVE.L  #8,D4
     RTS
    
+
+
 
 
 

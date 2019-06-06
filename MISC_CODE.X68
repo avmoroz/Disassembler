@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $2CE0
+    ORG    $30C0
 
 IF_MISC
     MOVE.W  A4,D3
@@ -113,18 +113,33 @@ DISPLAY_NOT_LONG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;JSR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF_JSR
-    LEA     JSR_OUTPUT,A1
-    MOVE.B  #14,D0
-    TRAP    #15
-
     MOVE.W  A4,D4 ;register
     MOVE.W  A4,D5 ;mode
     
     AND.W   #$0007,D4
     
     AND.W   #$0038,D5
-    LSR.W   #3,D5    
+    LSR.W   #3,D5
+
+    CMP.W   #%000,D5
+    BEQ     IF_INVALID_OP
+
+    CMP.W   #%001,D5
+    BEQ     IF_INVALID_OP
     
+    CMP.W   #%100,D5
+    BEQ     IF_INVALID_OP
+    
+    CMP.W   #%101,D5
+    BEQ     IF_INVALID_OP
+    
+    CMP.W   #%110,D5
+    BEQ     IF_INVALID_OP
+
+    LEA     JSR_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
     BSR     DISPLAY_ea_JSR_LEA
     
     BRA     ITERATE
@@ -351,6 +366,8 @@ DISPLAY_ea_JSR_LEA
     
     BRA     IF_INVALID_OP 
     
+
+
 
 
 

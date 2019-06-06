@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $3940
+    ORG    $3D20
 
 IF_SUB 
     MOVE.W  A4,D3
@@ -80,6 +80,7 @@ DISPLAY_SUB_L
     
     
     
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

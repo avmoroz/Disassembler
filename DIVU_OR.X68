@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $24A0
+    ORG    $2880
 IF_DIVU_OR
     MOVE.W  A4,D3
     
@@ -196,6 +196,7 @@ GET_EFFECTIVE_ADDRESS_OR_SRC
 
 DISPLAY_DIVU
     BRA     IF_INVALID_OP
+
 
 
 

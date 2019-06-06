@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $3520
+    ORG    $3900
 IF_MULS_AND
     MOVE.W  A4,D3
     
@@ -213,6 +213,9 @@ DISPLAY_DATA_ea_AND_SRC
 
 ;MULS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISPLAY_MULS
+    BRA     IF_INVALID_OP
+
+    ;[OPCODE NO LONGER SUPPORTED]
     LEA     MULS_OUTPUT,A1
     MOVE.B  #14,D0
     TRAP    #15
@@ -236,6 +239,8 @@ DISPLAY_MULS
     
     
     
+
+
 
 
 

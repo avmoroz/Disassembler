@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $1C60
+    ORG    $1C20
 
 IF_ADDQ 
     MOVE.W  A4,D3
@@ -148,6 +148,8 @@ SET_TO_EIGHT
     RTS
     
     
+
+
 
 
 
