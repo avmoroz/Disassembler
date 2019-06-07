@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 6/6/2019 11:58:04 PM
+Created On: 6/7/2019 12:49:38 PM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      :
@@ -8,541 +8,543 @@ Created On: 6/6/2019 11:58:04 PM
 00000000                             4  * Date       :
 00000000                             5  * Description:
 00000000                             6  *-----------------------------------------------------------
-00001800                             7      ORG    $1800
-00001800                             8      
-00001800                             9  PARSE_MOVE
-00001800  360C                      10      MOVE.W  A4,D3
-00001802                            11      
-00001802                            12      ;Get the destination register
-00001802  C67C 0FFF                 13      AND.W   #$0FFF,D3
-00001806  E743                      14      ASL.W   #3,D3
-00001808  3803                      15      MOVE.W  D3,D4
-0000180A  C8BC 0000F000             16      AND.L   #$0000F000,D4
-00001810  E95C                      17      ROL.W   #4,D4
-00001812  2844                      18      MOVE.L  D4,A4 ;Destination register
-00001814                            19  
-00001814                            20      ;Get the destination mode
-00001814  C67C 0FFF                 21      AND.W   #$0FFF,D3
-00001818  E743                      22      ASL.W   #3,D3
-0000181A  3803                      23      MOVE.W  D3,D4
-0000181C  C8BC 0000F000             24      AND.L   #$0000F000,D4
-00001822  E95C                      25      ROL.W   #4,D4
-00001824  2A44                      26      MOVE.L  D4,A5 ;Destination mode
-00001826                            27  
-00001826                            28      ;Get the source mode 
-00001826  C67C 0FFF                 29      AND.W   #$0FFF,D3
-0000182A  E743                      30      ASL.W   #3,D3
-0000182C  3803                      31      MOVE.W  D3,D4
-0000182E  C8BC 0000F000             32      AND.L   #$0000F000,D4
-00001834  E95C                      33      ROL.W   #4,D4
-00001836  2C44                      34      MOVE.L  D4,A6 ;Source mode
-00001838                            35      
-00001838                            36      ;Get the source register
-00001838  C67C 0FFF                 37      AND.W   #$0FFF,D3
-0000183C  E743                      38      ASL.W   #3,D3
-0000183E  3803                      39      MOVE.W  D3,D4
-00001840  C8BC 0000F000             40      AND.L   #$0000F000,D4
-00001846  E95C                      41      ROL.W   #4,D4 ;Source register
-00001848                            42      
-00001848  143C 0010                 43      MOVE.B  #16,D2
-0000184C  103C 000F                 44      MOVE.B  #15,D0
-00001850                            45      
-00001850  BAFC 0001                 46      CMP.W   #%001,A5
-00001854  6700 0006                 47      BEQ     DISPLAY_MOVEA
-00001858  6000 0012                 48      BRA     DISPLAY_MOVE
-0000185C                            49      
-0000185C                            50  DISPLAY_MOVEA
+000018A0                             7      ORG    $18A0
+000018A0                             8      
+000018A0                             9  PARSE_MOVE
+000018A0  360C                      10      MOVE.W  A4,D3
+000018A2                            11      
+000018A2                            12      ;Get the destination register
+000018A2  C67C 0FFF                 13      AND.W   #$0FFF,D3
+000018A6  E743                      14      ASL.W   #3,D3
+000018A8  3803                      15      MOVE.W  D3,D4
+000018AA  C8BC 0000F000             16      AND.L   #$0000F000,D4
+000018B0  E95C                      17      ROL.W   #4,D4
+000018B2  2844                      18      MOVE.L  D4,A4 ;Destination register
+000018B4                            19  
+000018B4                            20      ;Get the destination mode
+000018B4  C67C 0FFF                 21      AND.W   #$0FFF,D3
+000018B8  E743                      22      ASL.W   #3,D3
+000018BA  3803                      23      MOVE.W  D3,D4
+000018BC  C8BC 0000F000             24      AND.L   #$0000F000,D4
+000018C2  E95C                      25      ROL.W   #4,D4
+000018C4  2A44                      26      MOVE.L  D4,A5 ;Destination mode
+000018C6                            27  
+000018C6                            28      ;Get the source mode 
+000018C6  C67C 0FFF                 29      AND.W   #$0FFF,D3
+000018CA  E743                      30      ASL.W   #3,D3
+000018CC  3803                      31      MOVE.W  D3,D4
+000018CE  C8BC 0000F000             32      AND.L   #$0000F000,D4
+000018D4  E95C                      33      ROL.W   #4,D4
+000018D6  2C44                      34      MOVE.L  D4,A6 ;Source mode
+000018D8                            35      
+000018D8                            36      ;Get the source register
+000018D8  C67C 0FFF                 37      AND.W   #$0FFF,D3
+000018DC  E743                      38      ASL.W   #3,D3
+000018DE  3803                      39      MOVE.W  D3,D4
+000018E0  C8BC 0000F000             40      AND.L   #$0000F000,D4
+000018E6  E95C                      41      ROL.W   #4,D4 ;Source register
+000018E8                            42      
+000018E8  143C 0010                 43      MOVE.B  #16,D2
+000018EC  103C 000F                 44      MOVE.B  #15,D0
+000018F0                            45      
+000018F0  BAFC 0001                 46      CMP.W   #%001,A5
+000018F4  6700 0006                 47      BEQ     DISPLAY_MOVEA
+000018F8  6000 0012                 48      BRA     DISPLAY_MOVE
+000018FC                            49      
+000018FC                            50  DISPLAY_MOVEA
 Line 51 ERROR: Undefined symbol
-0000185C  43F9 004DBD16             51      LEA     MOVEA_OUTPUT,A1
-00001862  103C 000E                 52      MOVE.B  #14,D0
-00001866  4E4F                      53      TRAP    #15
-00001868  6000 0012                 54      BRA     DISPLAY_TYPE
-0000186C                            55  
-0000186C                            56  DISPLAY_MOVE
+000018FC  43F9 004DBD16             51      LEA     MOVEA_OUTPUT,A1
+00001902  103C 000E                 52      MOVE.B  #14,D0
+00001906  4E4F                      53      TRAP    #15
+00001908  6000 0012                 54      BRA     DISPLAY_TYPE
+0000190C                            55  
+0000190C                            56  DISPLAY_MOVE
 Line 57 ERROR: Undefined symbol
-0000186C  43F9 004DBD16             57      LEA     MOVE_OUTPUT,A1
-00001872  103C 000E                 58      MOVE.B  #14,D0
-00001876  4E4F                      59      TRAP    #15
-00001878  6000 0002                 60      BRA     DISPLAY_TYPE
-0000187C                            61      
-0000187C                            62  DISPLAY_TYPE
+0000190C  43F9 004DBD16             57      LEA     MOVE_OUTPUT,A1
+00001912  103C 000E                 58      MOVE.B  #14,D0
+00001916  4E4F                      59      TRAP    #15
+00001918  6000 0002                 60      BRA     DISPLAY_TYPE
+0000191C                            61      
+0000191C                            62  DISPLAY_TYPE
 Line 63 ERROR: Undefined symbol
-0000187C  BA7C BD16                 63      CMP.W   #MOVE_B_CODE,D5
-00001880  6700 0016                 64      BEQ     DISPLAY_BYTE
-00001884                            65      
+0000191C  BA7C BD16                 63      CMP.W   #MOVE_B_CODE,D5
+00001920  6700 0016                 64      BEQ     DISPLAY_BYTE
+00001924                            65      
 Line 66 ERROR: Undefined symbol
-00001884  BA7C BD16                 66      CMP.W   #MOVE_W_CODE,D5
-00001888  6700 001E                 67      BEQ     DISPLAY_WORD
-0000188C                            68      
+00001924  BA7C BD16                 66      CMP.W   #MOVE_W_CODE,D5
+00001928  6700 001E                 67      BEQ     DISPLAY_WORD
+0000192C                            68      
 Line 69 ERROR: Undefined symbol
-0000188C  BA7C BD16                 69      CMP.W   #MOVE_L_CODE,D5
-00001890  6700 0026                 70      BEQ     DISPLAY_LONG
-00001894                            71      
+0000192C  BA7C BD16                 69      CMP.W   #MOVE_L_CODE,D5
+00001930  6700 0026                 70      BEQ     DISPLAY_LONG
+00001934                            71      
 Line 72 ERROR: Undefined symbol
-00001894  6000 A480                 72      BRA     IF_INVALID_OP     
-00001898                            73      
-00001898                            74  DISPLAY_BYTE
+00001934  6000 A3E0                 72      BRA     IF_INVALID_SIZE     
+00001938                            73      
+00001938                            74  DISPLAY_BYTE
 Line 75 ERROR: Undefined symbol
-00001898  43F9 004DBD16             75      LEA     B_OUTPUT,A1
-0000189E  103C 000E                 76      MOVE.B  #14,D0
-000018A2  4E4F                      77      TRAP    #15
-000018A4  6000 0022                 78      BRA     DISPLAY_SRC_MODE
-000018A8                            79  
-000018A8                            80  DISPLAY_WORD
+00001938  43F9 004DBD16             75      LEA     B_OUTPUT,A1
+0000193E  103C 000E                 76      MOVE.B  #14,D0
+00001942  4E4F                      77      TRAP    #15
+00001944  6000 0022                 78      BRA     DISPLAY_SRC_MODE
+00001948                            79  
+00001948                            80  DISPLAY_WORD
 Line 81 ERROR: Undefined symbol
-000018A8  43F9 004DBD16             81      LEA     W_OUTPUT,A1
-000018AE  103C 000E                 82      MOVE.B  #14,D0
-000018B2  4E4F                      83      TRAP    #15
-000018B4  6000 0012                 84      BRA     DISPLAY_SRC_MODE
-000018B8                            85  
-000018B8                            86  DISPLAY_LONG
+00001948  43F9 004DBD16             81      LEA     W_OUTPUT,A1
+0000194E  103C 000E                 82      MOVE.B  #14,D0
+00001952  4E4F                      83      TRAP    #15
+00001954  6000 0012                 84      BRA     DISPLAY_SRC_MODE
+00001958                            85  
+00001958                            86  DISPLAY_LONG
 Line 87 ERROR: Undefined symbol
-000018B8  43F9 004DBD16             87      LEA     L_OUTPUT,A1
-000018BE  103C 000E                 88      MOVE.B  #14,D0
-000018C2  4E4F                      89      TRAP    #15
-000018C4  6000 0002                 90      BRA     DISPLAY_SRC_MODE
-000018C8                            91  
-000018C8                            92  DISPLAY_SRC_MODE
-000018C8  BCFC 0000                 93      CMP.W   #%000,A6
-000018CC  6700 002E                 94      BEQ     DISPLAY_Dn_SRC
-000018D0                            95      
-000018D0  BCFC 0001                 96      CMP.W   #%001,A6
-000018D4  6700 0040                 97      BEQ     DISPLAY_An_SRC
-000018D8                            98      
-000018D8  BCFC 0002                 99      CMP.W   #%010,A6
-000018DC  6700 0052                100      BEQ     DISPLAY_AT_An_SRC
-000018E0                           101      
-000018E0  BCFC 0003                102      CMP.W   #%011,A6
-000018E4  6700 0078                103      BEQ     DISPLAY_AT_An_INCREMENT_SRC
-000018E8                           104      
-000018E8  BCFC 0004                105      CMP.W   #%100,A6
-000018EC  6700 00A8                106      BEQ     DISPLAY_AT_An_DECREMENT_SRC
-000018F0                           107      
-000018F0  BCFC 0007                108      CMP.W   #%111,A6
-000018F4  6700 00D8                109      BEQ     DISPLAY_ADDRESS_OR_DATA_SRC
-000018F8                           110      
+00001958  43F9 004DBD16             87      LEA     L_OUTPUT,A1
+0000195E  103C 000E                 88      MOVE.B  #14,D0
+00001962  4E4F                      89      TRAP    #15
+00001964  6000 0002                 90      BRA     DISPLAY_SRC_MODE
+00001968                            91  
+00001968                            92  DISPLAY_SRC_MODE
+00001968  BCFC 0000                 93      CMP.W   #%000,A6
+0000196C  6700 002E                 94      BEQ     DISPLAY_Dn_SRC
+00001970                            95      
+00001970  BCFC 0001                 96      CMP.W   #%001,A6
+00001974  6700 0040                 97      BEQ     DISPLAY_An_SRC
+00001978                            98      
+00001978  BCFC 0002                 99      CMP.W   #%010,A6
+0000197C  6700 0052                100      BEQ     DISPLAY_AT_An_SRC
+00001980                           101      
+00001980  BCFC 0003                102      CMP.W   #%011,A6
+00001984  6700 0078                103      BEQ     DISPLAY_AT_An_INCREMENT_SRC
+00001988                           104      
+00001988  BCFC 0004                105      CMP.W   #%100,A6
+0000198C  6700 00A8                106      BEQ     DISPLAY_AT_An_DECREMENT_SRC
+00001990                           107      
+00001990  BCFC 0007                108      CMP.W   #%111,A6
+00001994  6700 00D8                109      BEQ     DISPLAY_ADDRESS_OR_DATA_SRC
+00001998                           110      
 Line 111 ERROR: Undefined symbol
-000018F8  6000 A41C                111      BRA     IF_INVALID_OP
-000018FC                           112      
-000018FC                           113  DISPLAY_Dn_SRC
+00001998  6000 A37C                111      BRA     IF_INVALID_SRC_DEST
+0000199C                           112      
+0000199C                           113  DISPLAY_Dn_SRC
 Line 114 ERROR: Undefined symbol
-000018FC  123C 0016                114      MOVE.B  #D,D1
-00001900  103C 0006                115      MOVE.B  #6,D0
-00001904  4E4F                     116      TRAP    #15
-00001906                           117      
-00001906  143C 0010                118      MOVE.B  #16,D2
-0000190A  103C 000F                119      MOVE.B  #15,D0
-0000190E  2204                     120      MOVE.L  D4,D1
-00001910  4E4F                     121      TRAP    #15
-00001912                           122      
-00001912  6000 01A0                123      BRA     DISPLAY_DEST
-00001916                           124  
-00001916                           125  DISPLAY_An_SRC
+0000199C  123C 0016                114      MOVE.B  #D,D1
+000019A0  103C 0006                115      MOVE.B  #6,D0
+000019A4  4E4F                     116      TRAP    #15
+000019A6                           117      
+000019A6  143C 0010                118      MOVE.B  #16,D2
+000019AA  103C 000F                119      MOVE.B  #15,D0
+000019AE  2204                     120      MOVE.L  D4,D1
+000019B0  4E4F                     121      TRAP    #15
+000019B2                           122      
+000019B2  6000 01A0                123      BRA     DISPLAY_DEST
+000019B6                           124  
+000019B6                           125  DISPLAY_An_SRC
 Line 126 ERROR: Undefined symbol
-00001916  123C 0016                126      MOVE.B  #A,D1
-0000191A  103C 0006                127      MOVE.B  #6,D0
-0000191E  4E4F                     128      TRAP    #15
-00001920                           129      
-00001920  143C 0010                130      MOVE.B  #16,D2
-00001924  103C 000F                131      MOVE.B  #15,D0
-00001928  2204                     132      MOVE.L  D4,D1
-0000192A  4E4F                     133      TRAP    #15
-0000192C                           134  
-0000192C  6000 0186                135      BRA     DISPLAY_DEST
-00001930                           136  
-00001930                           137  DISPLAY_AT_An_SRC
+000019B6  123C 0016                126      MOVE.B  #A,D1
+000019BA  103C 0006                127      MOVE.B  #6,D0
+000019BE  4E4F                     128      TRAP    #15
+000019C0                           129      
+000019C0  143C 0010                130      MOVE.B  #16,D2
+000019C4  103C 000F                131      MOVE.B  #15,D0
+000019C8  2204                     132      MOVE.L  D4,D1
+000019CA  4E4F                     133      TRAP    #15
+000019CC                           134  
+000019CC  6000 0186                135      BRA     DISPLAY_DEST
+000019D0                           136  
+000019D0                           137  DISPLAY_AT_An_SRC
 Line 138 ERROR: Undefined symbol
-00001930  123C 0016                138      MOVE.B  #LEFT_PAR,D1
-00001934  103C 0006                139      MOVE.B  #6,D0
-00001938  4E4F                     140      TRAP    #15
-0000193A                           141  
+000019D0  123C 0016                138      MOVE.B  #LEFT_PAR,D1
+000019D4  103C 0006                139      MOVE.B  #6,D0
+000019D8  4E4F                     140      TRAP    #15
+000019DA                           141  
 Line 142 ERROR: Undefined symbol
-0000193A  123C 0016                142      MOVE.B  #A,D1
-0000193E  103C 0006                143      MOVE.B  #6,D0
-00001942  4E4F                     144      TRAP    #15
-00001944                           145      
-00001944  143C 0010                146      MOVE.B  #16,D2
-00001948  103C 000F                147      MOVE.B  #15,D0
-0000194C  2204                     148      MOVE.L  D4,D1
-0000194E  4E4F                     149      TRAP    #15
-00001950                           150      
+000019DA  123C 0016                142      MOVE.B  #A,D1
+000019DE  103C 0006                143      MOVE.B  #6,D0
+000019E2  4E4F                     144      TRAP    #15
+000019E4                           145      
+000019E4  143C 0010                146      MOVE.B  #16,D2
+000019E8  103C 000F                147      MOVE.B  #15,D0
+000019EC  2204                     148      MOVE.L  D4,D1
+000019EE  4E4F                     149      TRAP    #15
+000019F0                           150      
 Line 151 ERROR: Undefined symbol
-00001950  123C 0016                151      MOVE.B  #RIGHT_PAR,D1
-00001954  103C 0006                152      MOVE.B  #6,D0
-00001958  4E4F                     153      TRAP    #15
-0000195A                           154  
-0000195A  6000 0158                155      BRA     DISPLAY_DEST
-0000195E                           156  
-0000195E                           157  DISPLAY_AT_An_INCREMENT_SRC
+000019F0  123C 0016                151      MOVE.B  #RIGHT_PAR,D1
+000019F4  103C 0006                152      MOVE.B  #6,D0
+000019F8  4E4F                     153      TRAP    #15
+000019FA                           154  
+000019FA  6000 0158                155      BRA     DISPLAY_DEST
+000019FE                           156  
+000019FE                           157  DISPLAY_AT_An_INCREMENT_SRC
 Line 158 ERROR: Undefined symbol
-0000195E  123C 0016                158      MOVE.B  #LEFT_PAR,D1
-00001962  103C 0006                159      MOVE.B  #6,D0
-00001966  4E4F                     160      TRAP    #15
-00001968                           161  
+000019FE  123C 0016                158      MOVE.B  #LEFT_PAR,D1
+00001A02  103C 0006                159      MOVE.B  #6,D0
+00001A06  4E4F                     160      TRAP    #15
+00001A08                           161  
 Line 162 ERROR: Undefined symbol
-00001968  123C 0016                162      MOVE.B  #A,D1
-0000196C  103C 0006                163      MOVE.B  #6,D0
-00001970  4E4F                     164      TRAP    #15
-00001972                           165      
-00001972  143C 0010                166      MOVE.B  #16,D2
-00001976  103C 000F                167      MOVE.B  #15,D0
-0000197A  2204                     168      MOVE.L  D4,D1
-0000197C  4E4F                     169      TRAP    #15
-0000197E                           170      
+00001A08  123C 0016                162      MOVE.B  #A,D1
+00001A0C  103C 0006                163      MOVE.B  #6,D0
+00001A10  4E4F                     164      TRAP    #15
+00001A12                           165      
+00001A12  143C 0010                166      MOVE.B  #16,D2
+00001A16  103C 000F                167      MOVE.B  #15,D0
+00001A1A  2204                     168      MOVE.L  D4,D1
+00001A1C  4E4F                     169      TRAP    #15
+00001A1E                           170      
 Line 171 ERROR: Undefined symbol
-0000197E  123C 0016                171      MOVE.B  #RIGHT_PAR,D1
-00001982  103C 0006                172      MOVE.B  #6,D0
-00001986  4E4F                     173      TRAP    #15
-00001988                           174      
+00001A1E  123C 0016                171      MOVE.B  #RIGHT_PAR,D1
+00001A22  103C 0006                172      MOVE.B  #6,D0
+00001A26  4E4F                     173      TRAP    #15
+00001A28                           174      
 Line 175 ERROR: Undefined symbol
-00001988  123C 0016                175      MOVE.B  #PLUS,D1
-0000198C  103C 0006                176      MOVE.B  #6,D0
-00001990  4E4F                     177      TRAP    #15
-00001992                           178      
-00001992  6000 0120                179      BRA     DISPLAY_DEST
-00001996                           180  
-00001996                           181  DISPLAY_AT_An_DECREMENT_SRC
+00001A28  123C 0016                175      MOVE.B  #PLUS,D1
+00001A2C  103C 0006                176      MOVE.B  #6,D0
+00001A30  4E4F                     177      TRAP    #15
+00001A32                           178      
+00001A32  6000 0120                179      BRA     DISPLAY_DEST
+00001A36                           180  
+00001A36                           181  DISPLAY_AT_An_DECREMENT_SRC
 Line 182 ERROR: Undefined symbol
-00001996  123C 0016                182      MOVE.B  #MINUS,D1
-0000199A  103C 0006                183      MOVE.B  #6,D0
-0000199E  4E4F                     184      TRAP    #15
-000019A0                           185  
+00001A36  123C 0016                182      MOVE.B  #MINUS,D1
+00001A3A  103C 0006                183      MOVE.B  #6,D0
+00001A3E  4E4F                     184      TRAP    #15
+00001A40                           185  
 Line 186 ERROR: Undefined symbol
-000019A0  123C 0016                186      MOVE.B  #LEFT_PAR,D1
-000019A4  103C 0006                187      MOVE.B  #6,D0
-000019A8  4E4F                     188      TRAP    #15
-000019AA                           189  
+00001A40  123C 0016                186      MOVE.B  #LEFT_PAR,D1
+00001A44  103C 0006                187      MOVE.B  #6,D0
+00001A48  4E4F                     188      TRAP    #15
+00001A4A                           189  
 Line 190 ERROR: Undefined symbol
-000019AA  123C 0016                190      MOVE.B  #A,D1
-000019AE  103C 0006                191      MOVE.B  #6,D0
-000019B2  4E4F                     192      TRAP    #15
-000019B4                           193      
-000019B4  143C 0010                194      MOVE.B  #16,D2
-000019B8  103C 000F                195      MOVE.B  #15,D0
-000019BC  2204                     196      MOVE.L  D4,D1
-000019BE  4E4F                     197      TRAP    #15
-000019C0                           198      
+00001A4A  123C 0016                190      MOVE.B  #A,D1
+00001A4E  103C 0006                191      MOVE.B  #6,D0
+00001A52  4E4F                     192      TRAP    #15
+00001A54                           193      
+00001A54  143C 0010                194      MOVE.B  #16,D2
+00001A58  103C 000F                195      MOVE.B  #15,D0
+00001A5C  2204                     196      MOVE.L  D4,D1
+00001A5E  4E4F                     197      TRAP    #15
+00001A60                           198      
 Line 199 ERROR: Undefined symbol
-000019C0  123C 0016                199      MOVE.B  #RIGHT_PAR,D1
-000019C4  103C 0006                200      MOVE.B  #6,D0
-000019C8  4E4F                     201      TRAP    #15
-000019CA                           202  
-000019CA  6000 00E8                203      BRA     DISPLAY_DEST
-000019CE                           204  
-000019CE                           205  DISPLAY_ADDRESS_OR_DATA_SRC
-000019CE  B87C 0000                206      CMP.W   #%000,D4
-000019D2  6700 0016                207      BEQ     DISPLAY_ADDRESS_WORD_SRC
-000019D6                           208      
-000019D6  B87C 0001                209      CMP.W   #%001,D4
-000019DA  6700 002C                210      BEQ     DISPLAY_ADDRESS_LONG_SRC
-000019DE                           211  
-000019DE  B87C 0004                212      CMP.W   #%100,D4
-000019E2  6700 003E                213      BEQ     DISPLAY_DATA_SRC
-000019E6                           214  
+00001A60  123C 0016                199      MOVE.B  #RIGHT_PAR,D1
+00001A64  103C 0006                200      MOVE.B  #6,D0
+00001A68  4E4F                     201      TRAP    #15
+00001A6A                           202  
+00001A6A  6000 00E8                203      BRA     DISPLAY_DEST
+00001A6E                           204  
+00001A6E                           205  DISPLAY_ADDRESS_OR_DATA_SRC
+00001A6E  B87C 0000                206      CMP.W   #%000,D4
+00001A72  6700 0016                207      BEQ     DISPLAY_ADDRESS_WORD_SRC
+00001A76                           208      
+00001A76  B87C 0001                209      CMP.W   #%001,D4
+00001A7A  6700 002C                210      BEQ     DISPLAY_ADDRESS_LONG_SRC
+00001A7E                           211  
+00001A7E  B87C 0004                212      CMP.W   #%100,D4
+00001A82  6700 003E                213      BEQ     DISPLAY_DATA_SRC
+00001A86                           214  
 Line 215 ERROR: Undefined symbol
-000019E6  6000 A32E                215      BRA     IF_INVALID_OP
-000019EA                           216  
-000019EA                           217  DISPLAY_ADDRESS_WORD_SRC
-000019EA  544A                     218      ADDQ    #2,A2
-000019EC                           219      
+00001A86  6000 A28E                215      BRA     IF_INVALID_SRC_DEST
+00001A8A                           216  
+00001A8A                           217  DISPLAY_ADDRESS_WORD_SRC
+00001A8A  544A                     218      ADDQ    #2,A2
+00001A8C                           219      
 Line 220 ERROR: Undefined symbol
-000019EC  123C 0016                220      MOVE.B  #HEX,D1
-000019F0  103C 0006                221      MOVE.B  #6,D0
-000019F4  4E4F                     222      TRAP    #15
-000019F6                           223      
-000019F6  3212                     224      MOVE.W  (A2),D1
-000019F8  C2BC 0000FFFF            225      AND.L   #$0000FFFF,D1
-000019FE  103C 000F                226      MOVE.B  #15,D0
-00001A02  4E4F                     227      TRAP    #15
-00001A04                           228      
-00001A04  6000 00AE                229      BRA     DISPLAY_DEST
-00001A08                           230  
-00001A08                           231  DISPLAY_ADDRESS_LONG_SRC
-00001A08  544A                     232      ADDQ    #2,A2
-00001A0A                           233      
+00001A8C  123C 0016                220      MOVE.B  #HEX,D1
+00001A90  103C 0006                221      MOVE.B  #6,D0
+00001A94  4E4F                     222      TRAP    #15
+00001A96                           223      
+00001A96  3212                     224      MOVE.W  (A2),D1
+00001A98  C2BC 0000FFFF            225      AND.L   #$0000FFFF,D1
+00001A9E  103C 000F                226      MOVE.B  #15,D0
+00001AA2  4E4F                     227      TRAP    #15
+00001AA4                           228      
+00001AA4  6000 00AE                229      BRA     DISPLAY_DEST
+00001AA8                           230  
+00001AA8                           231  DISPLAY_ADDRESS_LONG_SRC
+00001AA8  544A                     232      ADDQ    #2,A2
+00001AAA                           233      
 Line 234 ERROR: Undefined symbol
-00001A0A  123C 0016                234      MOVE.B  #HEX,D1
-00001A0E  103C 0006                235      MOVE.B  #6,D0
-00001A12  4E4F                     236      TRAP    #15
-00001A14                           237      
-00001A14  2212                     238      MOVE.L  (A2),D1
-00001A16  103C 000F                239      MOVE.B  #15,D0
-00001A1A  4E4F                     240      TRAP    #15
-00001A1C                           241      
-00001A1C  544A                     242      ADDQ    #2,A2
-00001A1E                           243  
-00001A1E  6000 0094                244      BRA     DISPLAY_DEST
-00001A22                           245      
-00001A22                           246  DISPLAY_DATA_SRC
+00001AAA  123C 0016                234      MOVE.B  #HEX,D1
+00001AAE  103C 0006                235      MOVE.B  #6,D0
+00001AB2  4E4F                     236      TRAP    #15
+00001AB4                           237      
+00001AB4  2212                     238      MOVE.L  (A2),D1
+00001AB6  103C 000F                239      MOVE.B  #15,D0
+00001ABA  4E4F                     240      TRAP    #15
+00001ABC                           241      
+00001ABC  544A                     242      ADDQ    #2,A2
+00001ABE                           243  
+00001ABE  6000 0094                244      BRA     DISPLAY_DEST
+00001AC2                           245      
+00001AC2                           246  DISPLAY_DATA_SRC
 Line 247 ERROR: Undefined symbol
-00001A22  BA7C BD16                247      CMP.W   #MOVE_B_CODE,D5
-00001A26  6700 0016                248      BEQ     DISPLAY_DATA_SRC_BYTE
-00001A2A                           249      
+00001AC2  BA7C BD16                247      CMP.W   #MOVE_B_CODE,D5
+00001AC6  6700 0016                248      BEQ     DISPLAY_DATA_SRC_BYTE
+00001ACA                           249      
 Line 250 ERROR: Undefined symbol
-00001A2A  BA7C BD16                250      CMP.W   #MOVE_W_CODE,D5
-00001A2E  6700 0038                251      BEQ     DISPLAY_DATA_SRC_WORD
-00001A32                           252      
+00001ACA  BA7C BD16                250      CMP.W   #MOVE_W_CODE,D5
+00001ACE  6700 0038                251      BEQ     DISPLAY_DATA_SRC_WORD
+00001AD2                           252      
 Line 253 ERROR: Undefined symbol
-00001A32  BA7C BD16                253      CMP.W   #MOVE_L_CODE,D5
-00001A36  6700 0058                254      BEQ     DISPLAY_DATA_SRC_LONG
-00001A3A                           255  
+00001AD2  BA7C BD16                253      CMP.W   #MOVE_L_CODE,D5
+00001AD6  6700 0058                254      BEQ     DISPLAY_DATA_SRC_LONG
+00001ADA                           255  
 Line 256 ERROR: Undefined symbol
-00001A3A  6000 A2DA                256      BRA     IF_INVALID_OP
-00001A3E                           257      
-00001A3E                           258  DISPLAY_DATA_SRC_BYTE
-00001A3E  564A                     259      ADDQ    #3,A2
-00001A40                           260      
+00001ADA  6000 A23A                256      BRA     IF_INVALID_SRC_DEST
+00001ADE                           257      
+00001ADE                           258  DISPLAY_DATA_SRC_BYTE
+00001ADE  564A                     259      ADDQ    #3,A2
+00001AE0                           260      
 Line 261 ERROR: Undefined symbol
-00001A40  123C 0016                261      MOVE.B  #NUM,D1
-00001A44  103C 0006                262      MOVE.B  #6,D0
-00001A48  4E4F                     263      TRAP    #15    
-00001A4A                           264      
+00001AE0  123C 0016                261      MOVE.B  #NUM,D1
+00001AE4  103C 0006                262      MOVE.B  #6,D0
+00001AE8  4E4F                     263      TRAP    #15    
+00001AEA                           264      
 Line 265 ERROR: Undefined symbol
-00001A4A  123C 0016                265      MOVE.B  #HEX,D1
-00001A4E  103C 0006                266      MOVE.B  #6,D0
-00001A52  4E4F                     267      TRAP    #15
-00001A54                           268      
-00001A54  1212                     269      MOVE.B  (A2),D1
-00001A56  C2BC 000000FF            270      AND.L   #$000000FF,D1
-00001A5C  103C 000F                271      MOVE.B  #15,D0
-00001A60  4E4F                     272      TRAP    #15
-00001A62                           273      
-00001A62  534A                     274      SUBQ    #1,A2
-00001A64                           275  
-00001A64  6000 004E                276      BRA     DISPLAY_DEST
-00001A68                           277  
-00001A68                           278  DISPLAY_DATA_SRC_WORD
-00001A68  544A                     279      ADDQ    #2,A2
-00001A6A                           280  
+00001AEA  123C 0016                265      MOVE.B  #HEX,D1
+00001AEE  103C 0006                266      MOVE.B  #6,D0
+00001AF2  4E4F                     267      TRAP    #15
+00001AF4                           268      
+00001AF4  1212                     269      MOVE.B  (A2),D1
+00001AF6  C2BC 000000FF            270      AND.L   #$000000FF,D1
+00001AFC  103C 000F                271      MOVE.B  #15,D0
+00001B00  4E4F                     272      TRAP    #15
+00001B02                           273      
+00001B02  534A                     274      SUBQ    #1,A2
+00001B04                           275  
+00001B04  6000 004E                276      BRA     DISPLAY_DEST
+00001B08                           277  
+00001B08                           278  DISPLAY_DATA_SRC_WORD
+00001B08  544A                     279      ADDQ    #2,A2
+00001B0A                           280  
 Line 281 ERROR: Undefined symbol
-00001A6A  123C 0016                281      MOVE.B  #NUM,D1
-00001A6E  103C 0006                282      MOVE.B  #6,D0
-00001A72  4E4F                     283      TRAP    #15
-00001A74                           284      
+00001B0A  123C 0016                281      MOVE.B  #NUM,D1
+00001B0E  103C 0006                282      MOVE.B  #6,D0
+00001B12  4E4F                     283      TRAP    #15
+00001B14                           284      
 Line 285 ERROR: Undefined symbol
-00001A74  123C 0016                285      MOVE.B  #HEX,D1
-00001A78  103C 0006                286      MOVE.B  #6,D0
-00001A7C  4E4F                     287      TRAP    #15
-00001A7E                           288      
-00001A7E  3212                     289      MOVE.W  (A2),D1
-00001A80  C2BC 0000FFFF            290      AND.L   #$0000FFFF,D1
-00001A86  103C 000F                291      MOVE.B  #15,D0
-00001A8A  4E4F                     292      TRAP    #15
-00001A8C                           293  
-00001A8C  6000 0026                294      BRA     DISPLAY_DEST
-00001A90                           295      
-00001A90                           296  DISPLAY_DATA_SRC_LONG
-00001A90  544A                     297      ADDQ    #2,A2
-00001A92                           298      
+00001B14  123C 0016                285      MOVE.B  #HEX,D1
+00001B18  103C 0006                286      MOVE.B  #6,D0
+00001B1C  4E4F                     287      TRAP    #15
+00001B1E                           288      
+00001B1E  3212                     289      MOVE.W  (A2),D1
+00001B20  C2BC 0000FFFF            290      AND.L   #$0000FFFF,D1
+00001B26  103C 000F                291      MOVE.B  #15,D0
+00001B2A  4E4F                     292      TRAP    #15
+00001B2C                           293  
+00001B2C  6000 0026                294      BRA     DISPLAY_DEST
+00001B30                           295      
+00001B30                           296  DISPLAY_DATA_SRC_LONG
+00001B30  544A                     297      ADDQ    #2,A2
+00001B32                           298      
 Line 299 ERROR: Undefined symbol
-00001A92  123C 0016                299      MOVE.B  #NUM,D1
-00001A96  103C 0006                300      MOVE.B  #6,D0
-00001A9A  4E4F                     301      TRAP    #15
-00001A9C                           302      
+00001B32  123C 0016                299      MOVE.B  #NUM,D1
+00001B36  103C 0006                300      MOVE.B  #6,D0
+00001B3A  4E4F                     301      TRAP    #15
+00001B3C                           302      
 Line 303 ERROR: Undefined symbol
-00001A9C  123C 0016                303      MOVE.B  #HEX,D1
-00001AA0  103C 0006                304      MOVE.B  #6,D0
-00001AA4  4E4F                     305      TRAP    #15
-00001AA6                           306      
-00001AA6  2212                     307      MOVE.L  (A2),D1
-00001AA8  103C 000F                308      MOVE.B  #15,D0
-00001AAC  4E4F                     309      TRAP    #15
-00001AAE                           310      
-00001AAE  544A                     311      ADDQ    #2,A2
-00001AB0                           312      
-00001AB0  6000 0002                313      BRA     DISPLAY_DEST
-00001AB4                           314      
-00001AB4                           315  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-00001AB4                           316  
-00001AB4                           317  DISPLAY_DEST
+00001B3C  123C 0016                303      MOVE.B  #HEX,D1
+00001B40  103C 0006                304      MOVE.B  #6,D0
+00001B44  4E4F                     305      TRAP    #15
+00001B46                           306      
+00001B46  2212                     307      MOVE.L  (A2),D1
+00001B48  103C 000F                308      MOVE.B  #15,D0
+00001B4C  4E4F                     309      TRAP    #15
+00001B4E                           310      
+00001B4E  544A                     311      ADDQ    #2,A2
+00001B50                           312      
+00001B50  6000 0002                313      BRA     DISPLAY_DEST
+00001B54                           314      
+00001B54                           315  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+00001B54                           316  
+00001B54                           317  DISPLAY_DEST
 Line 318 ERROR: Undefined symbol
-00001AB4  123C 0016                318      MOVE.B  #COMMA,D1
-00001AB8  103C 0006                319      MOVE.B  #6,D0
-00001ABC  4E4F                     320      TRAP    #15
-00001ABE                           321  
-00001ABE  BAFC 0000                322      CMP.W   #%000,A5
-00001AC2  6700 002E                323      BEQ     DISPLAY_Dn_DEST
-00001AC6                           324      
-00001AC6  BAFC 0001                325      CMP.W   #%001,A5
-00001ACA  6700 0040                326      BEQ     DISPLAY_An_DEST
-00001ACE                           327      
-00001ACE  BAFC 0002                328      CMP.W   #%010,A5
-00001AD2  6700 0052                329      BEQ     DISPLAY_AT_An_DEST
-00001AD6                           330      
-00001AD6  BAFC 0003                331      CMP.W   #%011,A5
-00001ADA  6700 0078                332      BEQ     DISPLAY_AT_An_INCREMENT_DEST
-00001ADE                           333      
-00001ADE  BAFC 0004                334      CMP.W   #%100,A5
-00001AE2  6700 00A8                335      BEQ     DISPLAY_AT_An_DECREMENT_DEST
-00001AE6                           336      
-00001AE6  BAFC 0007                337      CMP.W   #%111,A5
-00001AEA  6700 00D8                338      BEQ     DISPLAY_ADDRESS_OR_DATA_DEST
-00001AEE                           339      
+00001B54  123C 0016                318      MOVE.B  #COMMA,D1
+00001B58  103C 0006                319      MOVE.B  #6,D0
+00001B5C  4E4F                     320      TRAP    #15
+00001B5E                           321  
+00001B5E  BAFC 0000                322      CMP.W   #%000,A5
+00001B62  6700 002E                323      BEQ     DISPLAY_Dn_DEST
+00001B66                           324      
+00001B66  BAFC 0001                325      CMP.W   #%001,A5
+00001B6A  6700 0040                326      BEQ     DISPLAY_An_DEST
+00001B6E                           327      
+00001B6E  BAFC 0002                328      CMP.W   #%010,A5
+00001B72  6700 0052                329      BEQ     DISPLAY_AT_An_DEST
+00001B76                           330      
+00001B76  BAFC 0003                331      CMP.W   #%011,A5
+00001B7A  6700 0078                332      BEQ     DISPLAY_AT_An_INCREMENT_DEST
+00001B7E                           333      
+00001B7E  BAFC 0004                334      CMP.W   #%100,A5
+00001B82  6700 00A8                335      BEQ     DISPLAY_AT_An_DECREMENT_DEST
+00001B86                           336      
+00001B86  BAFC 0007                337      CMP.W   #%111,A5
+00001B8A  6700 00D8                338      BEQ     DISPLAY_ADDRESS_OR_DATA_DEST
+00001B8E                           339      
 Line 340 ERROR: Undefined symbol
-00001AEE  6000 A226                340      BRA     IF_INVALID_OP
-00001AF2                           341  
-00001AF2                           342  DISPLAY_Dn_DEST
+00001B8E  6000 A186                340      BRA     IF_INVALID_SRC_DEST
+00001B92                           341  
+00001B92                           342  DISPLAY_Dn_DEST
 Line 343 ERROR: Undefined symbol
-00001AF2  123C 0016                343      MOVE.B  #D,D1
-00001AF6  103C 0006                344      MOVE.B  #6,D0
-00001AFA  4E4F                     345      TRAP    #15
-00001AFC                           346      
-00001AFC  143C 0010                347      MOVE.B  #16,D2
-00001B00  103C 000F                348      MOVE.B  #15,D0
-00001B04  220C                     349      MOVE.L  A4,D1
-00001B06  4E4F                     350      TRAP    #15
-00001B08                           351      
+00001B92  123C 0016                343      MOVE.B  #D,D1
+00001B96  103C 0006                344      MOVE.B  #6,D0
+00001B9A  4E4F                     345      TRAP    #15
+00001B9C                           346      
+00001B9C  143C 0010                347      MOVE.B  #16,D2
+00001BA0  103C 000F                348      MOVE.B  #15,D0
+00001BA4  220C                     349      MOVE.L  A4,D1
+00001BA6  4E4F                     350      TRAP    #15
+00001BA8                           351      
 Line 352 ERROR: Undefined symbol
-00001B08  6000 A20C                352      BRA     ITERATE
-00001B0C                           353  
-00001B0C                           354  DISPLAY_An_DEST
+00001BA8  6000 A16C                352      BRA     ITERATE
+00001BAC                           353  
+00001BAC                           354  DISPLAY_An_DEST
 Line 355 ERROR: Undefined symbol
-00001B0C  123C 0016                355      MOVE.B  #A,D1
-00001B10  103C 0006                356      MOVE.B  #6,D0
-00001B14  4E4F                     357      TRAP    #15
-00001B16                           358      
-00001B16  143C 0010                359      MOVE.B  #16,D2
-00001B1A  103C 000F                360      MOVE.B  #15,D0
-00001B1E  220C                     361      MOVE.L  A4,D1
-00001B20  4E4F                     362      TRAP    #15
-00001B22                           363  
+00001BAC  123C 0016                355      MOVE.B  #A,D1
+00001BB0  103C 0006                356      MOVE.B  #6,D0
+00001BB4  4E4F                     357      TRAP    #15
+00001BB6                           358      
+00001BB6  143C 0010                359      MOVE.B  #16,D2
+00001BBA  103C 000F                360      MOVE.B  #15,D0
+00001BBE  220C                     361      MOVE.L  A4,D1
+00001BC0  4E4F                     362      TRAP    #15
+00001BC2                           363  
 Line 364 ERROR: Undefined symbol
-00001B22  6000 A1F2                364      BRA     ITERATE
-00001B26                           365  
-00001B26                           366  DISPLAY_AT_An_DEST
+00001BC2  6000 A152                364      BRA     ITERATE
+00001BC6                           365  
+00001BC6                           366  DISPLAY_AT_An_DEST
 Line 367 ERROR: Undefined symbol
-00001B26  123C 0016                367      MOVE.B  #LEFT_PAR,D1
-00001B2A  103C 0006                368      MOVE.B  #6,D0
-00001B2E  4E4F                     369      TRAP    #15
-00001B30                           370  
+00001BC6  123C 0016                367      MOVE.B  #LEFT_PAR,D1
+00001BCA  103C 0006                368      MOVE.B  #6,D0
+00001BCE  4E4F                     369      TRAP    #15
+00001BD0                           370  
 Line 371 ERROR: Undefined symbol
-00001B30  123C 0016                371      MOVE.B  #A,D1
-00001B34  103C 0006                372      MOVE.B  #6,D0
-00001B38  4E4F                     373      TRAP    #15
-00001B3A                           374      
-00001B3A  143C 0010                375      MOVE.B  #16,D2
-00001B3E  103C 000F                376      MOVE.B  #15,D0
-00001B42  220C                     377      MOVE.L  A4,D1
-00001B44  4E4F                     378      TRAP    #15
-00001B46                           379      
+00001BD0  123C 0016                371      MOVE.B  #A,D1
+00001BD4  103C 0006                372      MOVE.B  #6,D0
+00001BD8  4E4F                     373      TRAP    #15
+00001BDA                           374      
+00001BDA  143C 0010                375      MOVE.B  #16,D2
+00001BDE  103C 000F                376      MOVE.B  #15,D0
+00001BE2  220C                     377      MOVE.L  A4,D1
+00001BE4  4E4F                     378      TRAP    #15
+00001BE6                           379      
 Line 380 ERROR: Undefined symbol
-00001B46  123C 0016                380      MOVE.B  #RIGHT_PAR,D1
-00001B4A  103C 0006                381      MOVE.B  #6,D0
-00001B4E  4E4F                     382      TRAP    #15
-00001B50                           383  
+00001BE6  123C 0016                380      MOVE.B  #RIGHT_PAR,D1
+00001BEA  103C 0006                381      MOVE.B  #6,D0
+00001BEE  4E4F                     382      TRAP    #15
+00001BF0                           383  
 Line 384 ERROR: Undefined symbol
-00001B50  6000 A1C4                384      BRA     ITERATE
-00001B54                           385  
-00001B54                           386  DISPLAY_AT_An_INCREMENT_DEST
+00001BF0  6000 A124                384      BRA     ITERATE
+00001BF4                           385  
+00001BF4                           386  DISPLAY_AT_An_INCREMENT_DEST
 Line 387 ERROR: Undefined symbol
-00001B54  123C 0016                387      MOVE.B  #LEFT_PAR,D1
-00001B58  103C 0006                388      MOVE.B  #6,D0
-00001B5C  4E4F                     389      TRAP    #15
-00001B5E                           390  
+00001BF4  123C 0016                387      MOVE.B  #LEFT_PAR,D1
+00001BF8  103C 0006                388      MOVE.B  #6,D0
+00001BFC  4E4F                     389      TRAP    #15
+00001BFE                           390  
 Line 391 ERROR: Undefined symbol
-00001B5E  123C 0016                391      MOVE.B  #A,D1
-00001B62  103C 0006                392      MOVE.B  #6,D0
-00001B66  4E4F                     393      TRAP    #15
-00001B68                           394      
-00001B68  143C 0010                395      MOVE.B  #16,D2
-00001B6C  103C 000F                396      MOVE.B  #15,D0
-00001B70  220C                     397      MOVE.L  A4,D1
-00001B72  4E4F                     398      TRAP    #15
-00001B74                           399      
+00001BFE  123C 0016                391      MOVE.B  #A,D1
+00001C02  103C 0006                392      MOVE.B  #6,D0
+00001C06  4E4F                     393      TRAP    #15
+00001C08                           394      
+00001C08  143C 0010                395      MOVE.B  #16,D2
+00001C0C  103C 000F                396      MOVE.B  #15,D0
+00001C10  220C                     397      MOVE.L  A4,D1
+00001C12  4E4F                     398      TRAP    #15
+00001C14                           399      
 Line 400 ERROR: Undefined symbol
-00001B74  123C 0016                400      MOVE.B  #RIGHT_PAR,D1
-00001B78  103C 0006                401      MOVE.B  #6,D0
-00001B7C  4E4F                     402      TRAP    #15
-00001B7E                           403      
+00001C14  123C 0016                400      MOVE.B  #RIGHT_PAR,D1
+00001C18  103C 0006                401      MOVE.B  #6,D0
+00001C1C  4E4F                     402      TRAP    #15
+00001C1E                           403      
 Line 404 ERROR: Undefined symbol
-00001B7E  123C 0016                404      MOVE.B  #PLUS,D1
-00001B82  103C 0006                405      MOVE.B  #6,D0
-00001B86  4E4F                     406      TRAP    #15
-00001B88                           407      
+00001C1E  123C 0016                404      MOVE.B  #PLUS,D1
+00001C22  103C 0006                405      MOVE.B  #6,D0
+00001C26  4E4F                     406      TRAP    #15
+00001C28                           407      
 Line 408 ERROR: Undefined symbol
-00001B88  6000 A18C                408      BRA     ITERATE
-00001B8C                           409  
-00001B8C                           410  DISPLAY_AT_An_DECREMENT_DEST
+00001C28  6000 A0EC                408      BRA     ITERATE
+00001C2C                           409  
+00001C2C                           410  DISPLAY_AT_An_DECREMENT_DEST
 Line 411 ERROR: Undefined symbol
-00001B8C  123C 0016                411      MOVE.B  #MINUS,D1
-00001B90  103C 0006                412      MOVE.B  #6,D0
-00001B94  4E4F                     413      TRAP    #15
-00001B96                           414  
+00001C2C  123C 0016                411      MOVE.B  #MINUS,D1
+00001C30  103C 0006                412      MOVE.B  #6,D0
+00001C34  4E4F                     413      TRAP    #15
+00001C36                           414  
 Line 415 ERROR: Undefined symbol
-00001B96  123C 0016                415      MOVE.B  #LEFT_PAR,D1
-00001B9A  103C 0006                416      MOVE.B  #6,D0
-00001B9E  4E4F                     417      TRAP    #15
-00001BA0                           418  
+00001C36  123C 0016                415      MOVE.B  #LEFT_PAR,D1
+00001C3A  103C 0006                416      MOVE.B  #6,D0
+00001C3E  4E4F                     417      TRAP    #15
+00001C40                           418  
 Line 419 ERROR: Undefined symbol
-00001BA0  123C 0016                419      MOVE.B  #A,D1
-00001BA4  103C 0006                420      MOVE.B  #6,D0
-00001BA8  4E4F                     421      TRAP    #15
-00001BAA                           422      
-00001BAA  143C 0010                423      MOVE.B  #16,D2
-00001BAE  103C 000F                424      MOVE.B  #15,D0
-00001BB2  220C                     425      MOVE.L  A4,D1
-00001BB4  4E4F                     426      TRAP    #15
-00001BB6                           427      
+00001C40  123C 0016                419      MOVE.B  #A,D1
+00001C44  103C 0006                420      MOVE.B  #6,D0
+00001C48  4E4F                     421      TRAP    #15
+00001C4A                           422      
+00001C4A  143C 0010                423      MOVE.B  #16,D2
+00001C4E  103C 000F                424      MOVE.B  #15,D0
+00001C52  220C                     425      MOVE.L  A4,D1
+00001C54  4E4F                     426      TRAP    #15
+00001C56                           427      
 Line 428 ERROR: Undefined symbol
-00001BB6  123C 0016                428      MOVE.B  #RIGHT_PAR,D1
-00001BBA  103C 0006                429      MOVE.B  #6,D0
-00001BBE  4E4F                     430      TRAP    #15
-00001BC0                           431  
+00001C56  123C 0016                428      MOVE.B  #RIGHT_PAR,D1
+00001C5A  103C 0006                429      MOVE.B  #6,D0
+00001C5E  4E4F                     430      TRAP    #15
+00001C60                           431  
 Line 432 ERROR: Undefined symbol
-00001BC0  6000 A154                432      BRA     ITERATE
-00001BC4                           433  
-00001BC4                           434  DISPLAY_ADDRESS_OR_DATA_DEST
-00001BC4  B8FC 0000                435      CMP.W   #%000,A4
-00001BC8  6700 000E                436      BEQ     DISPLAY_ADDRESS_WORD_DEST
-00001BCC                           437      
-00001BCC  B8FC 0001                438      CMP.W   #%001,A4
-00001BD0  6700 0024                439      BEQ     DISPLAY_ADDRESS_LONG_DEST
-00001BD4                           440  
+00001C60  6000 A0B4                432      BRA     ITERATE
+00001C64                           433  
+00001C64                           434  DISPLAY_ADDRESS_OR_DATA_DEST
+00001C64  B8FC 0000                435      CMP.W   #%000,A4
+00001C68  6700 000E                436      BEQ     DISPLAY_ADDRESS_WORD_DEST
+00001C6C                           437      
+00001C6C  B8FC 0001                438      CMP.W   #%001,A4
+00001C70  6700 0024                439      BEQ     DISPLAY_ADDRESS_LONG_DEST
+00001C74                           440  
 Line 441 ERROR: Undefined symbol
-00001BD4  6000 A140                441      BRA     IF_INVALID_OP
-00001BD8                           442  
-00001BD8                           443  DISPLAY_ADDRESS_WORD_DEST
-00001BD8  544A                     444      ADDQ    #2,A2
-00001BDA                           445      
+00001C74  6000 A0A0                441      BRA     IF_INVALID_SRC_DEST
+00001C78                           442  
+00001C78                           443  DISPLAY_ADDRESS_WORD_DEST
+00001C78  544A                     444      ADDQ    #2,A2
+00001C7A                           445      
 Line 446 ERROR: Undefined symbol
-00001BDA  123C 0016                446      MOVE.B  #HEX,D1
-00001BDE  103C 0006                447      MOVE.B  #6,D0
-00001BE2  4E4F                     448      TRAP    #15
-00001BE4                           449      
-00001BE4  3212                     450      MOVE.W  (A2),D1
-00001BE6  C2BC 0000FFFF            451      AND.L   #$0000FFFF,D1
-00001BEC  103C 000F                452      MOVE.B  #15,D0
-00001BF0  4E4F                     453      TRAP    #15
-00001BF2                           454      
+00001C7A  123C 0016                446      MOVE.B  #HEX,D1
+00001C7E  103C 0006                447      MOVE.B  #6,D0
+00001C82  4E4F                     448      TRAP    #15
+00001C84                           449      
+00001C84  3212                     450      MOVE.W  (A2),D1
+00001C86  C2BC 0000FFFF            451      AND.L   #$0000FFFF,D1
+00001C8C  103C 000F                452      MOVE.B  #15,D0
+00001C90  4E4F                     453      TRAP    #15
+00001C92                           454      
 Line 455 ERROR: Undefined symbol
-00001BF2  6000 A122                455      BRA     ITERATE
-00001BF6                           456  
-00001BF6                           457  DISPLAY_ADDRESS_LONG_DEST
-00001BF6  544A                     458      ADDQ    #2,A2
-00001BF8                           459      
+00001C92  6000 A082                455      BRA     ITERATE
+00001C96                           456  
+00001C96                           457  DISPLAY_ADDRESS_LONG_DEST
+00001C96  544A                     458      ADDQ    #2,A2
+00001C98                           459      
 Line 460 ERROR: Undefined symbol
-00001BF8  123C 0016                460      MOVE.B  #HEX,D1
-00001BFC  103C 0006                461      MOVE.B  #6,D0
-00001C00  4E4F                     462      TRAP    #15
-00001C02                           463      
-00001C02  2212                     464      MOVE.L  (A2),D1
-00001C04  103C 000F                465      MOVE.B  #15,D0
-00001C08  4E4F                     466      TRAP    #15
-00001C0A                           467      
-00001C0A  544A                     468      ADDQ    #2,A2
-00001C0C                           469  
+00001C98  123C 0016                460      MOVE.B  #HEX,D1
+00001C9C  103C 0006                461      MOVE.B  #6,D0
+00001CA0  4E4F                     462      TRAP    #15
+00001CA2                           463      
+00001CA2  2212                     464      MOVE.L  (A2),D1
+00001CA4  103C 000F                465      MOVE.B  #15,D0
+00001CA8  4E4F                     466      TRAP    #15
+00001CAA                           467      
+00001CAA  544A                     468      ADDQ    #2,A2
+00001CAC                           469  
 Line 470 ERROR: Undefined symbol
-00001C0C  6000 A108                470      BRA     ITERATE
-00001C10                           471  
-00001C10                           472  
-00001C10                           473  
-00001C10                           474  
-00001C10                           475  
-00001C10                           476  
-00001C10                           477  
-00001C10                           478  
-00001C10                           479  
-Line 480 WARNING: END directive missing, starting address not set
+00001CAC  6000 A068                470      BRA     ITERATE
+00001CB0                           471  
+00001CB0                           472  
+00001CB0                           473  
+00001CB0                           474  
+00001CB0                           475  
+00001CB0                           476  
+00001CB0                           477  
+00001CB0                           478  
+00001CB0                           479  
+00001CB0                           480  
+00001CB0                           481  
+Line 482 WARNING: END directive missing, starting address not set
 
 61 errors detected
 1 warning generated
@@ -551,32 +553,32 @@ Line 480 WARNING: END directive missing, starting address not set
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-DISPLAY_ADDRESS_LONG_DEST  1BF6
-DISPLAY_ADDRESS_LONG_SRC  1A08
-DISPLAY_ADDRESS_OR_DATA_DEST  1BC4
-DISPLAY_ADDRESS_OR_DATA_SRC  19CE
-DISPLAY_ADDRESS_WORD_DEST  1BD8
-DISPLAY_ADDRESS_WORD_SRC  19EA
-DISPLAY_AN_DEST     1B0C
-DISPLAY_AN_SRC      1916
-DISPLAY_AT_AN_DECREMENT_DEST  1B8C
-DISPLAY_AT_AN_DECREMENT_SRC  1996
-DISPLAY_AT_AN_DEST  1B26
-DISPLAY_AT_AN_INCREMENT_DEST  1B54
-DISPLAY_AT_AN_INCREMENT_SRC  195E
-DISPLAY_AT_AN_SRC   1930
-DISPLAY_BYTE        1898
-DISPLAY_DATA_SRC    1A22
-DISPLAY_DATA_SRC_BYTE  1A3E
-DISPLAY_DATA_SRC_LONG  1A90
-DISPLAY_DATA_SRC_WORD  1A68
-DISPLAY_DEST        1AB4
-DISPLAY_DN_DEST     1AF2
-DISPLAY_DN_SRC      18FC
-DISPLAY_LONG        18B8
-DISPLAY_MOVE        186C
-DISPLAY_MOVEA       185C
-DISPLAY_SRC_MODE    18C8
-DISPLAY_TYPE        187C
-DISPLAY_WORD        18A8
-PARSE_MOVE          1800
+DISPLAY_ADDRESS_LONG_DEST  1C96
+DISPLAY_ADDRESS_LONG_SRC  1AA8
+DISPLAY_ADDRESS_OR_DATA_DEST  1C64
+DISPLAY_ADDRESS_OR_DATA_SRC  1A6E
+DISPLAY_ADDRESS_WORD_DEST  1C78
+DISPLAY_ADDRESS_WORD_SRC  1A8A
+DISPLAY_AN_DEST     1BAC
+DISPLAY_AN_SRC      19B6
+DISPLAY_AT_AN_DECREMENT_DEST  1C2C
+DISPLAY_AT_AN_DECREMENT_SRC  1A36
+DISPLAY_AT_AN_DEST  1BC6
+DISPLAY_AT_AN_INCREMENT_DEST  1BF4
+DISPLAY_AT_AN_INCREMENT_SRC  19FE
+DISPLAY_AT_AN_SRC   19D0
+DISPLAY_BYTE        1938
+DISPLAY_DATA_SRC    1AC2
+DISPLAY_DATA_SRC_BYTE  1ADE
+DISPLAY_DATA_SRC_LONG  1B30
+DISPLAY_DATA_SRC_WORD  1B08
+DISPLAY_DEST        1B54
+DISPLAY_DN_DEST     1B92
+DISPLAY_DN_SRC      199C
+DISPLAY_LONG        1958
+DISPLAY_MOVE        190C
+DISPLAY_MOVEA       18FC
+DISPLAY_SRC_MODE    1968
+DISPLAY_TYPE        191C
+DISPLAY_WORD        1948
+PARSE_MOVE          18A0

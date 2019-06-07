@@ -454,7 +454,7 @@ IS_F_LOWER
     BEQ     ADD_NUM   
 
 IS_INVALID
-    BRA     DONE
+    BRA     START   
                 
 * Add the number in
 
@@ -491,6 +491,12 @@ SHOULD_CONTINUE
     BEQ     CONTINUE
     
     CMP.B   #C_UPPER,D1
+    BEQ     CONTINUE
+    
+    CMP.B   #CR,D1
+    BEQ     CONTINUE
+    
+    CMP.B   #LF,D1
     BEQ     CONTINUE
     
     CMP.B   #R_LOWER,D1
@@ -717,7 +723,7 @@ L_OUTPUT        DC.B    '.L ',0
 INPUT1_OUTPUT   DC.B    CR,LF,'Please enter the starting address: ',0
 INPUT2_OUTPUT   DC.B    CR,LF,'Please enter the end address: ',0
 
-CONTINUTE_TEXT  DC.B    CR,LF,'Press [c] to continue disassembler',CR,LF,0
+CONTINUTE_TEXT  DC.B    CR,LF,'Press [c] or [enter] to continue disassembler',CR,LF,0
 RESET_TEXT      DC.B    'Press [r] to reset disassembler',CR,LF,0
 EXIT_TEXT       DC.B    'Press [esc] to end disassembler',CR,LF,0
 DONE_TEXT       DC.B    CR,LF,'[Disassembler exited]',CR,LF,0
@@ -738,6 +744,7 @@ ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
                 END     START        ; last line of source
+
 
 
 
