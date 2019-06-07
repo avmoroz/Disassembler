@@ -464,7 +464,7 @@ ADD_NUM
                 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                
 SHOULD_PAUSE_PARSER
-    CMP.L   #15,D7
+    CMP.L   #12,D7
     BEQ     PAUSE_PARSER
     RTS
     
@@ -738,6 +738,7 @@ ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
                 END     START        ; last line of source
+
 
 
 
