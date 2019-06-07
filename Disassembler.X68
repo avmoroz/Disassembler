@@ -1,10 +1,10 @@
-*-----------------------------------------------------------
-* Title      :
-* Written by :
-* Date       :
-* Description:
-*-----------------------------------------------------------
-        INCLUDE TestOps.X68
+*------------------------------------------------------------------------------
+* Title      : Disassembler
+* Description: Handles the iteration through memory, the user input, the
+*              display of memory locations, and invalid opcodes.
+*------------------------------------------------------------------------------
+        INCLUDE demo_test.X68
+        INCLUDE TestCode.X68
         INCLUDE MOVEM.X68
         INCLUDE LogicalShift.X68
         INCLUDE Bcc_BRA.X68
@@ -744,6 +744,8 @@ ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
                 END     START        ; last line of source
+
+
 
 
 

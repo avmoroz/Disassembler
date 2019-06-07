@@ -1,9 +1,7 @@
-*-----------------------------------------------------------
-* Title      :
-* Written by :
-* Date       :
-* Description:
-*-----------------------------------------------------------
+*------------------------------------------------------------------------------
+* Title      : DIVU_OR
+* Description: Handles parsing of OR and redirects DIVU as invalid op.
+*------------------------------------------------------------------------------
     ORG    $2880
 IF_DIVU_OR
     MOVE.W  A4,D3
@@ -196,6 +194,8 @@ GET_EFFECTIVE_ADDRESS_OR_SRC
 
 DISPLAY_DIVU
     BRA     IF_INVALID_OP
+
+
 
 
 
