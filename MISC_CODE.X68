@@ -56,7 +56,7 @@ IF_NOT
     CMP.W   #$0080,D3
     BEQ     DISPLAY_NOT_LONG
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SIZE
 
 DISPLAY_NOT_BYTE
     LEA     B_OUTPUT,A1
@@ -122,19 +122,19 @@ IF_JSR
     LSR.W   #3,D5
 
     CMP.W   #%000,D5
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_OP_EA
 
     CMP.W   #%001,D5
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_OP_EA
     
     CMP.W   #%100,D5
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_OP_EA
     
     CMP.W   #%101,D5
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_OP_EA
     
     CMP.W   #%110,D5
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_OP_EA
 
     LEA     JSR_OUTPUT,A1
     MOVE.B  #14,D0
@@ -211,7 +211,7 @@ DISPLAY_ea_NOT
     CMP.W   #%111,D5
     BEQ     DISPLAY_ADDRESS_OR_DATA_NOT
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
     
 DISPLAY_Dn_NOT
     MOVE.B  #D,D1
@@ -324,7 +324,7 @@ DISPLAY_ADDRESS_OR_DATA_NOT
     CMP.W   #%001,D4
     BEQ     DISPLAY_ADDRESS_LONG_NOT
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 DISPLAY_ADDRESS_WORD_NOT
     ADDQ    #2,A2
@@ -364,8 +364,11 @@ DISPLAY_ea_JSR_LEA
     CMP.W   #%111,D5
     BEQ     DISPLAY_ADDRESS_OR_DATA_NOT
     
-    BRA     IF_INVALID_OP 
+    BRA     IF_INVALID_OPMODE
     
+
+
+
 
 
 

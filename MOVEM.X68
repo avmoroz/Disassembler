@@ -50,7 +50,7 @@ WORD_FOR_TO_REGISTER
     MOVE.W  A5,D4
     
     CMP.L   #0,D3
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_MASK
     
     BSR     LOAD_PARSE_MASK
     BRA     ITERATE
@@ -74,7 +74,7 @@ LONG_FOR_TO_REGISTER
     MOVE.W  A5,D4
     
     CMP.L   #0,D3
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_MASK
     
     BSR     LOAD_PARSE_MASK
     BRA     ITERATE
@@ -96,7 +96,7 @@ DISPLAY_EA_TO_REGISTER
     CMP.W   #%111,D3
     BEQ     GET_WORD_OR_LONG
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
     
 PARSE_MASK
     CMP.L   #16,A6
@@ -161,7 +161,7 @@ DISPLAY_REG
     CMP.W   #$F,A6
     BEQ     DISPLAY_A7
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_MASK
 
 DISPLAY_D0
     MOVE.B  #D,D1
@@ -386,7 +386,7 @@ DISPLAY_EA_TO_ADDRESS
     CMP.W   #%111,D3
     BEQ     GET_WORD_OR_LONG
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF_MOVEM_TO_ADDRESS
@@ -456,7 +456,7 @@ LOAD_PARSE_MASK
     MOVE.L  #0,A6
     
     CMP.L   #$0,D3
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_MASK
     
     BRA     PARSE_MASK
 
@@ -469,7 +469,7 @@ LOAD_MASK_ADDRESS
     MOVE.L  #0,A6
     
     CMP.L   #$0,D3
-    BEQ     IF_INVALID_OP
+    BEQ     IF_INVALID_MASK
     
     BRA     PARSE_MASK_ADDRESS
     
@@ -533,7 +533,7 @@ DISPLAY_REG_ADDRESS
     CMP.W   #$F,A6
     BEQ     DISPLAY_A7_ADDRESS
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_MASK
 
 DISPLAY_D0_ADDRESS
     MOVE.B  #D,D1
@@ -775,6 +775,8 @@ DRAW_SLASH
     TRAP    #15
     
     RTS
+
+
 
 
 

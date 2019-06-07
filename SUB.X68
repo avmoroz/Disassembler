@@ -59,7 +59,7 @@ DISPLAY_SUB
     CMP.W   #%011,A5
     BEQ     DISPLAY_SUB_W
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OPMODE
     
 DISPLAY_SUB_W
     LEA     W_OUTPUT,A1
@@ -80,6 +80,7 @@ DISPLAY_SUB_L
     
     
     
+
 
 
 *~Font name~Courier New~

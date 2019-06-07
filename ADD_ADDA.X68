@@ -101,7 +101,7 @@ GET_EFFECTIVE_ADDRESS_ea
     CMP.W   #%111,A6
     BEQ     DISPLAY_ADDRESS_OR_DATA_ea
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 DISPLAY_Dn_ea
     MOVE.B  #D,D1
@@ -209,7 +209,7 @@ DISPLAY_ADDRESS_OR_DATA_ea
     CMP.W   #%100,D4
     BEQ     DISPLAY_DATA_ea
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
     
 DISPLAY_ADDRESS_WORD_ea
     ADDQ    #2,A2
@@ -247,7 +247,7 @@ DISPLAY_DATA_ea
     CMP.W   #%111,A5
     BEQ     DISPLAY_DATA_LONG_ea
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 DISPLAY_DATA_BYTE_ea
     ADDQ    #2,A2
@@ -351,7 +351,7 @@ DISPLAY_ARGS
     CMP.W   #%110,A5
     BEQ     DISPLAY_LONG_DEST
     
-    BRA     IF_INVALID_OP   
+    BRA     IF_INVALID_SRC_DEST   
     
 DISPLAY_BYTE_SRC
     LEA     B_OUTPUT,A1
@@ -469,12 +469,14 @@ GET_EFFECTIVE_ADDRESS_ea_DEST
     CMP.W   #%111,A6
     BEQ     DISPLAY_ADDRESS_OR_DATA_ea
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SRC_DEST
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     
     
+
+
 
 
 

@@ -4,7 +4,7 @@
 * Date       :
 * Description:
 *-----------------------------------------------------------
-    ORG    $1800
+    ORG    $1880
     
 PARSE_MOVE
     MOVE.W  A4,D3
@@ -69,7 +69,7 @@ DISPLAY_TYPE
     CMP.W   #MOVE_L_CODE,D5
     BEQ     DISPLAY_LONG
     
-    BRA     IF_INVALID_OP     
+    BRA     IF_INVALID_SIZE     
     
 DISPLAY_BYTE
     LEA     B_OUTPUT,A1
@@ -108,7 +108,7 @@ DISPLAY_SRC_MODE
     CMP.W   #%111,A6
     BEQ     DISPLAY_ADDRESS_OR_DATA_SRC
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SRC_DEST
     
 DISPLAY_Dn_SRC
     MOVE.B  #D,D1
@@ -212,7 +212,7 @@ DISPLAY_ADDRESS_OR_DATA_SRC
     CMP.W   #%100,D4
     BEQ     DISPLAY_DATA_SRC
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SRC_DEST
 
 DISPLAY_ADDRESS_WORD_SRC
     ADDQ    #2,A2
@@ -253,7 +253,7 @@ DISPLAY_DATA_SRC
     CMP.W   #MOVE_L_CODE,D5
     BEQ     DISPLAY_DATA_SRC_LONG
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SRC_DEST
     
 DISPLAY_DATA_SRC_BYTE
     ADDQ    #3,A2
@@ -337,7 +337,7 @@ DISPLAY_DEST
     CMP.W   #%111,A5
     BEQ     DISPLAY_ADDRESS_OR_DATA_DEST
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SRC_DEST
 
 DISPLAY_Dn_DEST
     MOVE.B  #D,D1
@@ -438,7 +438,7 @@ DISPLAY_ADDRESS_OR_DATA_DEST
     CMP.W   #%001,A4
     BEQ     DISPLAY_ADDRESS_LONG_DEST
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SRC_DEST
 
 DISPLAY_ADDRESS_WORD_DEST
     ADDQ    #2,A2
@@ -468,6 +468,8 @@ DISPLAY_ADDRESS_LONG_DEST
     ADDQ    #2,A2
 
     BRA     ITERATE
+
+
 
 
 

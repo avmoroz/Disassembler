@@ -36,7 +36,7 @@ DISPLAY_BRA
     BEQ     PARSE_DISPLACEMENT_WORD
     
     CMP.B   #$FF,D3
-    BEQ     IF_INVALID_OP ;We don't handle 32 bit
+    BEQ     IF_INVALID_SIZE ;We don't handle 32 bit
     
     BRA     PARSE_DISPLACEMENT_BYTE
    
@@ -52,7 +52,7 @@ DISPLAY_BGT
     BEQ     PARSE_DISPLACEMENT_WORD
     
     CMP.B   #$FF,D3
-    BEQ     IF_INVALID_OP ;We don't handle 32 bit
+    BEQ     IF_INVALID_SIZE ;We don't handle 32 bit
     
     BRA     PARSE_DISPLACEMENT_BYTE
     
@@ -68,7 +68,7 @@ DISPLAY_BLE
     BEQ     PARSE_DISPLACEMENT_WORD
     
     CMP.B   #$FF,D3
-    BEQ     IF_INVALID_OP ;We don't handle 32 bit
+    BEQ     IF_INVALID_SIZE ;We don't handle 32 bit
     
     BRA     PARSE_DISPLACEMENT_BYTE
     
@@ -84,7 +84,7 @@ DISPLAY_BEQ
     BEQ     PARSE_DISPLACEMENT_WORD
     
     CMP.B   #$FF,D3
-    BEQ     IF_INVALID_OP ;We don't handle 32 bit
+    BEQ     IF_INVALID_SIZE ;We don't handle 32 bit
     
     BRA     PARSE_DISPLACEMENT_BYTE
     
@@ -152,6 +152,7 @@ DISPLAY_DISPLACEMENT_AS_ADDRESS
     MOVE.B  #15,D0
     TRAP    #15
     BRA     ITERATE
+
 
 
 

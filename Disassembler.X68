@@ -18,16 +18,39 @@
         INCLUDE MULS_AND.X68
         
 START   ORG    $1000
-
-    ; first instruction of program
+    LEA     INTRO1,A1
+    MOVE.B  #14,D0
+    TRAP    #15
     
-    ;TODO: put in an actual line counter 
+    LEA     INTRO2,A1
+    MOVE.B  #14,D0
+    TRAP    #15
     
+    LEA     INTRO1,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    LEA     INTRO3,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    LEA     INTRO4,A1
+    MOVE.B  #14,D0
+    TRAP    #15
     
     MOVE.L  #0,D7
-    
+    MOVE.L  #0,D1
+    MOVE.L  #0,D2
     MOVE.L  #0,A4
     MOVE.L  #9,A3
+    
+    LEA     RESET_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    LEA     EXIT_TEXT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
     
     LEA     INPUT1_OUTPUT,A1
     MOVE.B  #14,D0
@@ -72,10 +95,13 @@ GET_INPUT2
     
 LOAD_INPUT2
     MOVE.L  D2,A3
+    
+    MOVE.L  #$0000FF00,D1
+    MOVE.B  #11,D0
+    TRAP    #15    
         
     LEA     NEWLINE,A1
     MOVE.B  #14,D0
-    TRAP    #15
     TRAP    #15
     
     BRA     PARSE_SIMPLE
@@ -186,6 +212,115 @@ IF_INVALID_OP
     
     BRA     ITERATE
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
+IF_INVALID_OP_EA
+    LEA     ERROR_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BSR     LOAD_0s_FOR_DATA
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.W  (A2),D1
+    TRAP    #15
+    
+    LEA     BAD_EA,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     ITERATE
+    
+IF_INVALID_OPMODE
+    MOVE.B  #SPACE,D1
+    MOVE.B  #6,D0
+    TRAP    #15
+
+    LEA     ERROR_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BSR     LOAD_0s_FOR_DATA
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.W  (A2),D1
+    TRAP    #15
+    
+    LEA     BAD_OPMODE,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     ITERATE
+IF_INVALID_SIZE
+    MOVE.B  #SPACE,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+    
+    LEA     ERROR_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BSR     LOAD_0s_FOR_DATA
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.W  (A2),D1
+    TRAP    #15
+    
+    LEA     BAD_SIZE,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     ITERATE
+    
+IF_INVALID_SRC_DEST
+    MOVE.B  #SPACE,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+    
+    LEA     ERROR_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BSR     LOAD_0s_FOR_DATA
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.W  (A2),D1
+    TRAP    #15
+    
+    LEA     BAD_SRC_DEST,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     ITERATE    
+
+IF_INVALID_MASK
+    MOVE.B  #SPACE,D1
+    MOVE.B  #6,D0
+    TRAP    #15    
+    
+    LEA     ERROR_OUTPUT,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BSR     LOAD_0s_FOR_DATA
+    
+    MOVE.B  #16,D2
+    MOVE.B  #15,D0
+    MOVE.W  (A2),D1
+    TRAP    #15
+    
+    LEA     BAD_MASK,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+    
+    BRA     ITERATE  
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
+    
 ITERATE
     ADDQ.L  #2,A2
     
@@ -212,109 +347,124 @@ DONE
 
     MOVE.B  #9,D0
     TRAP    #15
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
 GET_NUMBER
-                BRA     IS_0
+    CMP.B   #R_LOWER,D1
+    BEQ     RESET
+    
+    CMP.B   #R_UPPER,D1
+    BEQ     RESET
+    
+    CMP.B   #ESC,D1
+    BEQ     DONE              
                 
 IS_0
-                SUB.B   #$30,D1
-                LSL.L   #4,D2
-                CMP.B   #$0,D1
-                BEQ     ADD_NUM
-                BRA     IS_1                 
+    SUB.B   #$30,D1
+    LSL.L   #4,D2
+    CMP.B   #$0,D1
+    BEQ     ADD_NUM                 
 
 IS_1
-                CMP.B   #$1,D1
-                BEQ     ADD_NUM
-                BRA     IS_2 
+    CMP.B   #$1,D1
+    BEQ     ADD_NUM
 
 IS_2
-                CMP.B   #$2,D1
-                BEQ     ADD_NUM
-                BRA     IS_3 
+    CMP.B   #$2,D1
+    BEQ     ADD_NUM
 
 IS_3
-                CMP.B   #$3,D1
-                BEQ     ADD_NUM
-                BRA     IS_4
+    CMP.B   #$3,D1
+    BEQ     ADD_NUM
     
 IS_4
-                CMP.B   #$4,D1
-                BEQ     ADD_NUM
-                BRA     IS_5 
+    CMP.B   #$4,D1
+    BEQ     ADD_NUM
     
 IS_5
-                CMP.B   #$5,D1
-                BEQ     ADD_NUM
-                BRA     IS_6 
+    CMP.B   #$5,D1
+    BEQ     ADD_NUM 
 
 IS_6
-                CMP.B   #$6,D1
-                BEQ     ADD_NUM
-                BRA     IS_7 
+    CMP.B   #$6,D1
+    BEQ     ADD_NUM
     
 IS_7
-                CMP.B   #$7,D1
-                BEQ     ADD_NUM
-                BRA     IS_8 
-
+    CMP.B   #$7,D1
+    BEQ     ADD_NUM 
 
 IS_8
-                CMP.B   #$8,D1
-                BEQ     ADD_NUM
-                BRA     IS_9 
+    CMP.B   #$8,D1
+    BEQ     ADD_NUM
     
 IS_9
-                CMP.B   #$9,D1
-                BEQ     ADD_NUM
-                BRA     IS_A
+    CMP.B   #$9,D1
+    BEQ     ADD_NUM
                 
 IS_A
-                SUB.B   #$7,D1
-                CMP.B   #$A,D1
-                BEQ     ADD_NUM
-                BRA     IS_B 
+    SUB.B   #$7,D1
+    CMP.B   #$A,D1
+    BEQ     ADD_NUM
                 
 IS_B
-                CMP.B   #$B,D1
-                BEQ     ADD_NUM
-                BRA     IS_C 
+    CMP.B   #$B,D1
+    BEQ     ADD_NUM
 
 IS_C
-                CMP.B   #$C,D1
-                BEQ     ADD_NUM
-                BRA     IS_D 
+    CMP.B   #$C,D1
+    BEQ     ADD_NUM
 
 IS_D
-                CMP.B   #$D,D1
-                BEQ     ADD_NUM
-                BRA     IS_E 
+    CMP.B   #$D,D1
+    BEQ     ADD_NUM
 
 IS_E
-                CMP.B   #$E,D1
-                BEQ     ADD_NUM
-                BRA     IS_F 
+    CMP.B   #$E,D1
+    BEQ     ADD_NUM
 
 IS_F
-                CMP.B   #$F,D1
-                BEQ     ADD_NUM
-                BRA     IS_INVALID
+    CMP.B   #$F,D1
+    BEQ     ADD_NUM
+    
+IS_A_LOWER
+    SUB.B   #$19,D1
+    CMP.B   #$9,D1
+    BEQ     ADD_NUM
+                
+IS_B_LOWER
+    SUB.B   #$7,D1
+    CMP.B   #$A,D1
+    BEQ     ADD_NUM
+                
+IS_C_LOWER
+    CMP.B   #$B,D1
+    BEQ     ADD_NUM
+
+IS_D_LOWER
+    CMP.B   #$C,D1
+    BEQ     ADD_NUM
+
+IS_E_LOWER
+    CMP.B   #$D,D1
+    BEQ     ADD_NUM
+
+IS_F_LOWER
+    CMP.B   #$E,D1
+    BEQ     ADD_NUM   
 
 IS_INVALID
-                ;LEA     ERROR_MESSAGE,A1
-                ;MOVE.B  #14,D0
-                ;TRAP    #15
-                BRA     DONE
+    BRA     DONE
                 
 * Add the number in
 
 ADD_NUM
-                ADD.L   D1,D2
-                RTS
+    ADD.L   D1,D2
+    RTS
                 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                
 SHOULD_PAUSE_PARSER
-    CMP.L   #20,D7
+    CMP.L   #15,D7
     BEQ     PAUSE_PARSER
     RTS
     
@@ -367,13 +517,17 @@ CONTINUE
     RTS
 
 RESET
-    MOVE.W  #$FF00,D1
+    MOVE.L  #$0000FF00,D1
     MOVE.B  #11,D0
     TRAP    #15
     BRA     START
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SHOULD_RUN_AGAIN
+    LEA     NEWLINE,A1
+    MOVE.B  #14,D0
+    TRAP    #15
+
     LEA     RESET_TEXT,A1
     MOVE.B  #14,D0
     TRAP    #15
@@ -560,7 +714,7 @@ B_OUTPUT        DC.B    '.B ',0
 W_OUTPUT        DC.B    '.W ',0
 L_OUTPUT        DC.B    '.L ',0
 
-INPUT1_OUTPUT   DC.B    'Please enter the starting address: ',0
+INPUT1_OUTPUT   DC.B    CR,LF,'Please enter the starting address: ',0
 INPUT2_OUTPUT   DC.B    CR,LF,'Please enter the end address: ',0
 
 CONTINUTE_TEXT  DC.B    CR,LF,'Press [c] to continue disassembler',CR,LF,0
@@ -568,11 +722,22 @@ RESET_TEXT      DC.B    'Press [r] to reset disassembler',CR,LF,0
 EXIT_TEXT       DC.B    'Press [esc] to end disassembler',CR,LF,0
 DONE_TEXT       DC.B    CR,LF,'[Disassembler exited]',CR,LF,0
 
+BAD_SIZE        DC.B    CR,LF,HT,HT,'   *Invalid size argument*',0
+BAD_EA          DC.B    CR,LF,HT,HT,'   *Invalid effective address argument*',0
+BAD_OPMODE      DC.B    CR,LF,HT,HT,'   *Invalid opmode argument*',0
+BAD_SRC_DEST    DC.B    CR,LF,HT,HT,'   *Invalid source/destination argument*',0
+BAD_MASK        DC.B    CR,LF,HT,HT,'   *Invalid mask*',0
+
+INTRO1          DC.B    '**************************************************',CR,LF,0
+INTRO2          DC.B    '---------- The A-Team 68k Disassembler -----------',CR,LF,0
+INTRO3          DC.B    CR,LF,'[Please note that backspace is not implemented]',CR,LF,0
+INTRO4          DC.B    '[To undo your input, please reset the Disassembler]',CR,LF,CR,LF,0
+
 INVALID_OUTPUT  DC.B    'Invalid operation!',0
 ERROR_OUTPUT    DC.B    'DATA ',0
 NEWLINE         DC.B    CR,LF,0
 
-            END    START        ; last line of source
+                END     START        ; last line of source
 
 
 

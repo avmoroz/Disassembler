@@ -128,7 +128,7 @@ DISPLAY_EFFECTIVE_ADDRESS
     CMP.W   #%111,D3
     BEQ     GET_WORD_OR_LONG
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
     
 GET_WORD_OR_LONG
     CMP.W   #%000,D4
@@ -137,7 +137,7 @@ GET_WORD_OR_LONG
     CMP.W   #%001,D4
     BEQ     DISPLAY_ADDRESS_LONG_ea
     
-    BRA     IF_INVALID_OP    
+    BRA     IF_INVALID_OP_EA    
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF_LSR_REGISTER
@@ -197,8 +197,7 @@ GET_SIZE
     CMP.B   #%10,D3
     BEQ     DISPLAY_SIZE_LONG
     
-    BRA     IF_INVALID_OP
-    
+    BRA     IF_INVALID_SIZE    
 DISPLAY_SIZE_BYTE
     LEA     B_OUTPUT,A1
     MOVE.B  #14,D0
@@ -295,6 +294,8 @@ SET_TO_ZERO
     MOVE.L  #8,D4
     RTS
    
+
+
 
 
 

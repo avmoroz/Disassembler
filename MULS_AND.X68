@@ -75,7 +75,7 @@ DISPLAY_AND
     CMP.W   #%110,A5
     BEQ     DISPLAY_LONG_DEST_AND
     
-    BRA     IF_INVALID_OP   
+    BRA     IF_INVALID_SIZE   
     
 DISPLAY_BYTE_SRC_AND
     LEA     B_OUTPUT,A1
@@ -183,7 +183,7 @@ GET_EFFECTIVE_ADDRESS_AND_SRC
     CMP.W   #%111,A6
     BEQ     DISPLAY_ADDRESS_OR_DATA_AND_SRC
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 DISPLAY_ADDRESS_OR_DATA_AND_SRC
     CMP.W   #%000,D4
@@ -195,7 +195,7 @@ DISPLAY_ADDRESS_OR_DATA_AND_SRC
     CMP.W   #%100,D4
     BEQ     DISPLAY_DATA_ea_AND_SRC
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 DISPLAY_DATA_ea_AND_SRC
     CMP.W   #%000,A5
@@ -207,7 +207,7 @@ DISPLAY_DATA_ea_AND_SRC
     CMP.W   #%010,A5
     BEQ     DISPLAY_DATA_LONG_ea
 
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -239,6 +239,7 @@ DISPLAY_MULS
     
     
     
+
 
 
 

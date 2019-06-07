@@ -78,7 +78,7 @@ DISPLAY_OR
     CMP.W   #%110,A5
     BEQ     DISPLAY_LONG_DEST_OR
     
-    BRA     IF_INVALID_OP 
+    BRA     IF_INVALID_OPMODE
 
 DISPLAY_BYTE_SRC_OR
     LEA     B_OUTPUT,A1
@@ -186,7 +186,7 @@ GET_EFFECTIVE_ADDRESS_OR_SRC
     CMP.W   #%111,A6
     BEQ     DISPLAY_ADDRESS_OR_DATA_AND_SRC
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -196,6 +196,8 @@ GET_EFFECTIVE_ADDRESS_OR_SRC
 
 DISPLAY_DIVU
     BRA     IF_INVALID_OP
+
+
 
 
 

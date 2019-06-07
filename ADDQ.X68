@@ -9,6 +9,11 @@
 IF_ADDQ 
     MOVE.W  A4,D3
     
+    MOVE.W  A4,D5
+    AND.L   #$F100,D5
+    CMP.W   #$5000,D5
+    BEQ     IF_INVALID_OP
+    
     ;Get the register
     AND.W   #$0FFF,D3
     ASL.W   #3,D3
@@ -64,7 +69,7 @@ DISPLAY_ADDQ_SIZE
     CMP.W   #%10,A5
     BEQ     DISPLAY_ADDQ_LONG
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_SIZE
 
 DISPLAY_ADDQ_BYTE
     LEA     B_OUTPUT,A1
@@ -125,7 +130,7 @@ GET_EFFECTIVE_ADDRESS_ea_NO_DATA
     CMP.W   #%111,A6
     BEQ     DISPLAY_ADDRESS_ea
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
 
 DISPLAY_ADDRESS_ea
     CMP.W   #%000,A6
@@ -134,7 +139,7 @@ DISPLAY_ADDRESS_ea
     CMP.W   #%001,A6
     BEQ     DISPLAY_ADDRESS_LONG_ea
     
-    BRA     IF_INVALID_OP
+    BRA     IF_INVALID_OP_EA
     
 
 ;subroutine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -148,6 +153,8 @@ SET_TO_EIGHT
     RTS
     
     
+
+
 
 
 
